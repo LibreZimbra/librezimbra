@@ -181,11 +181,11 @@ class Config(object):
         return StatFile(name)
 
     """get a path config"""
-    def get_pathconf(self, name):
+    def get_pathconf(self, name, default = None):
         if 'pathes' in self._my_spec:
             if name in self._my_spec['pathes']:
                 return self._my_spec['pathes'][name]
-        return None
+        return default
 
     """get list of remotes"""
     def get_remote_names(self):
