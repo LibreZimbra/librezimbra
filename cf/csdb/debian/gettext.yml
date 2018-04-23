@@ -1,0 +1,2 @@
+---
+git.url:      https://salsa.debian.org/reproducible-builds/packages/${package.name}.git

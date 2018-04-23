@@ -1,0 +1,2 @@
+---
+git.url:      https://salsa.debian.org/pbuilder-team/${package.name}.git

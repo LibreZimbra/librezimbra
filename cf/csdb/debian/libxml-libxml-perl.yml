@@ -1,0 +1,3 @@
+---
+package:      libxml-libxml-perl
+git.url:      git@salsa.debian.org:perl-team/modules/packages/${package.name}.git

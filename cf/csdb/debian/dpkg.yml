@@ -1,0 +1,4 @@
+---
+git.url:      https://salsa.debian.org/dpkg-team/${package.user}.git
+version-tags:
+  - 1.19.0
