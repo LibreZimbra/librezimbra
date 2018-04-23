@@ -7,6 +7,9 @@ def build_pool(conffile, pool):
 def upload_pool(conffile, pool):
     return Builder(load(conffile)).upload_pool(pool)
 
+def deploy_pool(conffile, pool):
+    return Builder(load(conffile)).deploy_pool(pool)
+
 def build_all(conffile):
     return Builder(load(conffile)).build_all()
 
