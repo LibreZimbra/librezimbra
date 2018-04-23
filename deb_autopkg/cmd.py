@@ -15,3 +15,6 @@ def build_package(conffile, pkg):
 
 def clone_all(conffile):
     return Builder(load(conffile)).clone_all()
+
+def get_dut(conffile, name):
+    return load(conffile).get_dut(name)

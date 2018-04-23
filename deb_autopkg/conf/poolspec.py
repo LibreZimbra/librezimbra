@@ -49,3 +49,8 @@ class PoolSpec(object):
     def get_upload(self):
         if 'upload' in self._my_spec:
             return self._my_spec['upload']
+
+    """retrieve DUT information"""
+    def get_dut(self):
+        if 'dut' in self._my_spec:
+            return self.conf.get_dut(self._my_spec['dut'])
