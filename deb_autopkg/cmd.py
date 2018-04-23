@@ -4,6 +4,9 @@ from conf import load
 def build_pool(conffile, pool):
     return Builder(load(conffile)).build_pool(pool)
 
+def upload_pool(conffile, pool):
+    return Builder(load(conffile)).upload_pool(pool)
+
 def build_all(conffile):
     return Builder(load(conffile)).build_all()
 

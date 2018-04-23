@@ -44,3 +44,8 @@ class PoolSpec(object):
     """retrieve the target aptrepo prefix"""
     def get_aptrepo_path(self):
         return ("%s/.aptrepo/%s" % (self.conf.get_basedir(), self.name))
+
+    """retrieve uplaod information"""
+    def get_upload(self):
+        if 'upload' in self._my_spec:
+            return self._my_spec['upload']
