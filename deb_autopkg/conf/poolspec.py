@@ -1,4 +1,5 @@
 from targetspec import TargetSpec
+from os.path import basename
 
 """Pool configuration"""
 class PoolSpec(object):
@@ -54,3 +55,14 @@ class PoolSpec(object):
     def get_dut(self):
         if 'dut' in self._my_spec:
             return self.conf.get_dut(self._my_spec['dut'])
+
+    """get list of recently built debian package names for given package"""
+    def get_latest_debs(self, target):
+        names = []
+        for p in self.get_packages():
+            fn = ("%s/%s/stat/%s/latest-debs" % (self.get_aptrepo_path(), target, p.name))
+            with open(fn) as fp:
+                for cnt, debfn in enumerate(fp):
+                    names.append(basename(debfn).split('_')[0])
+
+        return names
