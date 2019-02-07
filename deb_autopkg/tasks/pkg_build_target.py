@@ -43,6 +43,7 @@ class PkgBuildTargetTask(Task):
 
         env = copy(environ)
         env['DCK_BUILDPACKAGE_TARGET_REPO'] = self.target.get_aptrepo_path()
+        env['DCK_BUILDPACKAGE_SOURCE'] = pkg_name
 
         info('building "'+pkg_name+'" from '+pool_name+' for '+target_name)
         if (call([dckbp_cmd, '--target', target_name],
