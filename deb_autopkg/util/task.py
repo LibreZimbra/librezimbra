@@ -1,3 +1,5 @@
+from sys import stderr
+
 class TaskFail(Exception):
 
     def __init__(self, tsk, msg):
@@ -56,7 +58,7 @@ class Task(object):
         return []
 
     def log_warn(self, text):
-        print "[WARN] ("+self.name+") "+text
+        stderr.write("[WARN] ("+self.name+") "+text+"\n")
 
 class TaskRunner(object):
 

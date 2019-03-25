@@ -1,5 +1,6 @@
 import yaml
 from os import getcwd
+from sys import stderr
 from deb_autopkg.util.task import Task
 from deb_autopkg.util.log import warn
 from deb_autopkg.util.statfile import StatFile
@@ -22,7 +23,7 @@ class Config(object):
         with open(fn) as f:
             # use safe_load instead load
             self._my_spec = yaml.safe_load(f)
-            print "loaded config: "+fn
+            stderr.write("loaded config: "+fn+"\n")
 
         self.csdb = CSDB(self.get_pathconf('csdb-path'))
 

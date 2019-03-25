@@ -1,4 +1,5 @@
 import yaml
+from sys import stderr
 from deb_autopkg.util import get_attr_def
 from deb_autopkg.util.log import info, warn
 
@@ -28,7 +29,7 @@ class PkgSpec(object):
     """[private]"""
     def __init__(self, name, spec, conf):
         if spec is None:
-            print "WARN: pkg spec is None for package: "+name
+            stderr.write("WARN: pkg spec is None for package: "+name+"\n")
 
         self._my_spec = spec
         self.conf = conf

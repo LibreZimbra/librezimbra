@@ -1,4 +1,5 @@
 import yaml
+from sys import stderr
 
 class BaseSpec:
 
@@ -36,8 +37,8 @@ class BaseDB:
         filename = self.pathname+"/"+pkg+".yml"
         try:
             with open(filename) as f:
-                print ("loaded "+self.__type()+" spec: "+filename)
+                stderr.write("loaded "+self.__type()+" spec: "+filename+"\n")
                 return self.__alloc(yaml.safe_load(f))
         except:
-            print ("failed to load "+self.__type()+" spec file: "+filename)
+            stderr.write("failed to load "+self.__type()+" spec file: "+filename+"\n")
             return None

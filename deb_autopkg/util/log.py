@@ -1,5 +1,7 @@
+from sys import stderr
+
 def info(text):
-    print "[INFO] "+text
+    stderr.write("[INFO] "+text+"\n")
 
 def warn(text):
-    print "[WARN] "+text
+    stderr.write("[WARN] "+text+"\n")
