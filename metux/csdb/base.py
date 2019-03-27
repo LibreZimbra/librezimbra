@@ -37,8 +37,8 @@ class BaseDB:
         filename = self.pathname+"/"+pkg+".yml"
         try:
             with open(filename) as f:
-                stderr.write("loaded "+self.__type()+" spec: "+filename+"\n")
+                stderr.write("[INFO] loaded "+self.__type()+" spec: "+filename+"\n")
                 return self.__alloc(yaml.safe_load(f))
         except:
-            stderr.write("failed to load "+self.__type()+" spec file: "+filename+"\n")
+            stderr.write("[INFO] csdb: failed to load "+self.__type()+" spec: "+filename+"\n")
             return None

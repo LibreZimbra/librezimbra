@@ -1,22 +1,25 @@
 
-__all__ = [ "upstream" ]
+__all__ = [ "base", "generic" ]
 
-import debian
-import upstream
-import oss_qm
+import generic
 
 class CSDB:
     def __init__(self, confpath):
         self.confpath = confpath
-        self.upstream = upstream.DB(confpath+"/upstream")
-        self.debian   = debian.DB(confpath+"/debian")
-        self.oss_qm   = oss_qm.DB(confpath+"/oss-qm")
+        self.db = {}
+        self.load_db('upstream')
+        self.load_db('debian')
+        self.load_db('oss-qm')
+        self.load_db('ci')
 
-    def get_upstream(self, pkg):
-        return self.upstream.get(pkg)
+    """load generic database of given name"""
+    def load_db(self, dbname):
+        self.db[dbname] = generic.DB(self.confpath+"/"+dbname, dbname)
 
-    def get_debian(self, pkg):
-        return self.debian.get(pkg)
+    """retrieve package from database of given name"""
+    def get_db(self, pkg, dbname):
+        return self.db[dbname].get(pkg)
 
-    def get_oss_qm(self, pkg):
-        return self.oss_qm.get(pkg)
+    """retrieve list of names of all registered databases"""
+    def get_dbnames(self):
+        return list(self.db)

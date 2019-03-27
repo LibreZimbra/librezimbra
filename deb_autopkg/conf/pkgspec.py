@@ -27,6 +27,13 @@ class PkgSpec(object):
             return (name, None)
 
     """[private]"""
+    def _load_db(self, dbname):
+        self._my_db[dbname] = self.conf.csdb.get_db(self.package_name, dbname)
+        if self._my_db[dbname] is not None:
+            self._addattr(dbname+'-url',    self._my_db[dbname].git_url)
+            self._addattr(dbname+'-branch', self._my_db[dbname].git_branch)
+
+    """[private]"""
     def __init__(self, name, spec, conf):
         if spec is None:
             stderr.write("WARN: pkg spec is None for package: "+name+"\n")
@@ -34,27 +41,14 @@ class PkgSpec(object):
         self._my_spec = spec
         self.conf = conf
         self.name = name
+        self._my_db = {}
 
         ## split package name / version
         (self.package_name, self.package_version) = self._split_pkg_version(self.name)
 
-        ## load upstream config
-        self._my_upstream = self.conf.csdb.get_upstream(self.package_name)
-        if self._my_upstream is not None:
-            self._addattr('upstream-url',    self._my_upstream.git_url)
-            self._addattr('upstream-branch', self._my_upstream.git_branch)
-
-        ## load debian config
-        self._my_debian = self.conf.csdb.get_debian(self.package_name)
-        if self._my_debian is not None:
-            self._addattr('debian-url',      self._my_debian.git_url)
-            self._addattr('debian-branch',   self._my_debian.git_branch)
-
-        ## load oss-qm config
-        self._my_oss_qm = self.conf.csdb.get_oss_qm(self.package_name)
-        if self._my_oss_qm is not None:
-            self._addattr('oss-qm-url',      self._my_oss_qm.git_url)
-            self._addattr('oss-qm-branch',   self._my_oss_qm.git_branch)
+        ## load repo configs from csdb
+        for dbn in self.conf.csdb.get_dbnames():
+            self._load_db(dbn)
 
     """[private] substitute variables"""
     def _substvar(self, v):
