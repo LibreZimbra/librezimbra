@@ -13,6 +13,14 @@ A: Use dck-buildpackage's target configs. The `targets:` section in the config
 
 ---
 
+Q: How can I build for Devuan ? (debootstrap fails to find script 'ascii')
+
+A: Debian's and Ubuntu's version of debootstrap don't know about Devuan releases.
+   Just chdir to /usr/share/deboootstrap/scripts/ and create symlinks named by
+   the Devuan release (eg. 'ascii') pointing to 'sid'.
+
+---
+
 Q: Where can I get dck-buildpackage ? What is that anyways ?
 
 A: It's a little tool for building debian packages in docker containers.
