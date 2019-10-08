@@ -1,5 +1,5 @@
 from deb_autopkg.util.task import Task, TaskFail
-from deb_autopkg.util.git import GitRepo
+from metux.git import GitRepo
 from deb_autopkg.util.log import warn, info
 
 """Task: clone an git repo w/ initial checkout"""
