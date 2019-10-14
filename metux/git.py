@@ -1,10 +1,11 @@
 from subprocess import call, Popen, PIPE
 from os import devnull
+from os.path import abspath
 
 class GitRepo(object):
 
     def __init__(self, path):
-        self.path = path
+        self.path = abspath(path)
         self.devnull = open(devnull, 'w')
 
     def get_config(self, key):
