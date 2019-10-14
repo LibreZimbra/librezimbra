@@ -1,40 +1,63 @@
 from subprocess import call, Popen, PIPE
-from os import devnull
+from os import devnull, environ
 from os.path import abspath
+from copy import deepcopy
 
 _devnull = open(devnull, 'w')
 
 class GitRepo(object):
 
     def __init__(self, path):
-        self.path = abspath(path)
+        self.path       = abspath(path)
+        self.gitcmd     = [ 'git' ]
 
-    def get_config(self, key):
-        proc = Popen(["git", "config", key], stdout=PIPE, cwd=self.path)
+    def _gitcall(self, args, index_file=None, work_tree=None, quiet=0):
+        e = deepcopy(environ)
+
+        if index_file is not None:
+            e['GIT_INDEX_FILE'] = index_file
+        if work_tree is not None:
+            e['GIT_WORK_TREE']  = work_tree
+
+        if quiet:
+            return (call(self.gitcmd + args, cwd=self.path, stdout=_devnull, env=e)==0)
+        else:
+            return (call(self.gitcmd + args, cwd=self.path, env=e)==0)
+
+    def _gitout(self, args, index_file=None, work_tree=None):
+        e = deepcopy(environ)
+
+        if index_file is not None:
+            e['GIT_INDEX_FILE'] = index_file
+        if work_tree is not None:
+            e['GIT_WORK_TREE']  = work_tree
+
+        proc = Popen(self.gitcmd + args, stdout=PIPE, cwd=self.path, env=e)
         (out, err) = proc.communicate()
         return out.strip()
+
+    def get_config(self, key):
+        return self._gitout(["config", key])
 
     def set_config(self, key, value):
         if self.get_config(key) == value:
             return False
         else:
-            call(['git', 'config', key, value], cwd=self.path)
+            self._gitcall(['config', key, value])
             return True
 
     def initialize(self):
-        return call(['git', 'init', self.path])
+        return self._gitcall(['init', self.path])
 
     def set_remote(self, name, url):
         # need to do that complicated to defeat shortcut evaluation
         a = self.set_config('remote.'+name+'.url', url)
         b = self.set_config('remote.'+name+'.fetch', '+refs/heads/*:refs/remotes/'+name+'/*')
         if (a or b):
-            return call(['git', 'remote', 'update', name], cwd=self.path)
+            return self._gitcall(['remote', 'update', name])
 
     def get_symbolic_ref(self, name):
-        proc = Popen(["git", "symbolic-ref", name], stdout=PIPE)
-        (out, err) = proc.communicate()
-        return out
+        return self._gitout(["symbolic-ref", name])
 
     def is_checked_out(self):
         return (call(
@@ -44,4 +67,4 @@ class GitRepo(object):
             stderr=_devnull) == 0)
 
     def checkout(self, ref, branch):
-        return call(['git', 'checkout', ref, '-b', branch], cwd=self.path)
+        return self._gitcall(['checkout', ref, '-b', branch])
