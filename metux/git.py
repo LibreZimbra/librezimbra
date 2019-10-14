@@ -1,15 +1,14 @@
-from subprocess import call
-import subprocess
-import os
+from subprocess import call, Popen, PIPE
+from os import devnull
 
 class GitRepo(object):
 
     def __init__(self, path):
         self.path = path
-        self.devnull = open(os.devnull, 'w')
+        self.devnull = open(devnull, 'w')
 
     def get_config(self, key):
-        proc = subprocess.Popen(["git", "config", key], stdout=subprocess.PIPE, cwd=self.path)
+        proc = Popen(["git", "config", key], stdout=PIPE, cwd=self.path)
         (out, err) = proc.communicate()
         return out.strip()
 
@@ -31,7 +30,7 @@ class GitRepo(object):
             return call(['git', 'remote', 'update', name], cwd=self.path)
 
     def get_symbolic_ref(self, name):
-        proc = subprocess.Popen(["git", "symbolic-ref", name], stdout=subprocess.PIPE)
+        proc = Popen(["git", "symbolic-ref", name], stdout=PIPE)
         (out, err) = proc.communicate()
         return out
 
