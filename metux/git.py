@@ -77,6 +77,24 @@ class GitRepo(object):
     def checkout(self, ref, branch):
         return self._gitcall(['checkout', ref, '-b', branch])
 
+    def load_index(self, workdir, indexfile):
+        return self._gitcall(['add', '-A'], index_file=indexfile, work_tree=workdir)
+
+    def checkout_index(self, workdir, indexfile):
+        return self._gitcall(['checkout-index', '-a'], index_file=indexfile, work_tree=workdir)
+
+    def read_tree(self, indexfile, treeish):
+        return self._gitcall(['read-tree', treeish], index_file=indexfile)
+
+    def write_tree(self, indexfile):
+        return self._gitout(['write-tree'], index_file=indexfile)
+
+    def commit_tree(self, treeish, msg, parent = None):
+        args = ['commit-tree', treeish, '-m', msg]
+        if parent is not None:
+            args += ['-p', parent]
+        return self._gitout(args)
+
     def create_branch(self, branch, treeish):
         return self._gitcall(['branch', branch, treeish])
 
