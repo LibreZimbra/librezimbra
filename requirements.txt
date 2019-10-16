@@ -1,0 +1,3 @@
+pkginfo
+urllib3
+requests
