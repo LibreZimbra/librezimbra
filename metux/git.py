@@ -3,7 +3,7 @@ from os import devnull, environ
 from os.path import abspath, isfile
 from copy import deepcopy
 from uuid import uuid1
-from metux import mkdir
+from metux import mkdir, rmtree
 
 _devnull = open(devnull, 'w')
 
@@ -100,6 +100,13 @@ class GitRepo(object):
 
     def remove_branch(self, branch):
         return self._gitcall(['update-ref', '-d', 'refs/heads/'+branch])
+
+    """extract a treeish into separate workdir"""
+    def extract_tree(self, workdir, treeish):
+        tmpindex = self.get_tmpindex()
+        ret = self.read_tree(tmpindex, treeish) and self.checkout_index(workdir, tmpindex)
+        rmtree(tmpindex)
+        return ret
 
     def get_tmpdir(self):
         tmp = abspath(self.gitdir+'/tmp/'+str(uuid1()))
