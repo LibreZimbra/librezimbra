@@ -108,6 +108,18 @@ class GitRepo(object):
         rmtree(tmpindex)
         return ret
 
+    """import a tree into a new branch, as initial commit"""
+    def import_initial_tree(self, tree, branch, msg, parent = None):
+        temp_index = self.get_tmpindex()
+        if self.load_index(tree, temp_index):
+            treeish = self.write_tree(temp_index)
+            commit = self.commit_tree(treeish, msg, parent)
+            ret = self.create_branch(branch, commit)
+        else:
+            ret = False
+        rmtree(temp_index)
+        return ret
+
     def get_tmpdir(self):
         tmp = abspath(self.gitdir+'/tmp/'+str(uuid1()))
         mkdir(tmp)
