@@ -1,7 +1,8 @@
 from subprocess import call, Popen, PIPE
 from os import devnull, environ
-from os.path import abspath
+from os.path import abspath, isfile
 from copy import deepcopy
+from metux import mkdir
 
 _devnull = open(devnull, 'w')
 
@@ -9,6 +10,7 @@ class GitRepo(object):
 
     def __init__(self, path):
         self.path       = abspath(path)
+        self.gitdir     = self.path+"/.git"
         self.gitcmd     = [ 'git' ]
 
     def _gitcall(self, args, index_file=None, work_tree=None, quiet=0):
@@ -47,6 +49,9 @@ class GitRepo(object):
             return True
 
     def initialize(self):
+        mkdir(self.path)
+        if (isfile(self.gitdir+'/config') and isfile(self.gitdir+'/HEAD')):
+            return False
         return self._gitcall(['init', self.path])
 
     def set_remote(self, name, url):
