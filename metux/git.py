@@ -75,3 +75,9 @@ class GitRepo(object):
 
     def checkout(self, ref, branch):
         return self._gitcall(['checkout', ref, '-b', branch])
+
+    def create_branch(self, branch, treeish):
+        return self._gitcall(['branch', branch, treeish])
+
+    def remove_branch(self, branch):
+        return self._gitcall(['update-ref', '-d', 'refs/heads/'+branch])
