@@ -60,11 +60,13 @@ class GitRepo(object):
         return self._gitout(["symbolic-ref", name])
 
     def is_checked_out(self):
-        return (call(
-            ['git', 'rev-parse', '--verify', 'HEAD'],
-            cwd=self.path,
-            stdout=_devnull,
-            stderr=_devnull) == 0)
+        return self._gitcall(['rev-parse', '--quiet', '--verify', 'HEAD'], quiet=1)
+
+    def is_branch(self, branch):
+        return self.is_ref('refs/heads/'+branch)
+
+    def is_ref(self, refname):
+        return self._gitcall(['show-ref', '--verify', '--quiet', refname])
 
     def checkout(self, ref, branch):
         return self._gitcall(['checkout', ref, '-b', branch])
