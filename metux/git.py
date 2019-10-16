@@ -2,6 +2,7 @@ from subprocess import call, Popen, PIPE
 from os import devnull, environ
 from os.path import abspath, isfile
 from copy import deepcopy
+from uuid import uuid1
 from metux import mkdir
 
 _devnull = open(devnull, 'w')
@@ -81,3 +82,11 @@ class GitRepo(object):
 
     def remove_branch(self, branch):
         return self._gitcall(['update-ref', '-d', 'refs/heads/'+branch])
+
+    def get_tmpdir(self):
+        tmp = abspath(self.gitdir+'/tmp/'+str(uuid1()))
+        mkdir(tmp)
+        return tmp
+
+    def get_tmpindex(self):
+        return abspath(self.gitdir+'/'+str(uuid1())+'.index')
