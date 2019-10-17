@@ -1,13 +1,12 @@
 import yaml
 from os import getcwd
-from sys import stderr
 from deb_autopkg.util.task import Task
-from deb_autopkg.util.log import warn
 from deb_autopkg.util.statfile import StatFile
 from targetspec import TargetSpec
 from poolspec import PoolSpec
 from pkgspec import PkgSpec
 from metux.csdb import CSDB
+from metux.log import info, warn
 
 """global configuration"""
 class Config(object):
@@ -23,7 +22,7 @@ class Config(object):
         with open(fn) as f:
             # use safe_load instead load
             self._my_spec = yaml.safe_load(f)
-            stderr.write("loaded config: "+fn+"\n")
+            info("loaded config: "+fn)
 
         self.csdb = CSDB(self.get_pathconf('csdb-path'))
 

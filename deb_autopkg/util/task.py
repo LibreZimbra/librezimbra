@@ -1,4 +1,4 @@
-from sys import stderr
+from metux.log import warn
 
 class TaskFail(Exception):
 
@@ -58,7 +58,7 @@ class Task(object):
         return []
 
     def log_warn(self, text):
-        stderr.write("[WARN] ("+self.name+") "+text+"\n")
+        warn("("+self.name+") "+text)
 
 class TaskRunner(object):
 

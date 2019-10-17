@@ -1,5 +1,5 @@
 import yaml
-from sys import stderr
+from metux.log import info
 
 class BaseSpec:
 
@@ -37,8 +37,8 @@ class BaseDB:
         filename = self.pathname+"/"+pkg+".yml"
         try:
             with open(filename) as f:
-                stderr.write("[INFO] loaded "+self.__type()+" spec: "+filename+"\n")
+                info("loaded "+self.__type()+" spec: "+filename)
                 return self.__alloc(yaml.safe_load(f))
         except:
-            stderr.write("[INFO] csdb: failed to load "+self.__type()+" spec: "+filename+"\n")
+            info("csdb: failed to load "+self.__type()+" spec: "+filename)
             return None

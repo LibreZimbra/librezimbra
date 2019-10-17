@@ -1,5 +1,5 @@
 from deb_autopkg.util.task import Task
-from deb_autopkg.util.log import info
+from metux.log import info
 from os import environ
 from copy import copy
 from subprocess import call
