@@ -2,11 +2,12 @@ from subprocess import call, Popen, PIPE
 from os import devnull
 from os.path import abspath
 
+_devnull = open(devnull, 'w')
+
 class GitRepo(object):
 
     def __init__(self, path):
         self.path = abspath(path)
-        self.devnull = open(devnull, 'w')
 
     def get_config(self, key):
         proc = Popen(["git", "config", key], stdout=PIPE, cwd=self.path)
@@ -39,8 +40,8 @@ class GitRepo(object):
         return (call(
             ['git', 'rev-parse', '--verify', 'HEAD'],
             cwd=self.path,
-            stdout=self.devnull,
-            stderr=self.devnull) == 0)
+            stdout=_devnull,
+            stderr=_devnull) == 0)
 
     def checkout(self, ref, branch):
         return call(['git', 'checkout', ref, '-b', branch], cwd=self.path)
