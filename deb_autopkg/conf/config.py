@@ -6,7 +6,7 @@ from targetspec import TargetSpec
 from poolspec import PoolSpec
 from pkgspec import PkgSpec
 from metux.csdb import CSDB
-from metux.log import info, warn
+from metux.log import info, warn, err
 
 """global configuration"""
 class Config(object):
@@ -45,7 +45,11 @@ class Config(object):
     def get_packages_by_names(self, lst):
         pkgs = []
         for name in lst:
-            pkgs.append(self.get_package(name))
+            p = self.get_package(name)
+            if p is None:
+                err("missing package spec for "+name)
+            else:
+                pkgs.append(self.get_package(name))
         return pkgs
 
     """get list of package objects"""
