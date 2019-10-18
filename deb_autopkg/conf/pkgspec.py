@@ -55,13 +55,6 @@ class PkgSpec(object):
         v = v.replace('${package.name}', self.package_name)
         return v
 
-    """load a global config file"""
-    def load(self, fn):
-        with open(fn) as f:
-            # use safe_load instead load
-            self._my_spec = yaml.safe_load(f)
-            info("loaded config: "+fn)
-
     """[private]"""
     def __cf_str(self, name):
         if name in self._my_spec:
