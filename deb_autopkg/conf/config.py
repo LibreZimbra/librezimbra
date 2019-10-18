@@ -16,6 +16,7 @@ class Config(object):
         self._my_pkg_cache = {}
         self._my_pool_cache = {}
         self._my_task_cache = {}
+        self._my_remotes = [ "my", "upstream", "debian", "oss-qm" ]
 
     """load a global config file"""
     def load(self, fn):
@@ -177,3 +178,10 @@ class Config(object):
             if name in self._my_spec['pathes']:
                 return self._my_spec['pathes'][name]
         return None
+
+    """get list of remotes"""
+    def get_remote_names(self):
+        r = self.get_pathconf('remote-names')
+        if r is not None:
+            return r
+        return [ "my", "upstream", "debian", "oss-qm" ]

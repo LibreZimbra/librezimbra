@@ -104,7 +104,7 @@ class PkgSpec(object):
     """get git repo config"""
     def get_repo_conf(self):
         remotes = {}
-        for r in [ "my", "upstream", "debian", "oss-qm" ]:
+        for r in self.conf.get_remote_names():
             u = self.git_remote_url(r)
             if u is not None:
                 remotes[r] = { 'url': u }
