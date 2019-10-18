@@ -1,5 +1,4 @@
 import yaml
-from deb_autopkg.util import get_attr_def
 from metux.log import info, warn
 
 """Package configuration"""
