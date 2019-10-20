@@ -35,6 +35,7 @@ class PkgSpec(object):
     def __init__(self, name, spec, conf):
         if spec is None:
             warn("pkg spec is None for package: "+name)
+            spec = {}
 
         self._my_spec = spec
         self.conf = conf
