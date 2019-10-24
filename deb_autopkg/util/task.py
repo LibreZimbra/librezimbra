@@ -1,4 +1,4 @@
-from metux.log import warn
+from metux.log import warn, info
 
 class TaskFail(Exception):
 
@@ -59,6 +59,9 @@ class Task(object):
 
     def log_warn(self, text):
         warn("("+self.name+") "+text)
+
+    def log_info(self, text):
+        info("("+self.name+") "+text)
 
 class TaskRunner(object):
 

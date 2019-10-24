@@ -1,6 +1,5 @@
 from deb_autopkg.util.task import Task, TaskFail
 from metux.git import GitRepo
-from metux.log import warn, info
 
 """Task: clone an git repo w/ initial checkout"""
 class GitCloneTask(Task):
@@ -18,7 +17,7 @@ class GitCloneTask(Task):
             if (not 'init-ref' in spec) or (spec['init-ref'] is None):
                 raise BaseException('cant checkout "'+spec['path']+'": autobuild-branch not defined')
             else:
-                info("running initial checkout of "+spec['init-ref'])
+                self.log_info("running initial checkout of "+spec['init-ref'])
                 if not repo.checkout(spec['init-ref'], spec['init-branch']):
                     raise BaseException('cant checkout "'+spec['path']+'": git checkout failed')
 
