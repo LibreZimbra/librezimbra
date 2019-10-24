@@ -111,4 +111,6 @@ class PkgSpec(object):
             'path':        self.git_repo_dir(),
             'remotes':     remotes,
             'init-branch': 'autobuild',
-            'init-ref':    self.get_autobuild_branch() }
+            'init-ref':    self.get_autobuild_branch(),
+            'init-submodules': self.__cf_str('init-submodules'),
+        }

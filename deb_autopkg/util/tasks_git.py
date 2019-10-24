@@ -21,4 +21,8 @@ class GitCloneTask(Task):
                 if not repo.checkout(spec['init-ref'], spec['init-branch']):
                     raise TaskFail(self, 'cant checkout "'+spec['path']+'": git checkout failed')
 
+        if spec.get('init-submodules', False):
+            self.log_info("initializing submodules")
+            repo.submodule_init()
+
         return True
