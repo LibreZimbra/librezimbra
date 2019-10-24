@@ -2,11 +2,16 @@
 __all__ = [ "base", "generic" ]
 
 import generic
+from metux import log
 
 class CSDB:
     def __init__(self, confpath):
         self.confpath = confpath
         self.db = {}
+        if self.confpath is None:
+            log.warn("No CSDB path specified. Cant load databases")
+            return
+
         self.load_db('upstream')
         self.load_db('debian')
         self.load_db('oss-qm')
