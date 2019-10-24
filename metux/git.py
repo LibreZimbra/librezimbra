@@ -127,3 +127,6 @@ class GitRepo(object):
 
     def get_tmpindex(self):
         return abspath(self.gitdir+'/'+str(uuid1())+'.index')
+
+    def submodule_init(self):
+        return self._gitcall(['submodule', 'update', '--init', '--recursive'])
