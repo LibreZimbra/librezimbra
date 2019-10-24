@@ -51,6 +51,12 @@ class PkgSpec(object):
 
     """[private] substitute variables"""
     def _substvar(self, v):
+        if v is None:
+            return None
+
+        if isinstance(v, bool):
+            return v
+
         if self.package_version is not None:
             v = v.replace('${package.version}', self.package_version)
         v = v.replace('${package.name}', self.package_name)
