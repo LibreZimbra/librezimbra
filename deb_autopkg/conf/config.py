@@ -16,7 +16,6 @@ class Config(object):
         self._my_pkg_cache = {}
         self._my_pool_cache = {}
         self._my_task_cache = {}
-        self._my_remotes = [ "my", "upstream", "debian", "oss-qm" ]
 
     """load a global config file"""
     def load(self, fn):
