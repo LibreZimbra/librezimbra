@@ -16,6 +16,11 @@ class Config(object):
         self._my_pkg_cache = {}
         self._my_pool_cache = {}
         self._my_task_cache = {}
+        self._my_basedir = getcwd()
+
+    """get the basedir"""
+    def get_basedir(self):
+        return self._my_basedir
 
     """load a global config file"""
     def load(self, fn):
@@ -85,7 +90,7 @@ class Config(object):
 
     """get dck-buildpackage path"""
     def get_dckbp_path(self):
-        return getcwd()+'/pkg/__dckbp__.git'
+        return ("%s/pkg/__dckbp__.git" % self.get_basedir())
 
     """get dck-buildpackage command"""
     def get_dckbp_cmd(self):
