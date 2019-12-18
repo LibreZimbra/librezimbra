@@ -40,3 +40,7 @@ class PoolSpec(object):
         for tn in self.get_target_list():
             tl.append(TargetSpec(tn, self))
         return tl
+
+    """retrieve the target aptrepo prefix"""
+    def get_aptrepo_path(self):
+        return ("%s/.aptrepo/%s" % (self.conf.get_basedir(), self.name))

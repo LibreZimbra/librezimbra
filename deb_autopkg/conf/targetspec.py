@@ -1,4 +1,3 @@
-from os import getcwd
 
 """Target configuration"""
 class TargetSpec(object):
@@ -21,4 +20,4 @@ class TargetSpec(object):
         if self.pool is None:
             return None
         else:
-            return getcwd()+"/.aptrepo/"+self.pool.name
+            return self.pool.get_aptrepo_path()
