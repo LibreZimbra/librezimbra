@@ -75,3 +75,7 @@ class PoolSpec(object):
                     names.append(basename(debfn).split('_')[0])
 
         return names
+
+    """invalidate already built package on given target"""
+    def invalidate_target_package(self, pkg, targetname):
+        self.get_target(targetname).get_pkg_build_statfile(pkg).rm()
