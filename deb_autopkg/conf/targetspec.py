@@ -1,3 +1,4 @@
+from pkgspec import PkgSpec
 
 """Target configuration"""
 class TargetSpec(object):
@@ -22,3 +23,13 @@ class TargetSpec(object):
             return None
         else:
             return self.pool.get_aptrepo_path()
+
+    """allocate a statfile object for the (per target) package build finish-marker"""
+    def get_pkg_build_statfile(self, pkg):
+        if isinstance(pkg,PkgSpec):
+            pkgname = pkg.name
+        else:
+            pkgname = pkg
+
+        return self.conf.get_statfile(
+            "build."+self.get_pool_name()+"."+self.get_target_name()+"."+pkgname)

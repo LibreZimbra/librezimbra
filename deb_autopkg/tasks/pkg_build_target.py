@@ -16,8 +16,7 @@ class PkgBuildTargetTask(Task):
         self.target   = param['target']
         self.conf     = param['conf']
         self.pkg      = param['pkg']
-        self.statfile = self.conf.get_statfile(
-            "build."+self.target.get_pool_name()+"."+self.target.get_target_name()+"."+self.pkg.name)
+        self.statfile = self.target.get_pkg_build_statfile(self.pkg)
 
     """[override]"""
     def get_subtasks(self):
