@@ -1,5 +1,6 @@
 from targetspec import TargetSpec
 from os.path import basename
+from metux.log import warn
 
 """Pool configuration"""
 class PoolSpec(object):
@@ -41,6 +42,14 @@ class PoolSpec(object):
         for tn in self.get_target_list():
             tl.append(TargetSpec(tn, self, self.conf))
         return tl
+
+    """retrieve specific target object for this pool"""
+    def get_target(self, name):
+        tl = []
+        for tn in self.get_target_list():
+            if (tn == name):
+                return TargetSpec(tn, self, self.conf)
+        warn("pool %s: undefined target requested: %s" % (self.name, name))
 
     """retrieve the target aptrepo prefix"""
     def get_aptrepo_path(self):
