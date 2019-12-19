@@ -21,4 +21,7 @@ class StatFile(object):
         open(self.name, 'a').close()
 
     def rm(self):
-        unlink(self.name)
+        try:
+            unlink(self.name)
+        except:
+            pass
