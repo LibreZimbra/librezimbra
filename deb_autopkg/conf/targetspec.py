@@ -3,9 +3,10 @@
 class TargetSpec(object):
 
     """[private]"""
-    def __init__(self, name, pool):
+    def __init__(self, name, pool, conf):
         self.name = name
         self.pool = pool
+        self.conf = conf
 
     def get_target_name(self):
         return self.name

@@ -39,7 +39,7 @@ class PoolSpec(object):
     def get_targets(self):
         tl = []
         for tn in self.get_target_list():
-            tl.append(TargetSpec(tn, self))
+            tl.append(TargetSpec(tn, self, self.conf))
         return tl
 
     """retrieve the target aptrepo prefix"""

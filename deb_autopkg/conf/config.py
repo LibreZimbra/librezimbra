@@ -150,7 +150,7 @@ class Config(object):
     def get_targets(self):
         tl = []
         for tn in self.get_target_list():
-            tl.append(TargetSpec(tn, None))
+            tl.append(TargetSpec(tn, None, self))
         return tl
 
     """get a task object from dedup cache"""
