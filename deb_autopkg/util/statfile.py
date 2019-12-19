@@ -1,11 +1,11 @@
 
-from os import getcwd, path, makedirs, unlink
+from os import path, makedirs, unlink
 
 """helper object for representing a status file"""
 class StatFile(object):
 
-    def __init__(self, name):
-        self.name = getcwd()+"/.stat/"+name;
+    def __init__(self, name, basedir):
+        self.name = "%s/.stat/%s" % (basedir, name);
 
     def _prepare(self):
         dn = path.dirname(self.name)

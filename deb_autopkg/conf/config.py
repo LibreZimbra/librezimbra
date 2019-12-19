@@ -180,7 +180,7 @@ class Config(object):
 
     """get a statfile instance by given name"""
     def get_statfile(self, name):
-        return StatFile(name)
+        return StatFile(name, self._my_basedir)
 
     """get a path config"""
     def get_pathconf(self, name, default = None):
