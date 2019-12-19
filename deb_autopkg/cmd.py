@@ -21,3 +21,6 @@ def clone_all(conffile):
 
 def get_dut(conffile, name):
     return load(conffile).get_dut(name)
+
+def dut_exec(conffile, dutname, cmd = []):
+    return get_dut(conffile, dutname).dut_exec(cmd)
