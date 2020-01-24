@@ -1,4 +1,4 @@
-from deb_autopkg.util.task import Task
+from ..util.task import Task
 from subprocess import call
 
 """Target: deploy a whole pool of packages to dut"""

@@ -1,5 +1,5 @@
 import yaml
-from metux.log import info
+from ..log import info
 
 class BaseSpec:
 

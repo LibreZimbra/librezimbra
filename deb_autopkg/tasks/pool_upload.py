@@ -1,5 +1,5 @@
-from deb_autopkg.util.task import Task
-from deb_autopkg.util.upload import run_upload
+from ..util.task import Task
+from ..util.upload import run_upload
 
 """Target: upload a whole pool of packages to testbox / repo server"""
 class PoolUploadTask(Task):

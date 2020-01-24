@@ -1,5 +1,5 @@
-from builder import Builder
-from conf import load
+from .builder import Builder
+from .conf import load
 
 def build_pool(conffile, pool):
     return Builder(load(conffile)).build_pool(pool)

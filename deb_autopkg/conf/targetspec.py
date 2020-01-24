@@ -1,4 +1,4 @@
-from pkgspec import PkgSpec
+from .pkgspec import PkgSpec
 
 """Target configuration"""
 class TargetSpec(object):

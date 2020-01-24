@@ -1,6 +1,6 @@
-from deb_autopkg.util.task import Task
+from ..util.task import Task
 
-import pkg_build_target
+from .pkg_build_target import alloc as pkg_build_target_alloc
 
 class PkgBuildTask(Task):
 
@@ -15,7 +15,7 @@ class PkgBuildTask(Task):
     def get_subtasks(self):
         tasks = []
         for t in self.get_targets():
-            tasks.append(pkg_build_target.alloc(self.param['pkg'].get_conf(), self.param['pkg'], t))
+            tasks.append(pkg_build_target_alloc(self.param['pkg'].get_conf(), self.param['pkg'], t))
         return tasks
 
 def alloc(conf, pkg, pool):

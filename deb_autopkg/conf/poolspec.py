@@ -1,4 +1,4 @@
-from targetspec import TargetSpec
+from .targetspec import TargetSpec
 from os.path import basename
 from metux.log import warn
 

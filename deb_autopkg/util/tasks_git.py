@@ -1,4 +1,4 @@
-from deb_autopkg.util.task import Task, TaskFail
+from .task import Task, TaskFail
 from metux.git import GitRepo
 
 """Task: clone an git repo w/ initial checkout"""

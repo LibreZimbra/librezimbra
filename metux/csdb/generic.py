@@ -1,5 +1,5 @@
 
-from base import BaseSpec, BaseDB
+from .base import BaseSpec, BaseDB
 
 class Spec(BaseSpec):
     def __type(self):

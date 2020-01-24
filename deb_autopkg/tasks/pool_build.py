@@ -1,6 +1,6 @@
-from deb_autopkg.util.task import Task
+from ..util.task import Task
 
-import pkg_build
+from .pkg_build import alloc as pkg_build_alloc
 
 """Target: build a whole pool of packages"""
 class PoolBuildTask(Task):
@@ -12,7 +12,7 @@ class PoolBuildTask(Task):
         conf = pool.get_conf()
 
         for pkg in pool.get_packages():
-            tasks.append(pkg_build.alloc(conf, pkg, pool))
+            tasks.append(pkg_build_alloc(conf, pkg, pool))
 
         return tasks
 

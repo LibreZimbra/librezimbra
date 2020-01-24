@@ -1,11 +1,11 @@
-from deb_autopkg.util.task import Task
+from ..util.task import Task
 from metux.log import info
 from os import environ
 from copy import copy
 from subprocess import call
 
-import pkg_clone
-import dckbp_clone
+from .pkg_clone import alloc as pkg_clone_alloc
+from .dckbp_clone import alloc as dckbp_clone_alloc
 
 """Task: build a package for a target"""
 class PkgBuildTargetTask(Task):
@@ -21,8 +21,8 @@ class PkgBuildTargetTask(Task):
     """[override]"""
     def get_subtasks(self):
         tasks = []
-        tasks.append(dckbp_clone.alloc(self.conf))
-        tasks.append(pkg_clone.alloc(self.conf, self.pkg))
+        tasks.append(dckbp_clone_alloc(self.conf))
+        tasks.append(pkg_clone_alloc(self.conf, self.pkg))
 
         for pkg in self.pkg.get_depends_packages():
             tasks.append(alloc(self.conf, pkg, self.target))

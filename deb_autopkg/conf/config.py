@@ -1,11 +1,11 @@
 import yaml
 from os import getcwd
-from deb_autopkg.util.task import Task
-from deb_autopkg.util.statfile import StatFile
-from targetspec import TargetSpec
-from poolspec import PoolSpec
-from pkgspec import PkgSpec
-from dutspec import DutSpec
+from ..util.task import Task
+from ..util.statfile import StatFile
+from .targetspec import TargetSpec
+from .poolspec import PoolSpec
+from .pkgspec import PkgSpec
+from .dutspec import DutSpec
 from metux.csdb import CSDB
 from metux.log import info, warn, err
 
