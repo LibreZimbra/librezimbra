@@ -1,5 +1,5 @@
 import yaml
-from ..log import info
+from ..log import info, err, debug
 
 class BaseSpec:
 
@@ -37,8 +37,14 @@ class BaseDB:
         filename = self.pathname+"/"+pkg+".yml"
         try:
             with open(filename) as f:
-                info("loaded "+self.__type()+" spec: "+filename)
-                return self.__alloc(yaml.safe_load(f))
-        except:
-            info("csdb: failed to load "+self.__type()+" spec: "+filename)
+                try:
+                    spec = self.__alloc(yaml.safe_load(f))
+                    info("cddb: loaded "+self.__type()+" spec: "+filename)
+                    return spec
+                except Exception as exc:
+                    err("csdb: failed to parse "+self.__type()+" spec: "+filename)
+                    print ("execption: "+exc)
+                    raise exc
+        except IOError:
+            debug("csdb: missing "+self.__type()+" spec: "+filename)
             return None
