@@ -7,4 +7,7 @@ def warn(text):
     stderr.write("WARN: "+text+"\n")
 
 def err(text):
-    stderr.write("ERR: "+text+"\n")
+    stderr.write("ERR:  "+text+"\n")
+
+def debug(text):
+    stderr.write("DBG:  "+text+"\n")
