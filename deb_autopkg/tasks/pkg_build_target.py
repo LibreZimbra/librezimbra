@@ -2,6 +2,7 @@ from ..util.task import Task
 from .pkg_clone import alloc as pkg_clone_alloc
 from .dckbp_clone import alloc as dckbp_clone_alloc
 from .pkg_build_apt import alloc as pkg_build_apt_alloc
+from .pkg_build_zypper import alloc as pkg_build_zypper_alloc
 from metux.git import GitRepo
 
 """Task: build a package for a target"""
@@ -27,6 +28,8 @@ class PkgBuildTargetTask(Task):
         packager = self.target.get_packager()
         if packager == 'apt':
             tasks.append(pkg_build_apt_alloc(self.conf, self.pkg, self.target))
+        elif packager == 'zypper':
+            tasks.append(pkg_build_zypper_alloc(self.conf, self.pkg, self.target))
         else:
             self.fail('unknown packager "%s" for target %s' %
                         (packager, self.target['target.name']))

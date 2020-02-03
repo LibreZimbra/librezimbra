@@ -1,0 +1,113 @@
+#!/bin/bash
+#
+# this script is run within the build schroot
+#
+
+set -e
+
+if [ ! "$5" ]; then
+    echo "$0 <package> <repo_path> <repo_owner> <cache> <target>" >&2
+    exit 1
+fi
+
+PACKAGE="$1"
+REPO_PATH="$2"
+REPO_OWNER="$3"
+CACHE_DIR="$4"
+CACHE_ZYP="$CACHE_DIR/zypp"
+TARGET="$5"
+
+MP_ZYPCACHE="/var/cache/zypp"
+MP_BUILDTMP="/usr/src/packages/BUILDROOT"
+
+color_normal="\033[0;32;39m"
+color_yellow="\033[1;32;33m"
+color_green="\033[1;32;40m"
+color_cyan="\033[1;32;36m"
+color_red="\033[1;32;91m"
+
+debug() {
+    echo -e "<7>${color_yellow}" "$*" "${color_normal}" >&2
+}
+
+info() {
+    echo -e "<6>${color_green}" "$*" "${color_normal}" >&2
+}
+
+error() {
+    echo -e "<3>${color_green}" "$*" "${color_normal}" >&2
+}
+
+cleanup() {
+    info "cleanup: unmount"
+    umount -f "${MP_ZYPCACHE}"
+    umount -f "${MP_BUILDTMP}"
+    info "cleanup: fix permissions"
+    chown -R "${REPO_OWNER}" "${REPO_PATH}" "${CACHE_DIR}"
+}
+
+abort() {
+    error "aborted"
+    cleanup
+}
+
+prepare() {
+    info "preparing zypper cache dir"
+    mkdir -p "${CACHE_ZYP}"
+    mount --bind "${CACHE_ZYP}" "${MP_ZYPCACHE}"
+
+    info "preparing buildroot in tmpfs"
+    mkdir -p ${MP_BUILDTMP}
+    mount none ${MP_BUILDTMP} -t tmpfs
+
+    zypper --non-interactive modifyrepo -k --all
+}
+
+update_repo() {
+    info "updating local repo metadata"
+    createrepo "${REPO_PATH}"
+}
+
+copy_packages() {
+    echo "copying out built packages to local repo"
+    mkdir -p "${REPO_PATH}/srpm" "${REPO_PATH}/noarch" "${REPO_PATH}/x86_64"
+    find /usr/src/packages/SRPMS/      -name *.src.rpm -exec cp "{}" "${REPO_PATH}/srpm"   ";"
+    find /usr/src/packages/RPMS/noarch -name *.rpm     -exec cp "{}" "${REPO_PATH}/noarch" ";"
+    find /usr/src/packages/RPMS/x86_64 -name *.rpm     -exec cp "{}" "${REPO_PATH}/x86_64" ";"
+    update_repo
+}
+
+add_repo() {
+    info "adding our local zypper repo"
+    zypper --non-interactive addrepo --no-gpgcheck "${REPO_PATH}" localbuild
+}
+
+install_srpm() {
+    info "installing source package ${PACKAGE}"
+    zypper --non-interactive si "${PACKAGE}"
+}
+
+run_build() {
+    info "running rpmbuild"
+    rpmbuild --target "${TARGET}" -ba "/usr/src/packages/SPECS/${PACKAGE}.spec"
+}
+
+banner() {
+    debug "Zypper build: PACKAGE:    ${PACKAGE}"
+    debug "              REPO_PATH:  ${REPO_PATH}"
+    debug "              REPO_OWNER: ${REPO_OWNER}"
+    debug "              CACHE_DIR:  ${CACHE_DIR}"
+    debug "              CACHE_ZYP:  ${CACHE_ZYP}"
+}
+
+ulimit -n 512
+trap 'abort' 1 2 3 15
+
+banner
+prepare
+update_repo
+add_repo
+install_srpm
+run_build
+copy_packages
+cleanup

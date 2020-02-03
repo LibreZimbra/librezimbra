@@ -15,6 +15,7 @@ class TargetSpec(SpecObject):
         self.set_cf_missing('config.prefix', conf['config.prefix'])
         self.set_cf_missing('target.name', name)
         self.set_cf_missing('target.aptrepo', lambda: self.get_aptrepo_path())
+        self.set_cf_missing('target.zyprepo', lambda: self.get_zyprepo_path())
         self.set_cf_missing('pool.name', lambda: 'global' if self.pool is None else self.pool['pool.name'])
 
     def get_aptrepo_path(self):
@@ -22,6 +23,12 @@ class TargetSpec(SpecObject):
             raise ConfigFail("no pool - dont have an aptrepo")
         else:
             return self.pool['pool.aptrepo']
+
+    def get_zyprepo_path(self):
+        if self.pool is None:
+            raise ConfigFail("no pool - dont have an zyprepo")
+        else:
+            return self.pool['pool.zyprepo']
 
     """allocate a statfile object for the (per target) package build finish-marker"""
     def get_pkg_build_statfile(self, pkg):
