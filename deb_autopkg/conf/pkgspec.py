@@ -60,7 +60,8 @@ class PkgSpec(object):
         if self.package_version is not None:
             v = v.replace('${package.version}', self.package_version)
         v = v.replace('${package.name}', self.package_name)
-        return v
+
+        return super(PkgSpec, self).cf_substvar(v)
 
     """[private]"""
     def __cf_str(self, name):
