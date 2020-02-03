@@ -1,20 +1,9 @@
 import yaml
 from metux.log import info, warn
+from .specobject import SpecObject
 
 """Package configuration"""
-class PkgSpec(object):
-
-    """[private]"""
-    def _map_ext_attr(self, ext, spec_attr, ext_attr):
-        if (spec_attr not in self._my_spec) and (ext_attr in ext):
-            info("setting "+spec_attr+"="+ext[ext_attr])
-            self._my_spec[spec_attr] = ext[ext_attr]
-
-    """[private] set attribute if not existing"""
-    def _addattr(self, attr, val):
-        if val is not None:
-            if (attr not in self._my_spec) or (self._my_spec[attr] is None):
-                self._my_spec[attr] = val
+class PkgSpec(SpecObject):
 
     """split package identifier into name and (optional) version"""
     def _split_pkg_version(self, name):
@@ -28,8 +17,8 @@ class PkgSpec(object):
     def _load_db(self, dbname):
         self._my_db[dbname] = self.conf.csdb.get_db(self.package_name, dbname)
         if self._my_db[dbname] is not None:
-            self._addattr(dbname+'-url',    self._my_db[dbname].git_url)
-            self._addattr(dbname+'-branch', self._my_db[dbname].git_branch)
+            self.set_cf_missing(dbname+'-url',    self._my_db[dbname].git_url)
+            self.set_cf_missing(dbname+'-branch', self._my_db[dbname].git_branch)
 
     """[private]"""
     def __init__(self, name, spec, conf):
@@ -37,10 +26,10 @@ class PkgSpec(object):
             warn("pkg spec is None for package: "+name)
             spec = {}
 
-        self._my_spec = spec
         self.conf = conf
         self.name = name
         self._my_db = {}
+        self.set_spec(spec)
 
         ## split package name / version
         (self.package_name, self.package_version) = self._split_pkg_version(self.name)
@@ -50,7 +39,7 @@ class PkgSpec(object):
             self._load_db(dbn)
 
     """[private] substitute variables"""
-    def _substvar(self, v):
+    def cf_substvar(self, v):
         if v is None:
             return None
 
@@ -63,20 +52,6 @@ class PkgSpec(object):
 
         return super(PkgSpec, self).cf_substvar(v)
 
-    """[private]"""
-    def __cf_str(self, name):
-        if name in self._my_spec:
-            return self._substvar(self._my_spec[name])
-        else:
-            return None
-
-    """[private]"""
-    def __cf_list(self, name):
-        if name in self._my_spec:
-            return self._my_spec[name]
-        else:
-            return []
-
     """get the global config"""
     def get_conf(self):
         return self.conf
@@ -87,15 +62,15 @@ class PkgSpec(object):
 
     """get url of remote repo <name>"""
     def git_remote_url(self, name):
-        return self.__cf_str(name+'-url')
+        return self.get_cf_subst(name+'-url')
 
     """get the default branch"""
     def get_autobuild_branch(self):
-        return self.__cf_str('autobuild-branch')
+        return self.get_cf_subst('autobuild-branch')
 
     """get dependencies - package names)"""
     def get_depends_list(self):
-        return self.__cf_list('depends')
+        return self.get_cf_list('depends')
 
     """get dependencies - package objects"""
     def get_depends_packages(self):
@@ -113,5 +88,5 @@ class PkgSpec(object):
             'remotes':     remotes,
             'init-branch': 'autobuild',
             'init-ref':    self.get_autobuild_branch(),
-            'init-submodules': self.__cf_str('init-submodules'),
+            'init-submodules': self.get_cf_subst('init-submodules'),
         }
