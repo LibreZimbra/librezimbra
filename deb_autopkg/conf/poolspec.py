@@ -1,29 +1,31 @@
 from .targetspec import TargetSpec
+from .specobject import SpecObject
 from os.path import basename
 from metux.log import warn
 
 """Pool configuration"""
-class PoolSpec(object):
+class PoolSpec(SpecObject):
 
     """[private]"""
     def __init__(self, name, spec, conf):
         self.name = name
-        self._my_spec = spec
         self.conf = conf
+        self.set_spec(spec)
 
     def get_conf(self):
         return self.conf
 
     """retrieve a list of package names"""
     def get_package_list(self):
-        return self._my_spec['packages']
+        return self.get_cf('packages')
 
     """retrieve a list of target names"""
     def get_target_list(self):
-        if 'targets' in self._my_spec:
-            return self._my_spec['targets']
-        else:
+        n = self.get_cf('targets')
+        if n is None:
             return self.conf.get_target_list()
+        else:
+            return n
 
     """retrieve list of PkgSpec instances"""
     def get_packages(self):
@@ -57,13 +59,13 @@ class PoolSpec(object):
 
     """retrieve uplaod information"""
     def get_upload(self):
-        if 'upload' in self._my_spec:
-            return self._my_spec['upload']
+        return self.get_cf('upload')
 
     """retrieve DUT information"""
     def get_dut(self):
-        if 'dut' in self._my_spec:
-            return self.conf.get_dut(self._my_spec['dut'])
+        dut = self.get_cf('dut')
+        if dut is not None:
+            return self.conf.get_dut(dut)
 
     """get list of recently built debian package names for given package"""
     def get_latest_debs(self, target):
