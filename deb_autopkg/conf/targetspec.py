@@ -1,13 +1,15 @@
 from .pkgspec import PkgSpec
+from .specobject import SpecObject
 
 """Target configuration"""
-class TargetSpec(object):
+class TargetSpec(SpecObject):
 
     """[private]"""
-    def __init__(self, name, pool, conf):
+    def __init__(self, name, pool, conf, spec):
         self.name = name
         self.pool = pool
         self.conf = conf
+        self.set_spec(spec)
 
     def get_target_name(self):
         return self.name
@@ -20,7 +22,7 @@ class TargetSpec(object):
 
     def get_aptrepo_path(self):
         if self.pool is None:
-            return None
+            raise Exception("no pool - dont have an aptrepo")
         else:
             return self.pool.get_aptrepo_path()
 

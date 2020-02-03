@@ -42,7 +42,7 @@ class PoolSpec(SpecObject):
     def get_targets(self):
         tl = []
         for tn in self.get_target_list():
-            tl.append(TargetSpec(tn, self, self.conf))
+            tl.append(self.conf.load_target(tn, self))
         return tl
 
     """retrieve specific target object for this pool"""
@@ -50,7 +50,7 @@ class PoolSpec(SpecObject):
         tl = []
         for tn in self.get_target_list():
             if (tn == name):
-                return TargetSpec(tn, self, self.conf)
+                return self.conf.load_target(tn, self)
         warn("pool %s: undefined target requested: %s" % (self.name, name))
 
     """retrieve the target aptrepo prefix"""

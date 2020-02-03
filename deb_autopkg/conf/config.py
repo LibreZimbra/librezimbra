@@ -20,15 +20,33 @@ class Config(SpecObject):
         self._my_task_cache = {}
         self._my_basedir = getcwd()
         self._my_dut_cache = {}
+        self._my_targets = {}
 
     """get the basedir"""
     def get_basedir(self):
         return self._my_basedir
 
+    """load a target config"""
+    def load_target(self, name, pool):
+        fn = 'cf/targets/%s.yml' % name
+        try:
+            with open(fn) as f:
+                spec = yaml.safe_load(f)
+                info("loaded target config: "+fn)
+                self._my_targets[name] = TargetSpec(name, pool, self, spec)
+        except:
+            info("failed to load target config: "+fn)
+            self._my_targets[name] = TargetSpec(name, pool, self, {})
+        return self._my_targets[name]
+
     """load a global config file"""
     def load(self, fn):
         self.load_spec(fn)
         self.csdb = CSDB(self.get_pathconf('csdb-path'))
+
+        # load target configs
+        for t in self.get_cf('targets'):
+            self._my_targets[t] = self.load_target(t, None)
 
     """get package object by name"""
     def get_package(self, name):
@@ -145,7 +163,7 @@ class Config(SpecObject):
     def get_targets(self):
         tl = []
         for tn in self.get_target_list():
-            tl.append(TargetSpec(tn, None, self))
+            tl.append(self.load_target(tn, None))
         return tl
 
     """get a task object from dedup cache"""
