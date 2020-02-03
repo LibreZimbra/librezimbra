@@ -1,14 +1,15 @@
 from metux.log import info
 from subprocess import call
+from .specobject import SpecObject
 
 """DUT configuration"""
-class DutSpec(object):
+class DutSpec(SpecObject):
 
     """[private]"""
     def __init__(self, name, spec, conf):
         self.name = name
-        self._my_spec = spec
         self.conf = conf
+        self.set_spec(spec)
 
     """retrieve toplevel config object"""
     def get_conf(self):
@@ -16,19 +17,17 @@ class DutSpec(object):
 
     """get the target identifier of this DUT"""
     def get_target_name(self):
-        return self._my_spec.get('target')
+        return self.get_cf('target')
 
     """shall we reboot after deployment ?"""
     def get_post_deploy_reboot(self):
-        if 'post-deploy' in self._my_spec:
-            return self._my_spec['post-deploy'].get('reboot', False)
-        return False
+        return self.get_cf(['post-deploy', 'reboot'], False)
 
     """execute command on DUT"""
     def dut_exec(self, cmd):
-        hostname = self._my_spec['ssh']['hostname']
-        username = self._my_spec['ssh']['username']
-        port = str(self._my_spec['ssh']['port'])
+        hostname = self.get_cf(['ssh', 'hostname'])
+        username = self.get_cf(['ssh', 'username'])
+        port = str(self.get_cf(['ssh', 'port']))
 
         info("executing on DUT: %s" % repr(cmd))
 
