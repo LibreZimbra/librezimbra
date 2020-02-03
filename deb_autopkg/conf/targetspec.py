@@ -1,5 +1,6 @@
 from .pkgspec import PkgSpec
 from .specobject import SpecObject
+from metux.log import warn
 
 """Target configuration"""
 class TargetSpec(SpecObject):
@@ -35,3 +36,10 @@ class TargetSpec(SpecObject):
 
         return self.conf.get_statfile(
             "build."+self.get_pool_name()+"."+self.get_target_name()+"."+pkgname)
+
+    def get_packager(self):
+        p = self.get_cf('packager', None)
+        if p is None:
+            warn("Target %s has no packager specified. Defaulting to apt" % self.name)
+            return 'apt'
+        return p
