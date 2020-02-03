@@ -53,7 +53,7 @@ class Config(object):
         for name in lst:
             p = self.get_package(name)
             if p is None:
-                err("missing package spec for "+name)
+                raise Exception("missing package spec for "+name)
             else:
                 pkgs.append(self.get_package(name))
         return pkgs
