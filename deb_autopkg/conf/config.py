@@ -3,6 +3,7 @@ from os import getcwd
 from ..util.task import Task
 from ..util.statfile import StatFile
 from .targetspec import TargetSpec
+from .specobject import SpecObject
 from .poolspec import PoolSpec
 from .pkgspec import PkgSpec
 from .dutspec import DutSpec
@@ -10,7 +11,7 @@ from metux.csdb import CSDB
 from metux.log import info, warn, err
 
 """global configuration"""
-class Config(object):
+class Config(SpecObject):
 
     """[private]"""
     def __init__(self):
@@ -26,11 +27,7 @@ class Config(object):
 
     """load a global config file"""
     def load(self, fn):
-        with open(fn) as f:
-            # use safe_load instead load
-            self._my_spec = yaml.safe_load(f)
-            info("loaded config: "+fn)
-
+        self.load_spec(fn)
         self.csdb = CSDB(self.get_pathconf('csdb-path'))
 
     """get package object by name"""
@@ -38,15 +35,16 @@ class Config(object):
         if name in self._my_pkg_cache:
             return self._my_pkg_cache[name]
 
-        if name in self._my_spec['packages']:
-            self._my_pkg_cache[name] = PkgSpec(name, self._my_spec['packages'][name], self)
+        pkgs = self.get_package_list()
+        if name in pkgs:
+            self._my_pkg_cache[name] = PkgSpec(name, pkgs[name], self)
             return self._my_pkg_cache[name]
 
         return None
 
     """get list of package names"""
     def get_package_list(self):
-        return self._my_spec['packages']
+        return self.get_cf('packages')
 
     def get_packages_by_names(self, lst):
         pkgs = []
@@ -64,12 +62,11 @@ class Config(object):
 
     """[private]"""
     def _cf_dckbp(self, key, dflt, wmsg):
-        if 'dck-buildpackage' in self._my_spec:
-            cf = self._my_spec['dck-buildpackage']
-            if key in cf:
-                return cf[key]
-        warn(wmsg)
-        return dflt
+        cf = self.get_cf(['dck-buildpackage', key])
+        if cf is None:
+            warn(wmsg)
+            return dflt
+        return cf
 
     """get builtin docker-buildpackage pkg config object"""
     def get_dckbp_package(self):
@@ -119,9 +116,7 @@ class Config(object):
 
     """get list of pool names"""
     def get_pool_list(self):
-        if 'pools' in self._my_spec:
-            return self._my_spec['pools']
-        return []
+        return self.get_cf('pools', [])
 
     """get pool object by name"""
     def get_pool(self, name):
@@ -144,7 +139,7 @@ class Config(object):
 
     """get list of target names"""
     def get_target_list(self):
-        return self._my_spec['targets']
+        return self.get_cf('targets', [])
 
     """get target objects w/o pool"""
     def get_targets(self):
@@ -184,10 +179,7 @@ class Config(object):
 
     """get a path config"""
     def get_pathconf(self, name, default = None):
-        if 'pathes' in self._my_spec:
-            if name in self._my_spec['pathes']:
-                return self._my_spec['pathes'][name]
-        return default
+        return self.get_cf(['pathes', name], default)
 
     """get list of remotes"""
     def get_remote_names(self):
