@@ -130,3 +130,15 @@ class GitRepo(object):
 
     def submodule_init(self):
         return self._gitcall(['submodule', 'update', '--init', '--recursive'])
+
+    def archive(self, ref = 'HEAD', output = None, prefix = None, format = None):
+        args = ['archive']
+        if format is not None:
+            args += ['--format', format]
+        if prefix is not None:
+            args += ['--prefix', prefix]
+        if output is not None:
+            args += ['--output', output]
+        args += [ref]
+
+        return self._gitcall(args)
