@@ -142,3 +142,7 @@ class GitRepo(object):
         args += [ref]
 
         return self._gitcall(args)
+
+    def get_head_commit(self):
+        args = [ 'rev-parse', '--verify', 'HEAD^{commit}' ]
+        return self._gitout(args)
