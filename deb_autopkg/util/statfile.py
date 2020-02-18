@@ -12,13 +12,26 @@ class StatFile(object):
         if not path.exists(dn):
             makedirs(dn)
 
-    def check(self):
+    def check(self, value = None):
         self._prepare()
-        return path.isfile(self.name)
+        if value is None:
+            return path.isfile(self.name)
 
-    def set(self):
+        try:
+            f = open(self.name, 'r')
+            contents = f.read()
+            f.close()
+
+            return contents == value
+        except:
+            return False
+
+    def set(self, value = None):
         self._prepare()
-        open(self.name, 'a').close()
+        f = open(self.name, 'w')
+        if value is not None:
+            f.write(value)
+        f.close()
 
     def rm(self):
         try:
