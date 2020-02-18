@@ -2,6 +2,7 @@ from ..util.task import Task
 from .pkg_clone import alloc as pkg_clone_alloc
 from .dckbp_clone import alloc as dckbp_clone_alloc
 from .pkg_build_apt import alloc as pkg_build_apt_alloc
+from metux.git import GitRepo
 
 """Task: build a package for a target"""
 class PkgBuildTargetTask(Task):
@@ -34,11 +35,11 @@ class PkgBuildTargetTask(Task):
 
     """[override]"""
     def need_run(self):
-        return not self.statfile.check()
+        return not self.statfile.check(GitRepo(self.pkg.git_repo_dir()).get_head_commit())
 
     """[override]"""
     def do_run(self):
-        self.statfile.set()
+        self.statfile.set(GitRepo(self.pkg.git_repo_dir()).get_head_commit())
         return True
 
 def alloc(conf, pkg, target):
