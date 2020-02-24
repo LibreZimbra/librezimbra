@@ -4,6 +4,8 @@ from os.path import abspath, isfile
 from copy import deepcopy
 from uuid import uuid1
 from metux import mkdir, rmtree
+from log import warn
+from exceptions import OSError
 
 _devnull = open(devnull, 'w')
 
@@ -145,4 +147,8 @@ class GitRepo(object):
 
     def get_head_commit(self):
         args = [ 'rev-parse', '--verify', 'HEAD^{commit}' ]
-        return self._gitout(args)
+        try:
+            return self._gitout(args)
+        except OSError as err:
+            warn("get_head_commit() failed: "+str(err))
+            return None
