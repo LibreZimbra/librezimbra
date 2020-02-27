@@ -3,7 +3,15 @@ from metux.log import warn, info
 class TaskFail(Exception):
 
     def __init__(self, tsk, msg):
+        self.msg = msg
+        self.tsk = tsk
         Exception.__init__(self, "[task "+tsk.get_name()+"] "+msg)
+
+    def get_message(self):
+        return self.msg
+
+    def get_task_name(self):
+        return self.tsk.get_name()
 
 class Task(object):
 
@@ -16,7 +24,7 @@ class Task(object):
         return self.name
 
     def fail(self, msg):
-        raise Exception(self, msg)
+        raise TaskFail(self, msg)
 
     def check_task_list(self, tasklist):
         x = 0
