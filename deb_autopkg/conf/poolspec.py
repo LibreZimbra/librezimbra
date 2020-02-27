@@ -8,9 +8,9 @@ class PoolSpec(SpecObject):
 
     """[private]"""
     def __init__(self, name, spec, conf):
+        SpecObject.__init__(self, spec)
         self.name = name
         self.conf = conf
-        self.set_spec(spec)
 
     def get_conf(self):
         return self.conf

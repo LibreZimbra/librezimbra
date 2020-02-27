@@ -15,6 +15,7 @@ class Config(SpecObject):
 
     """[private]"""
     def __init__(self):
+        SpecObject.__init__(self, {})
         self._my_pkg_cache = {}
         self._my_pool_cache = {}
         self._my_task_cache = {}

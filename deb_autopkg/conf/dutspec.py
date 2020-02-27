@@ -7,9 +7,9 @@ class DutSpec(SpecObject):
 
     """[private]"""
     def __init__(self, name, spec, conf):
+        SpecObject.__init__(self, spec)
         self.name = name
         self.conf = conf
-        self.set_spec(spec)
 
     """retrieve toplevel config object"""
     def get_conf(self):

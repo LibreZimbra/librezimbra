@@ -26,10 +26,11 @@ class PkgSpec(SpecObject):
             warn("pkg spec is None for package: "+name)
             spec = {}
 
+        SpecObject.__init__(self, spec)
+
         self.conf = conf
         self.name = name
         self._my_db = {}
-        self.set_spec(spec)
 
         ## split package name / version
         (self.package_name, self.package_version) = self._split_pkg_version(self.name)

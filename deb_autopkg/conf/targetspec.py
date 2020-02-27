@@ -7,10 +7,10 @@ class TargetSpec(SpecObject):
 
     """[private]"""
     def __init__(self, name, pool, conf, spec):
+        SpecObject.__init__(self, spec)
         self.name = name
         self.pool = pool
         self.conf = conf
-        self.set_spec(spec)
 
     def get_target_name(self):
         return self.name
