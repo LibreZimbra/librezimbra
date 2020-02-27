@@ -58,6 +58,11 @@ class SpecObject(object):
             if (attr not in self._my_spec) or (self._my_spec[attr] is None):
                 self._my_spec[attr] = val
 
+    """set list (dict) of attribute if not existing yet (doesnt support path yet)"""
+    def set_cf_missing_list(self, attrs):
+        for name in attrs:
+            self.set_cf_missing(name, attrs[name])
+
     """[override] variable substitution callback"""
     def cf_substvar(self, var):
         if (var is None) or (isinstance(var,bool)):
