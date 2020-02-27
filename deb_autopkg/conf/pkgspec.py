@@ -39,19 +39,10 @@ class PkgSpec(SpecObject):
         for dbn in self.conf.csdb.get_dbnames():
             self._load_db(dbn)
 
-    """[private] substitute variables"""
-    def cf_substvar(self, v):
-        if v is None:
-            return None
-
-        if isinstance(v, bool):
-            return v
-
-        if self.package_version is not None:
-            v = v.replace('${package.version}', self.package_version)
-        v = v.replace('${package.name}', self.package_name)
-
-        return super(PkgSpec, self).cf_substvar(v)
+        ## add variables for substitution
+        self.set_cf_missing('package.version', lambda: self.package_version)
+        self.set_cf_missing('package.name',    lambda: self.package_name)
+        self.set_cf_missing('package.src',     lambda: self.git_repo_dir())
 
     """get the global config"""
     def get_conf(self):
@@ -63,11 +54,11 @@ class PkgSpec(SpecObject):
 
     """get url of remote repo <name>"""
     def git_remote_url(self, name):
-        return self.get_cf_subst(name+'-url')
+        return self.get_cf(name+'-url')
 
     """get the default branch"""
     def get_autobuild_branch(self):
-        return self.get_cf_subst('autobuild-branch')
+        return self.get_cf('autobuild-branch')
 
     """get dependencies - package names)"""
     def get_depends_list(self):
@@ -89,5 +80,5 @@ class PkgSpec(SpecObject):
             'remotes':     remotes,
             'init-branch': 'autobuild',
             'init-ref':    self.get_autobuild_branch(),
-            'init-submodules': self.get_cf_subst('init-submodules'),
+            'init-submodules': self.get_cf('init-submodules'),
         }

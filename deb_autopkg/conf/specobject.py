@@ -2,17 +2,24 @@ import yaml
 from os import getuid
 from os.path import expanduser
 from metux.log import info
+from metux.lambdadict import LambdaDict
+from string import Template
+
+class SubstTemplate(Template):
+    idpattern = r"[_a-z][_a-z0-9/\.\-]*"
 
 class SpecObject(object):
 
     """[private]"""
     def __init__(self, spec):
-        self._my_spec = spec
+        self._my_spec = LambdaDict(spec)
+        self.set_cf_missing('user.uid',  lambda: str(getuid()))
+        self.set_cf_missing('user.home', lambda: expanduser('~'))
 
     """retrieve a config element by path"""
-    def get_cf(self, p, dflt = None):
+    def get_cf_raw(self, p, dflt = None):
         node = self._my_spec
-        if type(p) == list:
+        if (type(p) == list) or (type(p) == tuple):
             for walk in p:
                 if walk not in node:
                     return dflt
@@ -25,17 +32,17 @@ class SpecObject(object):
             else:
                 return dflt
 
-
     """retrieve a config element as list"""
     def get_cf_list(self, p, dflt = []):
         return self.get_cf(p, dflt)
 
     """retrieve a config element by path and substitute variables"""
-    def get_cf_subst(self, p, dflt = None):
-        val = self.get_cf(p, dflt)
-        if val is None:
-            return val
-        return self.cf_substvar(val)
+    def get_cf(self, p, dflt = None):
+        return self.cf_substvar(self.get_cf_raw(p, dflt))
+
+    """container get method"""
+    def __getitem__(self, p):
+        return self.get_cf(p)
 
     """set spec object"""
     def set_spec(self, s):
@@ -63,12 +70,22 @@ class SpecObject(object):
         for name in attrs:
             self.set_cf_missing(name, attrs[name])
 
-    """[override] variable substitution callback"""
+    """[private] variable substitution"""
     def cf_substvar(self, var):
-        if (var is None) or (isinstance(var,bool)):
+        if (var is None) or (isinstance(var,bool)) or (isinstance(var, (long, int))):
             return var
 
-        var = var.replace('${user.uid}', str(getuid()))
-        var = var.replace('${user.home}', expanduser('~'))
+        if isinstance(var, basestring) or (isinstance(var, str)):
+            if var.lower() in ['true', '1', 't', 'y', 'yes']:
+                return True
+
+            if var.lower() in ['false', '0', 'f', 'n', 'no']:
+                return False
+
+            new = SubstTemplate(var).substitute(self._my_spec)
+            if new == var:
+                return var
+
+            return self.cf_substvar(new)
 
         return var
