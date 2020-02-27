@@ -34,13 +34,6 @@ class Task(object):
             x = x+1
         return tasklist
 
-    # private !
-    def run_subtasks(self):
-        res = False
-        for t in self.check_task_list(self.get_subtasks()):
-            res |= t.auto_run()
-        return res
-
     """ [override] check whether the task needs to run """
     def need_run(self):
         return True
@@ -48,18 +41,6 @@ class Task(object):
     """ [override] do the actual task. return true if actually did something"""
     def do_run(self):
         return False
-
-    """ only run if necessary. skip if need_run() tells false or already ran"""
-    def auto_run(self):
-        if self._my_done or (not self.need_run()):
-            return False;
-
-        # need to do it that way to defeat shortcut evaluation
-        res = self.run_subtasks()
-        res |= self.do_run()
-
-        self._my_done = True
-        return res
 
     """ [override] get a list of sub tasks"""
     def get_subtasks(self):
@@ -78,5 +59,18 @@ class TaskRunner(object):
         self.tasks = []
 
     # fixme: should add some queue management and dependency resolution
+    """run a task and skip those which don't need to be run.
+       @return true if at least one task actually ran."""
     def runTask(self, task):
-        subs = task.auto_run()
+        res = False
+        if task._my_done or (not task.need_run()):
+            return False;
+
+        # need to do it that way to defeat shortcut evaluation
+        for t in task.check_task_list(task.get_subtasks()):
+            res |= self.runTask(t)
+
+        res |= task.do_run()
+
+        task._my_done = True
+        return res
