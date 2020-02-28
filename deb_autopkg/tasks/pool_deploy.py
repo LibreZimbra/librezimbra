@@ -1,5 +1,4 @@
 from ..util.task import Task
-from subprocess import call
 
 """Target: deploy a whole pool of packages to dut"""
 class PoolDeployTask(Task):
