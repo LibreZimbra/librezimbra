@@ -1,5 +1,6 @@
 import yaml
 from metux.log import info, warn
+from metux.git import GitRepo
 from .specobject import SpecObject
 
 """Package configuration"""
@@ -47,6 +48,10 @@ class PkgSpec(SpecObject):
     """get the global config"""
     def get_conf(self):
         return self.conf
+
+    """get GitRepo instance"""
+    def git_repo(self):
+        return GitRepo(self.git_repo_dir())
 
     """get git repo directory"""
     def git_repo_dir(self):

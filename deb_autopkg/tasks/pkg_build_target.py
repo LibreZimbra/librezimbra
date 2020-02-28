@@ -35,11 +35,11 @@ class PkgBuildTargetTask(Task):
 
     """[override]"""
     def need_run(self):
-        return not self.statfile.check(GitRepo(self.pkg.git_repo_dir()).get_head_commit())
+        return not self.statfile.check(self.pkg.git_repo().get_head_commit())
 
     """[override]"""
     def do_run(self):
-        self.statfile.set(GitRepo(self.pkg.git_repo_dir()).get_head_commit())
+        self.statfile.set(self.pkg.git_repo().get_head_commit())
         return True
 
 def alloc(conf, pkg, target):
