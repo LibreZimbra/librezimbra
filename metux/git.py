@@ -1,6 +1,6 @@
 from subprocess import call, Popen, PIPE
 from os import devnull, environ
-from os.path import abspath, isfile
+from os.path import abspath, isfile, dirname
 from copy import deepcopy
 from uuid import uuid1
 from metux import mkdir, rmtree
@@ -141,6 +141,8 @@ class GitRepo(object):
             args += ['--prefix', prefix]
         if output is not None:
             args += ['--output', output]
+            mkdir(dirname(output))
+
         args += [ref]
 
         return self._gitcall(args)
