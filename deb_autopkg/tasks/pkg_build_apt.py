@@ -15,12 +15,12 @@ class PkgBuildAptTask(Task):
 
     def do_run(self):
         pkg_name    = self.pkg.name
-        target_name = self.target.get_target_name()
-        pool_name   = self.target.get_pool_name()
+        target_name = self.target['target.name']
+        pool_name   = self.target['pool.name']
         dckbp_cmd   = self.conf.get_dckbp_cmd()
 
         env = copy(environ)
-        env['DCK_BUILDPACKAGE_TARGET_REPO'] = self.target.get_aptrepo_path()
+        env['DCK_BUILDPACKAGE_TARGET_REPO'] = self.target['target.aptrepo']
         env['DCK_BUILDPACKAGE_SOURCE'] = pkg_name
 
         self.log_info('building "'+pkg_name+'" from '+pool_name+' for '+target_name)
@@ -32,4 +32,4 @@ class PkgBuildAptTask(Task):
         return True
 
 def alloc(conf, pkg, target):
-    return conf.cached_task_alloc('build-pkg-apt:'+target.name+':'+pkg.name, PkgBuildAptTask, { 'pkg': pkg, 'target': target })
+    return conf.cached_task_alloc('build-pkg-apt:'+target['target.name']+':'+pkg.name, PkgBuildAptTask, { 'pkg': pkg, 'target': target })

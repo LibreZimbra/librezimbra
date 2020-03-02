@@ -8,18 +8,13 @@ class TargetSpec(SpecObject):
     """[private]"""
     def __init__(self, name, pool, conf, spec):
         SpecObject.__init__(self, spec)
-        self.name = name
         self.pool = pool
         self.conf = conf
-
-    def get_target_name(self):
-        return self.name
-
-    def get_pool_name(self):
-        if self.pool is None:
-            return 'global'
-        else:
-            return self.pool['pool.name']
+        self.set_cf_missing('config.basedir', conf['config.basedir'])
+        self.set_cf_missing('config.prefix', conf['config.prefix'])
+        self.set_cf_missing('target.name', name)
+        self.set_cf_missing('target.aptrepo', lambda: self.get_aptrepo_path())
+        self.set_cf_missing('pool.name', lambda: 'global' if self.pool is None else self.pool['pool.name'])
 
     def get_aptrepo_path(self):
         if self.pool is None:
@@ -35,11 +30,11 @@ class TargetSpec(SpecObject):
             pkgname = pkg
 
         return self.conf.get_statfile(
-            "build."+self.get_pool_name()+"."+self.get_target_name()+"."+pkgname)
+            "build."+self['pool.name']+"."+self['target.name']+"."+pkgname)
 
     def get_packager(self):
         p = self.get_cf('packager', None)
         if p is None:
-            warn("Target %s has no packager specified. Defaulting to apt" % self.name)
+            warn("Target %s has no packager specified. Defaulting to apt" % self['target.name'])
             return 'apt'
         return p
