@@ -12,10 +12,7 @@ class SpecObject(object):
 
     """[private]"""
     def __init__(self, spec):
-        self._my_spec = LambdaDict(spec)
-        self.set_cf_missing('user.uid',  lambda: str(getuid()))
-        self.set_cf_missing('user.home', lambda: expanduser('~'))
-        self.set_cf_missing('user.cwd',  lambda: getcwd())
+        self.set_spec(spec)
 
     """retrieve a config element by path"""
     def get_cf_raw(self, p, dflt = None):
@@ -47,7 +44,10 @@ class SpecObject(object):
 
     """set spec object"""
     def set_spec(self, s):
-        self._my_spec = s
+        self._my_spec = LambdaDict(s)
+        self.set_cf_missing('user.uid',  lambda: str(getuid()))
+        self.set_cf_missing('user.home', lambda: expanduser('~'))
+        self.set_cf_missing('user.cwd',  lambda: getcwd())
 
     """get spec object"""
     def get_spec(self, s):
