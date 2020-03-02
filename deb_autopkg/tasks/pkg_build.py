@@ -22,6 +22,6 @@ def alloc(conf, pkg, pool):
     if pool is None:
         pn = "global"
     else:
-        pn = pool.name
+        pn = pool['pool.name']
 
     return conf.cached_task_alloc('build-pkg:'+pn+":"+pkg.name, PkgBuildTask, { 'pkg': pkg, 'pool': pool })

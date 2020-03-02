@@ -16,8 +16,8 @@ class PoolUploadTask(Task):
             'username': upload.get('username', None),
             'hostname': upload.get('hostname', None),
             'path':     upload.get('path', None),
-            'source':   self.param['pool'].get_aptrepo_path(),
+            'source':   self.param['pool']['pool.aptrepo'],
         })
 
 def alloc(conf, pool):
-    return conf.cached_task_alloc('upload-pool:'+pool.name, PoolUploadTask, { 'pool': pool })
+    return conf.cached_task_alloc('upload-pool:'+pool['pool.name'], PoolUploadTask, { 'pool': pool })

@@ -19,13 +19,13 @@ class TargetSpec(SpecObject):
         if self.pool is None:
             return 'global'
         else:
-            return self.pool.name
+            return self.pool['pool.name']
 
     def get_aptrepo_path(self):
         if self.pool is None:
             raise Exception("no pool - dont have an aptrepo")
         else:
-            return self.pool.get_aptrepo_path()
+            return self.pool['pool.aptrepo']
 
     """allocate a statfile object for the (per target) package build finish-marker"""
     def get_pkg_build_statfile(self, pkg):

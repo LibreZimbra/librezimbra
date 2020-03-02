@@ -17,4 +17,4 @@ class PoolBuildTask(Task):
         return tasks
 
 def alloc(conf, pool):
-    return conf.cached_task_alloc('build-pool:'+pool.name, PoolBuildTask, { 'pool': pool })
+    return conf.cached_task_alloc('build-pool:'+pool['pool.name'], PoolBuildTask, { 'pool': pool })

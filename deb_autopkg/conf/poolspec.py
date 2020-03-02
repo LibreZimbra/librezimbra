@@ -9,8 +9,10 @@ class PoolSpec(SpecObject):
     """[private]"""
     def __init__(self, name, spec, conf):
         SpecObject.__init__(self, spec)
-        self.name = name
         self.conf = conf
+        self.set_cf_missing('config.basedir', conf['config.basedir'])
+        self.set_cf_missing('pool.name',      name)
+        self.set_cf_missing('pool.aptrepo',   '${config.basedir}/.aptrepo/${pool.name}')
 
     def get_conf(self):
         return self.conf
@@ -34,7 +36,7 @@ class PoolSpec(SpecObject):
         for n in names:
             p = self.conf.get_package(n)
             if p is None:
-                raise Exception("pool "+self.name+" references undefined package: "+n)
+                raise Exception("pool "+self['pool.name']+" references undefined package: "+n)
             packages.append(p)
         return packages
 
@@ -51,11 +53,7 @@ class PoolSpec(SpecObject):
         for tn in self.get_target_list():
             if (tn == name):
                 return self.conf.load_target(tn, self)
-        warn("pool %s: undefined target requested: %s" % (self.name, name))
-
-    """retrieve the target aptrepo prefix"""
-    def get_aptrepo_path(self):
-        return ("%s/.aptrepo/%s" % (self.conf['config.basedir'], self.name))
+        warn("pool %s: undefined target requested: %s" % (self['pool.name'], name))
 
     """retrieve uplaod information"""
     def get_upload(self):
@@ -71,7 +69,7 @@ class PoolSpec(SpecObject):
     def get_latest_debs(self, target):
         names = []
         for p in self.get_packages():
-            fn = ("%s/%s/stat/%s/latest-debs" % (self.get_aptrepo_path(), target, p.name))
+            fn = ("%s/%s/stat/%s/latest-debs" % (self['pool.aptrepo'], target, p.name))
             with open(fn) as fp:
                 for cnt, debfn in enumerate(fp):
                     names.append(basename(debfn).split('_')[0])

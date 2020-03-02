@@ -22,4 +22,4 @@ class PoolDeployTask(Task):
         return True
 
 def alloc(conf, pool):
-    return conf.cached_task_alloc('deploy-pool:'+pool.name, PoolDeployTask, { 'pool': pool })
+    return conf.cached_task_alloc('deploy-pool:'+pool['pool.name'], PoolDeployTask, { 'pool': pool })
