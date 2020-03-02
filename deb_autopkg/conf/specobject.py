@@ -1,5 +1,5 @@
 import yaml
-from os import getuid
+from os import getuid, getcwd
 from os.path import expanduser
 from metux.log import info
 from metux.lambdadict import LambdaDict
@@ -15,6 +15,7 @@ class SpecObject(object):
         self._my_spec = LambdaDict(spec)
         self.set_cf_missing('user.uid',  lambda: str(getuid()))
         self.set_cf_missing('user.home', lambda: expanduser('~'))
+        self.set_cf_missing('user.cwd',  lambda: getcwd())
 
     """retrieve a config element by path"""
     def get_cf_raw(self, p, dflt = None):
