@@ -22,10 +22,11 @@ class Config(SpecObject):
         self._my_basedir = getcwd()
         self._my_dut_cache = {}
         self._my_targets = {}
+        self.__intrinsics()
 
-    """get the basedir"""
-    def get_basedir(self):
-        return self._my_basedir
+    def __intrinsics(self):
+        self.set_cf_missing('config.basedir', '${user.cwd}')
+        self.set_cf_missing('config.prefix',  '${config.basedir}/cf')
 
     """load a target config"""
     def load_target(self, name, pool):
@@ -43,6 +44,8 @@ class Config(SpecObject):
     """load a global config file"""
     def load(self, fn):
         self.load_spec(fn)
+        self.__intrinsics()
+
         self.csdb = CSDB(self.get_pathconf('csdb-path'))
 
         # load target configs
@@ -108,7 +111,7 @@ class Config(SpecObject):
 
     """get dck-buildpackage path"""
     def get_dckbp_path(self):
-        return ("%s/pkg/__dckbp__.git" % self.get_basedir())
+        return ("%s/pkg/__dckbp__.git" % self['config.basedir'])
 
     """get dck-buildpackage command"""
     def get_dckbp_cmd(self):
