@@ -1,5 +1,6 @@
 from .pkgspec import PkgSpec
 from .specobject import SpecObject
+from .err import ConfigFail
 from metux.log import warn
 
 """Target configuration"""
@@ -18,7 +19,7 @@ class TargetSpec(SpecObject):
 
     def get_aptrepo_path(self):
         if self.pool is None:
-            raise Exception("no pool - dont have an aptrepo")
+            raise ConfigFail("no pool - dont have an aptrepo")
         else:
             return self.pool['pool.aptrepo']
 

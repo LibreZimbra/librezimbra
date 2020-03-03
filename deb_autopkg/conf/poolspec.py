@@ -1,5 +1,6 @@
 from .targetspec import TargetSpec
 from .specobject import SpecObject
+from .err import ConfigFail
 from os.path import basename
 from metux.log import warn
 
@@ -36,7 +37,7 @@ class PoolSpec(SpecObject):
         for n in names:
             p = self.conf.get_package(n)
             if p is None:
-                raise Exception("pool "+self['pool.name']+" references undefined package: "+n)
+                raise ConfigFail("pool "+self['pool.name']+" references undefined package: "+n)
             packages.append(p)
         return packages
 
