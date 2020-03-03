@@ -41,9 +41,11 @@ class PkgSpec(SpecObject):
             self._load_db(dbn)
 
         ## add variables for substitution
+        self.set_cf_missing('config.basedir',  lambda: self.conf['config.basedir'])
         self.set_cf_missing('package.version', lambda: self.package_version)
         self.set_cf_missing('package.name',    lambda: self.package_name)
-        self.set_cf_missing('package.src',     lambda: self.git_repo_dir())
+        self.set_cf_missing('package.fqname',  lambda: self.name)
+        self.set_cf_missing('package.src',     lambda: "${config.basedir}/pkg/${package.fqname}.git")
 
     """get the global config"""
     def get_conf(self):
@@ -51,11 +53,7 @@ class PkgSpec(SpecObject):
 
     """get GitRepo instance"""
     def git_repo(self):
-        return GitRepo(self.git_repo_dir())
-
-    """get git repo directory"""
-    def git_repo_dir(self):
-        return 'pkg/' + self.name + '.git'
+        return GitRepo(self['package.src'])
 
     """get url of remote repo <name>"""
     def git_remote_url(self, name):
@@ -81,7 +79,7 @@ class PkgSpec(SpecObject):
             if u is not None:
                 remotes[r] = { 'url': u }
         return {
-            'path':        self.git_repo_dir(),
+            'path':        self['package.src'],
             'remotes':     remotes,
             'init-branch': 'autobuild',
             'init-ref':    self.get_autobuild_branch(),

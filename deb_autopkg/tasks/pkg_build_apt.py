@@ -25,7 +25,7 @@ class PkgBuildAptTask(Task):
 
         self.log_info('building "'+pkg_name+'" from '+pool_name+' for '+target_name)
         if (call([dckbp_cmd, '--target', target_name],
-                 cwd=self.pkg.git_repo_dir(),
+                 cwd=self.pkg['package.src'],
                  env=env) != 0):
             self.fail("build failed: "+pkg_name)
 
