@@ -1,5 +1,5 @@
 import yaml
-from os import getuid, getcwd
+from os import getuid, getcwd, getgid
 from os.path import expanduser
 from metux.log import info
 from metux.lambdadict import LambdaDict
@@ -43,6 +43,7 @@ class SpecObject(object):
     def set_spec(self, s):
         self._my_spec = LambdaDict(s)
         self.set_cf_missing('user.uid',  lambda: str(getuid()))
+        self.set_cf_missing('user.gid',  lambda: str(getgid()))
         self.set_cf_missing('user.home', lambda: expanduser('~'))
         self.set_cf_missing('user.cwd',  lambda: getcwd())
 
