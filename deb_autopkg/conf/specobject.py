@@ -25,10 +25,7 @@ class SpecObject(object):
                     node = node[walk]
             return node
         else:
-            if p in node:
-                return node[p]
-            else:
-                return dflt
+            return self.get_cf_raw(p.split('::'), dflt)
 
     """retrieve a config element as list"""
     def get_cf_list(self, p, dflt = []):
