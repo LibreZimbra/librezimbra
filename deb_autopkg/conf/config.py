@@ -47,7 +47,12 @@ class Config(SpecObject):
         self.load_spec(fn)
         self.__intrinsics()
 
-        self.csdb = CSDB(self.get_pathconf('csdb-path'), self[['csdb', 'sections']])
+        csdb_path = self['csdb', 'path']
+        if csdb_path is None:
+            warn("CSDB path should be specified in 'csdb:' block.")
+            csdb_path = self.get_pathconf('csdb-path')
+
+        self.csdb = CSDB(csdb_path, self.get_cf(['csdb', 'sections']))
 
         # load target configs
         for t in self.get_cf('targets'):
