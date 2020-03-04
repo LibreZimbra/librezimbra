@@ -47,6 +47,12 @@ class PkgSpec(SpecObject):
         self.set_cf_missing('package.fqname',  lambda: self.name)
         self.set_cf_missing('package.src',     lambda: "${config.basedir}/pkg/${package.fqname}.git")
 
+        # add global defaults
+        defaults = self.conf['defaults','packages']
+        if defaults is not None:
+            for k in defaults:
+                self.set_cf_missing(k, defaults[k])
+
     """get the global config"""
     def get_conf(self):
         return self.conf
