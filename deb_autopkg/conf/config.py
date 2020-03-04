@@ -47,7 +47,7 @@ class Config(SpecObject):
         self.load_spec(fn)
         self.__intrinsics()
 
-        self.csdb = CSDB(self.get_pathconf('csdb-path'))
+        self.csdb = CSDB(self.get_pathconf('csdb-path'), self[['csdb', 'sections']])
 
         # load target configs
         for t in self.get_cf('targets'):
