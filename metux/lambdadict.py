@@ -15,7 +15,7 @@ class LambdaDict(dict):
 
         return None
 
-    def __getitem__(self, key):
+    def __getitem_processed__(self, key):
         item = self.__getitem_raw__(key)
 
         if callable(item):
@@ -25,6 +25,19 @@ class LambdaDict(dict):
             return LambdaDict(item)
 
         return item
+
+    def __getitem__(self, key):
+        if type(key)==tuple or type(key)==list:
+            if len(key) == 1:
+                return self.__getitem_processed__(key[0])
+
+            item = self.__getitem_processed__(key[0])
+            if item is None:
+                return None
+
+            return item[key[1:]]
+
+        return self.__getitem__(key.split('::'))
 
     def has_key(self, key):
         if dict.has_key(self, key):
