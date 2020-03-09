@@ -22,7 +22,7 @@ class PkgBuildZypperTask(Task):
         self.conf     = param['conf']
         self.pkg      = param['pkg']
 
-        self.pkg.set_cf_missing_list({
+        self.pkg.default_addlist({
             # defaults for user-configurable settings
             'rpm-name':                 '${package.name}',
 

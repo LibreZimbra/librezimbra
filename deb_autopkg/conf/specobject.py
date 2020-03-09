@@ -6,7 +6,7 @@ from metux.lambdadict import LambdaDict
 from string import Template
 
 class SubstTemplate(Template):
-    idpattern = r"[_a-z][_a-z0-9/\.\-]*"
+    idpattern = r"[_a-zA-Z][_a-zA-Z0-9/\.\-\:]*"
 
 class SpecObject(object):
 
@@ -16,16 +16,11 @@ class SpecObject(object):
 
     """retrieve a config element by path"""
     def get_cf_raw(self, p, dflt = None):
-        node = self._my_spec
-        if (type(p) == list) or (type(p) == tuple):
-            for walk in p:
-                if walk not in node:
-                    return dflt
-                else:
-                    node = node[walk]
-            return node
+        res = self._my_spec[p]
+        if res is None:
+            return dflt
         else:
-            return self.get_cf_raw(p.split('::'), dflt)
+            return res
 
     """retrieve a config element as list"""
     def get_cf_list(self, p, dflt = []):
@@ -42,10 +37,12 @@ class SpecObject(object):
     """set spec object"""
     def set_spec(self, s):
         self._my_spec = LambdaDict(s)
-        self.set_cf_missing('user.uid',  lambda: str(getuid()))
-        self.set_cf_missing('user.gid',  lambda: str(getgid()))
-        self.set_cf_missing('user.home', lambda: expanduser('~'))
-        self.set_cf_missing('user.cwd',  lambda: getcwd())
+        self.default_addlist({
+            'user.uid':  lambda: str(getuid()),
+            'user.gid':  lambda: str(getgid()),
+            'user.home': lambda: expanduser('~'),
+            'user.cwd':  lambda: getcwd(),
+        })
 
     """get spec object"""
     def get_spec(self, s):
@@ -58,16 +55,13 @@ class SpecObject(object):
             self.set_spec(yaml.safe_load(f))
             info("loaded config: "+fn)
 
-    """set attribute if not existing yet (doesnt support path yet)"""
-    def set_cf_missing(self, attr, val):
-        if val is not None:
-            if (attr not in self._my_spec) or (self._my_spec[attr] is None):
-                self._my_spec[attr] = val
+    """add a default value, which will be used if key is not present"""
+    def default_set(self, key, val):
+        self._my_spec.default_set(key, val)
 
-    """set list (dict) of attribute if not existing yet (doesnt support path yet)"""
-    def set_cf_missing_list(self, attrs):
-        for name in attrs:
-            self.set_cf_missing(name, attrs[name])
+    """add a list of default values"""
+    def default_addlist(self, attrs):
+        self._my_spec.default_addlist(attrs)
 
     """[private] variable substitution"""
     def cf_substvar(self, var):

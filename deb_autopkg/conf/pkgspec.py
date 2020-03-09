@@ -18,8 +18,10 @@ class PkgSpec(SpecObject):
     def _load_db(self, dbname):
         self._my_db[dbname] = self.conf.csdb.get_db(self.package_name, dbname)
         if self._my_db[dbname] is not None:
-            self.set_cf_missing(dbname+'-url',    self._my_db[dbname].git_url)
-            self.set_cf_missing(dbname+'-branch', self._my_db[dbname].git_branch)
+            self.default_addlist({
+                dbname+'-url':    self._my_db[dbname].git_url,
+                dbname+'-branch': self._my_db[dbname].git_branch,
+            })
 
     """[private]"""
     def __init__(self, name, spec, conf):
@@ -41,17 +43,17 @@ class PkgSpec(SpecObject):
             self._load_db(dbn)
 
         ## add variables for substitution
-        self.set_cf_missing('config.basedir',  lambda: self.conf['config.basedir'])
-        self.set_cf_missing('package.version', lambda: self.package_version)
-        self.set_cf_missing('package.name',    lambda: self.package_name)
-        self.set_cf_missing('package.fqname',  lambda: self.name)
-        self.set_cf_missing('package.src',     lambda: "${config.basedir}/pkg/${package.fqname}.git")
+        self.default_addlist({
+            'GLOBAL':          self.conf,
+            'config.basedir':  "${GLOBAL::config.basedir}",
+            'package.version': lambda: self.package_version,
+            'package.name':    lambda: self.package_name,
+            'package.fqname':  lambda: self.name,
+            'package.src':     "${GLOBAL::config.basedir}/pkg/${package.fqname}.git",
+        })
 
         # add global defaults
-        defaults = self.conf['defaults','packages']
-        if defaults is not None:
-            for k in defaults:
-                self.set_cf_missing(k, defaults[k])
+        self.default_addlist(self.conf['defaults','packages'])
 
     """get the global config"""
     def get_conf(self):

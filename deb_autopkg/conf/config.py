@@ -20,14 +20,17 @@ class Config(SpecObject):
         self._my_pkg_cache = {}
         self._my_pool_cache = {}
         self._my_task_cache = {}
-        self._my_basedir = getcwd()
         self._my_dut_cache = {}
         self._my_targets = {}
         self.__intrinsics()
 
     def __intrinsics(self):
-        self.set_cf_missing('config.basedir', '${user.cwd}')
-        self.set_cf_missing('config.prefix',  '${config.basedir}/cf')
+        self.default_addlist({
+            'GLOBAL':         self,
+            'config.basedir': '${user.cwd}',
+            'config.prefix':  '${GLOBAL::config.basedir}/cf',
+            'config.pkgdir':  '${GLOBAL::config.basedir}',
+        })
 
     """load a target config"""
     def load_target(self, name, pool):
@@ -117,7 +120,7 @@ class Config(SpecObject):
 
     """get dck-buildpackage path"""
     def get_dckbp_path(self):
-        return ("%s/pkg/__dckbp__.git" % self['config.basedir'])
+        return ("%s/pkg/__dckbp__.git" % self['GLOBAL::config.basedir'])
 
     """get dck-buildpackage command"""
     def get_dckbp_cmd(self):
@@ -203,7 +206,7 @@ class Config(SpecObject):
 
     """get a statfile instance by given name"""
     def get_statfile(self, name):
-        return StatFile(name, self._my_basedir)
+        return StatFile(name, self['GLOBAL::config.basedir'])
 
     """get a path config"""
     def get_pathconf(self, name, default = None):

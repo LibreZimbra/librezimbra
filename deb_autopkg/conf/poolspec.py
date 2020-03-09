@@ -11,10 +11,13 @@ class PoolSpec(SpecObject):
     def __init__(self, name, spec, conf):
         SpecObject.__init__(self, spec)
         self.conf = conf
-        self.set_cf_missing('config.basedir', conf['config.basedir'])
-        self.set_cf_missing('pool.name',      name)
-        self.set_cf_missing('pool.aptrepo',   '${config.basedir}/.aptrepo/${pool.name}')
-        self.set_cf_missing('pool.zyprepo',   '${config.basedir}/.zyprepo/${pool.name}')
+        self.default_addlist({
+            'GLOBAL':         conf,
+            'config.basedir': "${GLOBAL::config.basedir}",
+            'pool.name':      name,
+            'pool.aptrepo':   '${GLOBAL::config.basedir}/.aptrepo/${pool.name}',
+            'pool.zyprepo':   '${GLOBAL::config.basedir}/.zyprepo/${pool.name}',
+        })
 
     def get_conf(self):
         return self.conf

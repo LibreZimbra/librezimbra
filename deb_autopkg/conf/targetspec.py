@@ -11,12 +11,16 @@ class TargetSpec(SpecObject):
         SpecObject.__init__(self, spec)
         self.pool = pool
         self.conf = conf
-        self.set_cf_missing('config.basedir', conf['config.basedir'])
-        self.set_cf_missing('config.prefix', conf['config.prefix'])
-        self.set_cf_missing('target.name', name)
-        self.set_cf_missing('target.aptrepo', lambda: self.get_aptrepo_path())
-        self.set_cf_missing('target.zyprepo', lambda: self.get_zyprepo_path())
-        self.set_cf_missing('pool.name', lambda: 'global' if self.pool is None else self.pool['pool.name'])
+        self.default_addlist({
+            'GLOBAL':         conf,
+            'POOL':           pool,
+            'config.basedir': "${GLOBAL::config.basedir}",
+            'config.prefix':  "${GLOBAL::config.prefix}",
+            'target.name':    name,
+            'target.aptrepo': lambda: self.get_aptrepo_path(),
+            'target.zyprepo': lambda: self.get_zyprepo_path(),
+            'pool.name':      lambda: 'global' if self.pool is None else self.pool['pool.name'],
+        })
 
     def get_aptrepo_path(self):
         if self.pool is None:
