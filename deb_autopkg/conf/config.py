@@ -111,7 +111,7 @@ class Config(SpecObject):
     def get_dckbp_gitcf(self):
         my_url = self._cf_dckbp(
             'git-url',
-            'git@github.com:metux/docker-buildpackage.git',
+            'https://github.com/metux/docker-buildpackage.git',
             'dck-buildpackage.git-repo not defined. using default')
 
         my_branch = self._cf_dckbp(
