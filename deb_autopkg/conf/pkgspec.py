@@ -50,6 +50,7 @@ class PkgSpec(SpecObject):
             'package.name':    lambda: self.package_name,
             'package.fqname':  lambda: self.name,
             'package.src':     "${GLOBAL::config.basedir}/pkg/${package.fqname}.git",
+            'autobuild-local': 'autobuild',
         })
 
         # add global defaults
@@ -67,10 +68,6 @@ class PkgSpec(SpecObject):
     def git_remote_url(self, name):
         return self.get_cf(name+'-url')
 
-    """get the default branch"""
-    def get_autobuild_branch(self):
-        return self.get_cf('autobuild-branch')
-
     """get dependencies - package names)"""
     def get_depends_list(self):
         return self.get_cf_list('depends')
@@ -87,9 +84,9 @@ class PkgSpec(SpecObject):
             if u is not None:
                 remotes[r] = { 'url': u }
         return {
-            'path':        self['package.src'],
-            'remotes':     remotes,
-            'init-branch': 'autobuild',
-            'init-ref':    self.get_autobuild_branch(),
-            'init-submodules': self.get_cf('init-submodules'),
+            'path':             self['package.src'],
+            'remotes':          remotes,
+            'init-branch':      self['autobuild-local'],
+            'init-ref':         self['autobuild-ref'],
+            'init-submodules':  self['init-submodules'],
         }

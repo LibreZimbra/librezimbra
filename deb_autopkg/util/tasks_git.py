@@ -15,7 +15,7 @@ class GitCloneTask(Task):
 
         if not repo.is_checked_out():
             if (not 'init-ref' in spec) or (spec['init-ref'] is None):
-                raise TaskFail(self, 'cant checkout "'+spec['path']+'": autobuild-branch not defined')
+                raise TaskFail(self, 'cant checkout "'+spec['path']+'": autobuild-ref not defined')
             else:
                 self.log_info("running initial checkout of "+spec['init-ref'])
                 if not repo.checkout(spec['init-ref'], spec['init-branch']):
