@@ -99,25 +99,6 @@ class Config(SpecObject):
             return dflt
         return cf
 
-    """get builtin docker-buildpackage pkg config object"""
-    def get_dckbp_package(self):
-        my_url = self._cf_dckbp(
-            'git-url',
-            'git@github.com:metux/docker-buildpackage.git',
-            'dck-buildpackage.git-repo not defined. using default')
-
-        my_branch = self._cf_dckbp(
-            'git-branch',
-            'master',
-            "dck-buildpackage.git-repo not defined. assuming 'master'")
-
-        return PkgSpec(
-            '__dckbp',
-            { 'my-url':           my_url,
-              'my-branch':        my_branch,
-              'autobuild-branch': 'my/'+my_branch },
-            self)
-
     """get dck-buildpackage path"""
     def get_dckbp_path(self):
         return ("%s/pkg/__dckbp__.git" % self['GLOBAL::config.basedir'])
