@@ -14,7 +14,6 @@ class PkgBuildTargetTask(Task):
         self.target   = param['target']
         self.conf     = param['conf']
         self.pkg      = param['pkg']
-        self.statfile = self.target.get_pkg_build_statfile(self.pkg)
 
     """[override]"""
     def get_subtasks(self):
@@ -35,15 +34,6 @@ class PkgBuildTargetTask(Task):
                         (packager, self.target['target.name']))
 
         return tasks
-
-    """[override]"""
-    def need_run(self):
-        return not self.statfile.check(self.pkg.git_repo().get_head_commit())
-
-    """[override]"""
-    def do_run(self):
-        self.statfile.set(self.pkg.git_repo().get_head_commit())
-        return True
 
 def alloc(conf, pkg, target):
     return conf.cached_task_alloc('build-pkg-target:'+target['target.name']+':'+pkg.name, PkgBuildTargetTask, { 'pkg': pkg, 'target': target })

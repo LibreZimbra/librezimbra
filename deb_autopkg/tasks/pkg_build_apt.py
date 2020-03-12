@@ -12,6 +12,7 @@ class PkgBuildAptTask(Task):
         self.target   = param['target']
         self.conf     = param['conf']
         self.pkg      = param['pkg']
+        self.statfile = self.target.get_pkg_build_statfile(self.pkg)
 
     def do_run(self):
         pkg_name    = self.pkg.name
@@ -29,7 +30,12 @@ class PkgBuildAptTask(Task):
                  env=env) != 0):
             self.fail("build failed: "+pkg_name)
 
+        self.statfile.set(self.pkg.git_repo().get_head_commit())
         return True
+
+    """[override]"""
+    def need_run(self):
+        return not self.statfile.check(self.pkg.git_repo().get_head_commit())
 
 def alloc(conf, pkg, target):
     return conf.cached_task_alloc('build-pkg-apt:'+target['target.name']+':'+pkg.name, PkgBuildAptTask, { 'pkg': pkg, 'target': target })

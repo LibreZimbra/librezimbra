@@ -21,6 +21,7 @@ class PkgBuildZypperTask(Task):
         self.target   = param['target']
         self.conf     = param['conf']
         self.pkg      = param['pkg']
+        self.statfile = self.target.get_pkg_build_statfile(self.pkg)
 
         self.pkg.default_addlist({
             # defaults for user-configurable settings
@@ -72,7 +73,9 @@ class PkgBuildZypperTask(Task):
         if container not in self.containers:
             self.fail("unsupported container type: "+repr(container))
 
-        return self.containers[container]()
+        ret = self.containers[container]()
+        self.statfile.set(self.pkg.git_repo().get_head_commit())
+        return ret
 
     def do_run_docker(self):
         container_name = "build-zypper-"+self.target['target.name']+"-"+self.pkg.package_name
@@ -107,6 +110,10 @@ class PkgBuildZypperTask(Task):
                 self.fail("zypper build failed: rpmbuild call failed")
 
         return True
+
+    """[override]"""
+    def need_run(self):
+        return not self.statfile.check(self.pkg.git_repo().get_head_commit())
 
 def alloc(conf, pkg, target):
     return conf.cached_task_alloc('build-pkg-zypper:'+target['target.name']+':'+pkg.name, PkgBuildZypperTask, { 'pkg': pkg, 'target': target })
