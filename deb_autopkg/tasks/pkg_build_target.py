@@ -19,7 +19,6 @@ class PkgBuildTargetTask(Task):
     """[override]"""
     def get_subtasks(self):
         tasks = []
-        tasks.append(dckbp_clone_alloc(self.conf))
         tasks.append(pkg_clone_alloc(self.conf, self.pkg))
 
         for pkg in self.pkg.get_depends_packages():
@@ -27,6 +26,7 @@ class PkgBuildTargetTask(Task):
 
         packager = self.target.get_packager()
         if packager == 'apt':
+            tasks.append(dckbp_clone_alloc(self.conf))
             tasks.append(pkg_build_apt_alloc(self.conf, self.pkg, self.target))
         elif packager == 'zypper':
             tasks.append(pkg_build_zypper_alloc(self.conf, self.pkg, self.target))
