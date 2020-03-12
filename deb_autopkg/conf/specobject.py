@@ -30,6 +30,22 @@ class SpecObject(object):
     def get_cf(self, p, dflt = None):
         return self.cf_substvar(self.get_cf_raw(p, dflt))
 
+    """retrieve a config element as dict"""
+    def get_cf_dict(self, p):
+        r = self.get_cf(p)
+        if p is None:
+            return LambdaDict({})
+        return r
+
+    """retrieve a config element as bool"""
+    def get_cf_bool(self, p, dflt = False):
+        r = self.get_cf(p, dflt)
+        if r is None:
+            return dflt
+        if r:
+            return True
+        return False
+
     """container get method"""
     def __getitem__(self, p):
         return self.get_cf(p)
