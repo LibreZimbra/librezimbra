@@ -62,15 +62,17 @@ class TaskRunner(object):
     """run a task and skip those which don't need to be run.
        @return true if at least one task actually ran."""
     def runTask(self, task):
+        if task._my_done:
+            return False
+
         res = False
-        if task._my_done or (not task.need_run()):
-            return False;
 
         # need to do it that way to defeat shortcut evaluation
         for t in task.check_task_list(task.get_subtasks()):
             res |= self.runTask(t)
 
-        res |= task.do_run()
+        if task.need_run():
+            res |= task.do_run()
 
         task._my_done = True
         return res
