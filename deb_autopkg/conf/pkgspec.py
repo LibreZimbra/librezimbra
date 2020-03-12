@@ -1,7 +1,7 @@
 import yaml
 from metux.log import info, warn
 from metux.git import GitRepo
-from .specobject import SpecObject
+from metux.specobject import SpecObject
 
 """Package configuration"""
 class PkgSpec(SpecObject):

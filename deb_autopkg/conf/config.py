@@ -3,12 +3,12 @@ from os import getcwd
 from ..util.task import Task
 from ..util.statfile import StatFile
 from .targetspec import TargetSpec
-from .specobject import SpecObject
 from .poolspec import PoolSpec
 from .pkgspec import PkgSpec
 from .dutspec import DutSpec
 from metux.csdb import CSDB
 from metux.log import info, warn, err
+from metux.specobject import SpecObject
 from .err import ConfigFail
 
 """global configuration"""

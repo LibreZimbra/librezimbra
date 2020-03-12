@@ -1,7 +1,7 @@
 from .pkgspec import PkgSpec
-from .specobject import SpecObject
 from .err import ConfigFail
 from metux.log import warn
+from metux.specobject import SpecObject
 
 """Target configuration"""
 class TargetSpec(SpecObject):

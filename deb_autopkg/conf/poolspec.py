@@ -1,8 +1,8 @@
 from .targetspec import TargetSpec
-from .specobject import SpecObject
 from .err import ConfigFail
 from os.path import basename
 from metux.log import warn
+from metux.specobject import SpecObject
 
 """Pool configuration"""
 class PoolSpec(SpecObject):
