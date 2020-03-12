@@ -13,7 +13,12 @@ class GitCloneTask(Task):
         for remote in spec['remotes']:
             repo.set_remote(remote, spec['remotes'][remote]['url'])
 
-        if not repo.is_checked_out():
+        if repo.is_checked_out():
+            if ('init-force' in spec) and spec['init-force']:
+                self.log_info("forcing re-init to "+spec['init-ref'])
+                repo.remote_update_all()
+                repo.force_checkout(spec['init-ref'], spec['init-branch'])
+        else:
             if (not 'init-ref' in spec) or (spec['init-ref'] is None):
                 raise TaskFail(self, 'cant checkout "'+spec['path']+'": autobuild-ref not defined')
             else:

@@ -133,6 +133,9 @@ class GitRepo(object):
     def submodule_init(self):
         return self._gitcall(['submodule', 'update', '--init', '--recursive'])
 
+    def remote_update_all(self):
+        return self._gitcall(['remote', 'update'])
+
     def archive(self, ref = 'HEAD', output = None, prefix = None, format = None):
         args = ['archive']
         if format is not None:
@@ -154,3 +157,6 @@ class GitRepo(object):
         except OSError as err:
             warn("get_head_commit() failed: "+str(err))
             return None
+
+    def force_checkout(self, ref, localbranch):
+        return self._gitcall(['reset', '--hard', ref])

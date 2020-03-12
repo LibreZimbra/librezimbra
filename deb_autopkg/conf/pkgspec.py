@@ -89,4 +89,5 @@ class PkgSpec(SpecObject):
             'init-branch':      self['autobuild-local'],
             'init-ref':         self['autobuild-ref'],
             'init-submodules':  self['init-submodules'],
+            'init-force':       self['autobuild-force'],
         }
