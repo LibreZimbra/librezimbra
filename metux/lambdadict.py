@@ -35,10 +35,10 @@ class LambdaDict(dict):
 
     def __getitem__(self, key):
         if type(key)==tuple or type(key)==list:
-            if len(key) == 1:
-                return self.__getitem_processed__(key[0])
-
             item = self.__getitem_processed__(key[0])
+            if len(key) == 1:
+                return item
+
             if item is None:
                 return None
 
