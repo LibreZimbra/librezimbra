@@ -2,9 +2,19 @@ from inspect import isfunction
 from collections import Mapping
 
 class LambdaDict(dict):
-    def __init__(self, d, dflt = {}):
-        dict.__init__(self, d)
+    def __init__(self, d = None, dflt = None):
+        self.load_dict(d)
+        if dflt is None:
+            dflt = {}
         self.defaults = dict(dflt)
+
+    def load_dict(self, d):
+        if d is not None:
+            for k,v in d.iteritems():
+                if isinstance(v, Mapping):
+                    dict.__setitem__(self, k, LambdaDict(v))
+                else:
+                    dict.__setitem__(self, k, v)
 
     def __getitem_raw__(self, key):
         if dict.has_key(self, key):
@@ -20,9 +30,6 @@ class LambdaDict(dict):
 
         if callable(item):
             return item()
-
-        if isinstance(item, Mapping):
-            return LambdaDict(item)
 
         return item
 
