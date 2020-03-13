@@ -55,9 +55,27 @@ class LambdaDict(dict):
 
         return False
 
+    def __mksub(self, key):
+        if dict.has_key(self, key):
+            sub = dict.__getitem__(self, key)
+            if not isinstance(sub, Mapping):
+                raise Exeption("attemted to add default for a sub-dict defined as scalar")
+            return sub
+
+        sub = LambdaDict()
+        dict.__setitem__(self, key, sub)
+        return sub
+
     """set a default value, which is returned when key not found"""
     def default_set(self, key, value):
-        self.defaults[key] = value
+        if type(key)==tuple or type(key)==list:
+            k0 = key[0]
+            if len(key) == 1:
+                self.defaults[k0] = value
+            else:
+                self.__mksub(k0).default_set(key[1:], value)
+        else:
+            self.default_set(key.split('::'), value)
 
     """remove a default value"""
     def default_del(self, key):
@@ -66,5 +84,5 @@ class LambdaDict(dict):
     """add a list of default values"""
     def default_addlist(self, attrs):
         if attrs is not None:
-            for key in attrs:
-                self.defaults[key] = attrs[key]
+            for key, value in attrs.iteritems():
+                self.default_set(key, value)
