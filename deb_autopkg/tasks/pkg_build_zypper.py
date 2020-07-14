@@ -6,7 +6,8 @@ from os import getuid, getgid
 from os.path import abspath
 from subprocess import call, Popen, PIPE
 from glob import glob
-from metux import rmtree, mkdir, schroot
+from metux import rmtree, mkdir
+from metux.util import schroot
 import shutil
 
 #
