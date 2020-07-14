@@ -3,7 +3,7 @@
 
 from subprocess import call
 from os.path import abspath
-from os import path, chmod
+from os import chmod
 import os
 import stat
 
@@ -29,11 +29,6 @@ def extract_tar(tarball, tempdir):
         return call(['unzip', abspath(tarball), '-d', tempdir])
     else:
         raise BaseException("unknown format: "+tarball)
-
-def write_file(fn, text):
-    mkdir(path.dirname(fn))
-    with open(fn, "w") as f:
-        f.write(text)
 
 def setexec(fn):
     chmod(fn, os.stat(fn).st_mode | stat.S_IEXEC)
