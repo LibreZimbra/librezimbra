@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
-from ..util.task import Task
+from metux.util.task import Task
 from .pkg_clone import alloc as pkg_clone_alloc
 from .dckbp_clone import alloc as dckbp_clone_alloc
 from .pkg_build_apt import alloc as pkg_build_apt_alloc

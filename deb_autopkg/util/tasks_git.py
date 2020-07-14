@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
-from .task import Task, TaskFail
+from metux.util.task import Task, TaskFail
 from metux.util.git import GitRepo
 
 """Task: clone an git repo w/ initial checkout"""

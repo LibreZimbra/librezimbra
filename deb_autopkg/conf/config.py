@@ -3,7 +3,7 @@
 
 import yaml
 from os import getcwd
-from ..util.task import Task
+from metux.util.task import Task
 from ..util.statfile import StatFile
 from .targetspec import TargetSpec
 from .poolspec import PoolSpec

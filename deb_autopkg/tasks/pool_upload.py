@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
-from ..util.task import Task
+from metux.util.task import Task
 from ..util.upload import run_upload
 
 """Target: upload a whole pool of packages to testbox / repo server"""
