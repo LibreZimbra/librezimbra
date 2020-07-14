@@ -6,7 +6,7 @@ from os import devnull, environ
 from os.path import abspath, isfile, dirname
 from copy import deepcopy
 from uuid import uuid1
-from metux import mkdir, rmtree
+from metux.util.fs import mkdir, rmtree
 from log import warn
 from exceptions import OSError
 
