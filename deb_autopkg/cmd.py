@@ -5,7 +5,7 @@ from .builder import Builder
 from .conf import load
 from conf.err import ConfigFail
 from .util.task import TaskFail
-from metux.log import err
+from metux.util.log import err
 
 import functools
 

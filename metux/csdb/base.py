@@ -2,7 +2,7 @@
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 import yaml
-from ..log import info, err, debug
+from ..util.log import info, err, debug
 
 class BaseSpec:
 

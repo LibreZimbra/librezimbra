@@ -4,7 +4,7 @@
 import yaml
 from os import getuid, getcwd, getgid
 from os.path import expanduser
-from metux.log import info
+from metux.util.log import info
 from metux.util.lambdadict import LambdaDict
 from string import Template
 

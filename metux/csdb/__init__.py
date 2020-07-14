@@ -4,7 +4,7 @@
 __all__ = [ "base", "generic" ]
 
 from .generic import DB as generic_DB
-from ..log import warn, info
+from ..util.log import warn, info
 
 class CSDB:
     def __init__(self, confpath, sections = None):

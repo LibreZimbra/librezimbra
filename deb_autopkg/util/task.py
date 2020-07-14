@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
-from metux.log import warn, info
+from metux.util.log import warn, info
 
 class TaskFail(Exception):
 

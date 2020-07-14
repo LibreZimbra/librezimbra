@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
-from metux.log import info
+from metux.util.log import info
 from metux.util.specobject import SpecObject
 from subprocess import call
 

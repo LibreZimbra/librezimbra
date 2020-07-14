@@ -4,7 +4,7 @@
 from .targetspec import TargetSpec
 from .err import ConfigFail
 from os.path import basename
-from metux.log import warn
+from metux.util.log import warn
 from metux.util.specobject import SpecObject
 
 """Pool configuration"""

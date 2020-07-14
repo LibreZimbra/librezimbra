@@ -3,7 +3,7 @@
 
 from .pkgspec import PkgSpec
 from .err import ConfigFail
-from metux.log import warn
+from metux.util.log import warn
 from metux.util.specobject import SpecObject
 
 """Target configuration"""
