@@ -2,10 +2,9 @@
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 from .targetspec import TargetSpec
-from .err import ConfigFail
 from os.path import basename
 from metux.util.log import warn
-from metux.util.specobject import SpecObject
+from metux.util.specobject import SpecObject, SpecError
 
 """Pool configuration"""
 class PoolSpec(SpecObject):
@@ -44,7 +43,7 @@ class PoolSpec(SpecObject):
         for n in names:
             p = self.conf.get_package(n)
             if p is None:
-                raise ConfigFail("pool "+self['pool.name']+" references undefined package: "+n)
+                raise SpecError("pool "+self['pool.name']+" references undefined package: "+n)
             packages.append(p)
         return packages
 

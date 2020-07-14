@@ -3,7 +3,7 @@
 
 from metux.util.task import TaskRunner
 from .tasks import pkg_build, pkg_clone, all_clone, pool_build, pool_upload, pool_deploy
-from .conf.err import ConfigFail
+from metux.util.specobject import SpecError
 
 class Builder:
 
@@ -25,19 +25,19 @@ class Builder:
     def build_pool(self, name):
         pool = self.conf.get_pool(name)
         if pool is None:
-            raise ConfigFail("undefined pool: "+name)
+            raise SpecError("undefined pool: "+name)
         return self._run(pool_build.alloc(self.conf, self.conf.get_pool(name)))
 
     def upload_pool(self, name):
         pool = self.conf.get_pool(name)
         if pool is None:
-            raise ConfigFail("undefined pool: "+name)
+            raise SpecError("undefined pool: "+name)
         return self._run(pool_upload.alloc(self.conf, self.conf.get_pool(name)))
 
     def deploy_pool(self, name):
         pool = self.conf.get_pool(name)
         if pool is None:
-            raise ConfigFail("undefined pool: "+name)
+            raise SpecError("undefined pool: "+name)
         return self._run(pool_deploy.alloc(self.conf, self.conf.get_pool(name)))
 
     def build_all(self):

@@ -2,9 +2,8 @@
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 from .pkgspec import PkgSpec
-from .err import ConfigFail
 from metux.util.log import warn
-from metux.util.specobject import SpecObject
+from metux.util.specobject import SpecObject, SpecError
 
 """Target configuration"""
 class TargetSpec(SpecObject):
@@ -27,13 +26,13 @@ class TargetSpec(SpecObject):
 
     def get_aptrepo_path(self):
         if self.pool is None:
-            raise ConfigFail("no pool - dont have an aptrepo")
+            raise SpecError("no pool - dont have an aptrepo")
         else:
             return self.pool['pool.aptrepo']
 
     def get_zyprepo_path(self):
         if self.pool is None:
-            raise ConfigFail("no pool - dont have an zyprepo")
+            raise SpecError("no pool - dont have an zyprepo")
         else:
             return self.pool['pool.zyprepo']
 

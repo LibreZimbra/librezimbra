@@ -11,6 +11,15 @@ from string import Template
 class SubstTemplate(Template):
     idpattern = r"[_a-zA-Z][_a-zA-Z0-9/\.\-\:]*"
 
+class SpecError(Exception):
+
+    def __init__(self, msg):
+        self.msg = msg
+        Exception.__init__(self, "[spec error] "+msg)
+
+    def get_message(self):
+        return self.msg
+
 class SpecObject(object):
 
     """[private]"""

@@ -3,7 +3,7 @@
 
 from .builder import Builder
 from .conf import load
-from conf.err import ConfigFail
+from metux.util.specobject import SpecError
 from metux.util.task import TaskFail
 from metux.util.log import err
 
@@ -17,7 +17,7 @@ def cmdfunc(func):
         except TaskFail as ex:
             err("[%s] %s" % (ex.get_task_name(), ex.get_message()))
             return 127
-        except ConfigFail as ex:
+        except SpecError as ex:
             err("[config error] %s" % ex.get_message())
             return 126
     return wrapper_cmdfunc

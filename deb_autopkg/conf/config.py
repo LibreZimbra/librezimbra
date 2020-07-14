@@ -11,8 +11,7 @@ from .pkgspec import PkgSpec
 from .dutspec import DutSpec
 from metux.csdb import CSDB
 from metux.util.log import info, warn, err
-from metux.util.specobject import SpecObject
-from .err import ConfigFail
+from metux.util.specobject import SpecObject, SpecError
 
 """global configuration"""
 class Config(SpecObject):
@@ -85,7 +84,7 @@ class Config(SpecObject):
         for name in lst:
             p = self.get_package(name)
             if p is None:
-                raise ConfigFail("missing package spec for "+name)
+                raise SpecError("missing package spec for "+name)
             else:
                 pkgs.append(self.get_package(name))
         return pkgs
@@ -184,7 +183,7 @@ class Config(SpecObject):
             self.cached_task_put(key, cached)
 
         if not isinstance(cached, Task):
-            raise ConfigFail("cached task is not a Task")
+            raise SpecError("cached task is not a Task")
 
         return cached
 
@@ -215,4 +214,4 @@ class Config(SpecObject):
             info("loaded config: "+fn)
             return DutSpec(name, cf, self)
 
-        raise ConfigFail("missing dut config: "+fn)
+        raise SpecError("missing dut config: "+fn)
