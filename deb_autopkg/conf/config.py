@@ -11,7 +11,7 @@ from .pkgspec import PkgSpec
 from .dutspec import DutSpec
 from metux.csdb import CSDB
 from metux.log import info, warn, err
-from metux.specobject import SpecObject
+from metux.util.specobject import SpecObject
 from .err import ConfigFail
 
 """global configuration"""
