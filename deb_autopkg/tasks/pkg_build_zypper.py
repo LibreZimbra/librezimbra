@@ -2,7 +2,6 @@
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 from ..util.task import Task
-from metux.git import GitRepo
 from os import getuid, getgid
 from os.path import abspath
 from subprocess import call, Popen, PIPE
