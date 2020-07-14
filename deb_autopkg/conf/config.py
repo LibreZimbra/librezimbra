@@ -4,7 +4,7 @@
 import yaml
 from os import getcwd
 from metux.util.task import Task
-from ..util.statfile import StatFile
+from metux.util.statfile import StatFile
 from .targetspec import TargetSpec
 from .poolspec import PoolSpec
 from .pkgspec import PkgSpec
@@ -190,7 +190,7 @@ class Config(SpecObject):
 
     """get a statfile instance by given name"""
     def get_statfile(self, name):
-        return StatFile(name, self['GLOBAL::config.basedir'])
+        return StatFile("%s/.stat/%s" % (self['GLOBAL::config.basedir'], name))
 
     """get a path config"""
     def get_pathconf(self, name, default = None):
