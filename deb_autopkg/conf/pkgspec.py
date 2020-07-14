@@ -3,7 +3,7 @@
 
 import yaml
 from metux.util.log import info, warn
-from metux.git import GitRepo
+from metux.util.git import GitRepo
 from metux.util.specobject import SpecObject
 
 """Package configuration"""

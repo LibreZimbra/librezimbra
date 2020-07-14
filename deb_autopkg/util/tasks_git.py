@@ -2,7 +2,7 @@
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 from .task import Task, TaskFail
-from metux.git import GitRepo
+from metux.util.git import GitRepo
 
 """Task: clone an git repo w/ initial checkout"""
 class GitCloneTask(Task):
