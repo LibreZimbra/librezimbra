@@ -6,7 +6,6 @@ from .pkg_clone import alloc as pkg_clone_alloc
 from .dckbp_clone import alloc as dckbp_clone_alloc
 from .pkg_build_apt import alloc as pkg_build_apt_alloc
 from .pkg_build_zypper import alloc as pkg_build_zypper_alloc
-from metux.git import GitRepo
 
 """Task: build a package for a target"""
 class PkgBuildTargetTask(Task):
