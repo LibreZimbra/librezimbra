@@ -28,10 +28,11 @@ class Config(SpecObject):
 
     def __intrinsics(self):
         self.default_addlist({
-            'GLOBAL':         self,
-            'config.basedir': '${user.cwd}',
-            'config.prefix':  '${GLOBAL::config.basedir}/cf',
-            'config.pkgdir':  '${GLOBAL::config.basedir}',
+            'GLOBAL':               self,
+            'config.basedir':       '${user.cwd}',
+            'config.prefix':        '${GLOBAL::config.basedir}/cf',
+            'pathes::pkg-prefix':   '${GLOBAL::config.basedir}/pkg/',
+            'pathes::pkg-suffix':   '.git',
         })
 
     """load a target config"""
@@ -103,7 +104,7 @@ class Config(SpecObject):
 
     """get dck-buildpackage path"""
     def get_dckbp_path(self):
-        return ("%s/pkg/__dckbp__.git" % self['GLOBAL::config.basedir'])
+        return ("%s__dckbp__%s" % (self['GLOBAL::pathes::pkg-prefix'], self['GLOBAL::pathes::pkg-suffix']))
 
     """get dck-buildpackage command"""
     def get_dckbp_cmd(self):

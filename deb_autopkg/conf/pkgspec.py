@@ -52,7 +52,7 @@ class PkgSpec(SpecObject):
             'package.version': lambda: self.package_version,
             'package.name':    lambda: self.package_name,
             'package.fqname':  lambda: self.name,
-            'package.src':     "${GLOBAL::config.basedir}/pkg/${package.fqname}.git",
+            'package.src':     "${GLOBAL::pathes::pkg-prefix}${package.fqname}${GLOBAL::pathes::pkg-suffix}",
             'autobuild-local': 'autobuild',
         })
 
