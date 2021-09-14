@@ -1,0 +1,30 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3+
+
+# Start a test container. If no args given, just run a shell, otherwise
+# run the args as command line inside the test container.
+
+set -e
+
+CONTAINER_IMAGE=librezimbra-test
+CONTAINER_SHELL=/bin/bash
+CONTAINER_HOSTNAME=librezimbra-test
+
+MYSELF=$(readlink -f "$0")
+
+WORK_DIR=$(dirname "$MYSELF")
+SSH_DIR=$HOME/.ssh
+
+( cd docker && make )
+
+if [ ! "$1" ]; then
+    CMD="$CONTAINER_SHELL"
+fi
+
+docker run -it \
+    --mount "src=$WORK_DIR,target=/home/build/src,type=bind" \
+    --mount "src=$WORK_DIR/.aptrepo/default/ubuntu-focal-amd64/,target=/aptrepo,type=bind" \
+    --mount "src=$SSH_DIR,target=/home/build/.ssh,type=bind,ro" \
+    --hostname "$CONTAINER_HOSTNAME" \
+    -p 8000:8000 \
+    $CONTAINER_IMAGE $CMD "$@"

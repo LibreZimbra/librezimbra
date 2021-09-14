@@ -1,0 +1,36 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3+
+
+# Start / run a build container. If no args given just start a shell,
+# otherwise run the args as command line inside the container
+
+set -e
+
+CONTAINER_IMAGE=librezimbra-build
+CONTAINER_SHELL=/bin/bash
+CONTAINER_HOSTNAME=librezimbra-build
+
+MYSELF=$(readlink -f "$0")
+
+WORK_DIR=$(dirname "$MYSELF")
+TEMP_DIR=$WORK_DIR/tmp
+IVY2_DIR=$TEMP_DIR/.ivy2
+ANT_DIR=$TEMP_DIR/.ant
+SSH_DIR=$HOME/.ssh
+
+# create temp dirs
+mkdir -p $ANT_DIR $IVY2_DIR
+
+( cd docker && make )
+
+if [ ! "$1" ]; then
+    CMD="$CONTAINER_SHELL"
+fi
+
+docker run -it \
+    --mount "src=$WORK_DIR,target=/home/build/src,type=bind" \
+    --mount "src=$SSH_DIR,target=/home/build/.ssh,type=bind,ro" \
+    --mount "src=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" \
+    --hostname "$CONTAINER_HOSTNAME" \
+    -p 4000:4000 \
+    $CONTAINER_IMAGE $CMD "$@"

@@ -5,3 +5,5 @@
 .aptrepo
 .zyprepo
 .cache
+/tmp
+/build

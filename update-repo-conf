@@ -1,0 +1,11 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3+
+
+## this script updates the repo links for zimbra upstream
+mkdir -p cf/csdb/synacor cf/csdb/librezimbra
+
+for r in `cat cf/repos-zimbra` ; do
+    echo "repo: $r"
+    ( cd cf/csdb/synacor     && ln -sf __default.yml $r.yml )
+    ( cd cf/csdb/librezimbra && ln -sf __default.yml $r.yml )
+done

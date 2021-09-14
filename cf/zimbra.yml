@@ -1,0 +1,151 @@
+pathes:
+    remote-names:
+        - synacor
+        - librezimbra
+    pkg-suffix: ''
+
+git:
+    repo-dir:    ${GLOBAL::config.basedir}
+    repo-suffix: .git
+
+csdb:
+    sections:
+        - synacor
+        - librezimbra
+    path: cf/csdb
+
+targets:
+    - ${GLOBAL::ENV::BUILD_TARGET_DISTRO}
+
+defaults:
+    packages:
+        autobuild-ref:  librezimbra/develop
+
+packages:
+
+    ant-1.7.0-ziputil-patched:
+
+    ant-tar-patched:
+
+    ical4j-0.9.16-patched:
+
+    junixsocket:
+        autobuild-ref: junixsocket-parent-2.0.4
+
+    librezimbra.github.io:
+        autobuild-ref: librezimbra/master
+
+    nekohtml-1.9.13:
+
+    java-html-sanitizer-release-20190610.1:
+
+    antisamy:
+
+    zm-admin-console:
+
+    zm-admin-help-common:
+
+    zm-ajax:
+
+    zm-admin-ajax:
+
+    zm-amavis:
+
+    zm-aspell:
+
+    zm-bulkprovision-admin-zimlet:
+
+    zm-bulkprovision-store:
+
+    zm-certificate-manager-admin-zimlet:
+
+    zm-certificate-manager-store:
+
+    zm-charset:
+
+    zm-clam-scanner-store:
+
+    zm-clientuploader-admin-zimlet:
+
+    zm-clientuploader-store:
+
+    zm-core-utils:
+
+    zm-db-conf:
+
+    zm-dnscache:
+
+    zm-downloads:
+
+    zm-freshclam:
+
+    zm-help:
+
+    zm-helptooltip-zimlet:
+
+    zm-jetty-conf:
+
+    zm-jython:
+
+    zm-launcher:
+
+    zm-ldap-utilities:
+
+    zm-ldap-utils-store:
+
+    zm-licenses:
+
+    zm-mailbox:
+
+    zm-migration-tools:
+
+    zm-mta:
+
+    zm-nginx-conf:
+
+    zm-nginx-lookup-store:
+
+    zm-openid-consumer-store:
+
+    zm-pkg-tool:
+
+    zm-postfix:
+
+    zm-proxy-config-admin-zimlet:
+
+    zm-ssdb-ephemeral-store:
+
+    zm-taglib:
+
+    zm-timezones:
+
+    zm-versioncheck-admin-zimlet:
+
+    zm-versioncheck-store:
+
+    zm-versioncheck-utilities:
+
+    zm-viewmail-admin-zimlet:
+
+    zm-web-client:
+
+    zm-webclient-portal-example:
+
+    zm-zcs:
+
+    zm-zcs-lib:
+
+    zm-zimlets:
+
+    zm-oauth-social:
+
+    zm-gql:
+
+    zm-build:
+
+    zm-openldap:
+
+pools:
+    default:
+        packages:
+            - zm-openldap

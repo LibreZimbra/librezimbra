@@ -1,0 +1,34 @@
+FROM zimbra/zm-base-os:devcore-ubuntu-20.04
+
+ARG BUILD_UID
+ARG BUILD_GID
+ARG DOCKER_GID
+
+USER root
+
+# create the docker group
+RUN echo "UID=${BUILD_UID}"
+RUN echo ".docker group: ${DOCKER_GID}"
+RUN groupadd -g ${DOCKER_GID} docker
+
+# fix up the build user
+RUN groupmod -g ${BUILD_GID} build
+RUN usermod -u ${BUILD_UID} -g ${BUILD_GID} build
+RUN chown -R build:build /home/build
+RUN usermod -a -G docker build
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+        bundler mc \
+        libssl-dev libsasl2-dev docker.io tig git \
+        rsync apt-transport-https aptitude
+
+RUN gem install bundler:1.17.3
+RUN gem install jekyll
+RUN gem install i18n
+
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 9BE6ED79
+RUN apt-get install -y python python-yaml uuid-runtime
+
+USER build
