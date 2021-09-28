@@ -2,7 +2,7 @@
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 import yaml
-from os import getcwd
+from os import getcwd, environ
 from metux.util.task import Task
 from metux.util.statfile import StatFile
 from .targetspec import TargetSpec
@@ -29,6 +29,7 @@ class Config(SpecObject):
     def __intrinsics(self):
         self.default_addlist({
             'GLOBAL':               self,
+            'ENV':                  environ,
             'config.basedir':       lambda: getcwd(),
             'config.prefix':        '${GLOBAL::config.basedir}/cf',
             'pathes::pkg-prefix':   '${GLOBAL::config.basedir}/pkg/',
