@@ -4,8 +4,11 @@ from os.path import abspath, isfile, dirname
 from copy import deepcopy
 from uuid import uuid1
 from metux.util.fs import mkdir, rmtree
-from log import warn
-from exceptions import OSError
+from metux.util.log import warn
+try:
+    from exceptions import OSError
+except ImportError:
+    pass
 
 _devnull = open(devnull, 'w')
 
@@ -39,7 +42,7 @@ class GitRepo(object):
 
         proc = Popen(self.gitcmd + args, stdout=PIPE, cwd=self.path, env=e)
         (out, err) = proc.communicate()
-        return out.strip()
+        return out.strip().decode()
 
     def get_config(self, key):
         return self._gitout(["config", key])

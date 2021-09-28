@@ -1,8 +1,16 @@
 from subprocess import call
+from os import makedirs
 from os.path import abspath
+import errno
 
 def mkdir(dirname):
-    call(['mkdir', '-p', abspath(dirname)])
+    try:
+        makedirs(dirname)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+        # time.sleep might help here
+        pass
 
 def rmtree(dirname):
     call(['rm', '-Rf', abspath(dirname)])
