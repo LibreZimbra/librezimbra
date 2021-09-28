@@ -31,7 +31,7 @@ class PkgBuildZypperTask(Task):
             'rpm-name':                 '${package.name}',
 
             # internal settings
-            'zypper.rpm.tmpdir':        '${user.home}/rpmbuild',
+            'zypper.rpm.tmpdir':        lambda: expanduser('~')+'/rpmbuild',
             'zypper.rpm.tmpdir.specs':  '${zypper.rpm.tmpdir}/SPECS',
             'zypper.rpm.tmpdir.srcs':   '${zypper.rpm.tmpdir}/SOURCES',
             'zypper.tarball.name':      '${package.name}-${package.version}.tar.gz',

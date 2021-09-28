@@ -29,7 +29,7 @@ class Config(SpecObject):
     def __intrinsics(self):
         self.default_addlist({
             'GLOBAL':               self,
-            'config.basedir':       '${user.cwd}',
+            'config.basedir':       lambda: getcwd(),
             'config.prefix':        '${GLOBAL::config.basedir}/cf',
             'pathes::pkg-prefix':   '${GLOBAL::config.basedir}/pkg/',
             'pathes::pkg-suffix':   '.git',
