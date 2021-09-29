@@ -4,10 +4,6 @@ pathes:
         - librezimbra
     pkg-suffix: ''
 
-git:
-    repo-dir:    ${GLOBAL::config.basedir}
-    repo-suffix: .git
-
 csdb:
     sections:
         - synacor
