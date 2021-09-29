@@ -147,6 +147,7 @@ pools:
     default:
         packages:
             - zm-jython
+            - zm-db-conf
             - zimbra-base
             - zimbra-openldap
             - zm-core-utils
