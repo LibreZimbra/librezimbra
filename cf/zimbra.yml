@@ -149,3 +149,4 @@ pools:
             - zm-jython
             - zimbra-base
             - zimbra-openldap
+            - zm-core-utils
