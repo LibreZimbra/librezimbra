@@ -151,3 +151,4 @@ pools:
             - zimbra-base
             - zimbra-openldap
             - zm-core-utils
+            - zm-admin-help-common
