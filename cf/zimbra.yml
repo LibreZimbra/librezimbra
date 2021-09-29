@@ -143,9 +143,9 @@ packages:
 
     zm-build:
 
-    zm-openldap:
+    zimbra-openldap:
 
 pools:
     default:
         packages:
-            - zm-openldap
+            - zimbra-openldap
