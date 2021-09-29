@@ -152,3 +152,4 @@ pools:
             - zimbra-openldap
             - zm-core-utils
             - zm-admin-help-common
+            - zm-dnscache
