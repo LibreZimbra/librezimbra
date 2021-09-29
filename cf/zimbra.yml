@@ -145,7 +145,10 @@ packages:
 
     zimbra-openldap:
 
+    zimbra-base:
+
 pools:
     default:
         packages:
+            - zimbra-base
             - zimbra-openldap
