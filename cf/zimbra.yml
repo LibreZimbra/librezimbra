@@ -156,3 +156,4 @@ pools:
             - zm-admin-help-common
             - zm-dnscache
             - zm-aspell
+            - zm-webclient-portal-example
