@@ -158,3 +158,4 @@ pools:
             - zm-aspell
             - zm-webclient-portal-example
             - zm-help
+            - zm-jetty-conf
