@@ -24,7 +24,6 @@ cd $BUILDER_ROOT/pkg/zm-build && ./build.pl \
     --build-release=KILEZMORE \
     --build-release-no=9.0.1 \
     --build-release-candidate=ALCHEMIST \
-    --build-thirdparty-server=files.zimbra.com \
     --ant-options="-DskipTests=1" \
     --build-destination-base-dir=$BUILD_DESTINATION_BASE_DIR \
     --build-dir=$BUILD_DIR
