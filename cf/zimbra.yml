@@ -159,3 +159,4 @@ pools:
             - zm-webclient-portal-example
             - zm-help
             - zm-jetty-conf
+            - zm-freshclam
