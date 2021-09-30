@@ -16,6 +16,8 @@ targets:
 defaults:
     packages:
         autobuild-ref:  librezimbra/develop
+    git:
+        remote-update: true
 
 packages:
 
