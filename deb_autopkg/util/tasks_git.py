@@ -21,6 +21,8 @@ class GitCloneTask(Task):
                 self.log_info("forcing re-init to "+spec['init-ref'])
                 repo.remote_update_all()
                 repo.force_checkout(spec['init-ref'], spec['init-branch'])
+            if ('remote-update' in spec) and spec['remote-update']:
+                repo.remote_update_all()
         else:
             if (not 'init-ref' in spec) or (spec['init-ref'] is None):
                 raise TaskFail(self, 'cant checkout "'+spec['path']+'": autobuild-ref not defined')

@@ -93,4 +93,5 @@ class PkgSpec(SpecObject):
             'init-ref':         self['autobuild-ref'],
             'init-submodules':  self['init-submodules'],
             'init-force':       self['autobuild-force'],
+            'remote-update':    self.conf.get_cf_bool('defaults::git::remote-update'),
         }
