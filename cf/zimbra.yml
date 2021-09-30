@@ -160,3 +160,4 @@ pools:
             - zm-help
             - zm-jetty-conf
             - zm-freshclam
+            - zm-nginx-conf
