@@ -162,3 +162,4 @@ pools:
             - zm-freshclam
             - zm-nginx-conf
             - zm-mta
+            - zm-postfix
