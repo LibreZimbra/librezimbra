@@ -163,3 +163,4 @@ pools:
             - zm-nginx-conf
             - zm-mta
             - zm-postfix
+            - zm-amavis
