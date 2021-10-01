@@ -164,3 +164,4 @@ pools:
             - zm-mta
             - zm-postfix
             - zm-amavis
+            - ical4j-0.9.16-patched
