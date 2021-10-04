@@ -112,6 +112,8 @@ packages:
     zm-launcher:
 
     zm-ldap-utilities:
+        depends:
+            - zm-mailbox
 
     zm-ldap-utils-store:
 
@@ -206,4 +208,4 @@ pools:
             - zm-mta
             - zm-postfix
             - zm-amavis
-            - zm-mailbox
+            - zm-ldap-utilities
