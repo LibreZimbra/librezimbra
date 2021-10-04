@@ -29,7 +29,8 @@ class PkgSpec(SpecObject):
     """[private]"""
     def __init__(self, name, spec, conf):
         if spec is None:
-            warn("pkg spec is None for package: "+name)
+            if conf.get_cf_bool('warnings::empty-package-spec', True):
+                warn("pkg spec is None for package: "+name)
             spec = {}
 
         SpecObject.__init__(self, spec)
