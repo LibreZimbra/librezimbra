@@ -145,6 +145,8 @@ packages:
     zm-ssdb-ephemeral-store:
 
     zm-taglib:
+        depends:
+            - zm-mailbox
 
     zm-timezones:
 
