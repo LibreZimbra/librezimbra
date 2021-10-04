@@ -100,7 +100,8 @@ class Config(SpecObject):
     def _cf_dckbp(self, key, dflt, wmsg):
         cf = self.get_cf(['dck-buildpackage', key])
         if cf is None:
-            warn(wmsg)
+            if self.get_cf_bool('warnings::undef-dck-buildpackage', True):
+                warn(wmsg)
             return dflt
         return cf
 
