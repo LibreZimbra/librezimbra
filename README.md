@@ -68,6 +68,16 @@ will keep the ownership on their contributions - just like actual FOSS projects
 work for decades.
 
 
+Build requirements
+------------------
+
+* docker
+* git
+* gnu make
+* python
+* python-yaml
+
+
 How to contact ?
 ----------------
 
