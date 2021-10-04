@@ -45,7 +45,8 @@ class Config(SpecObject):
                 info("loaded target config: "+fn)
                 self._my_targets[name] = TargetSpec(name, pool, self, spec)
         except:
-            info("failed to load target config: "+fn)
+            if self.get_cf_bool('warnings::missing-target-spec', True):
+                info("failed to load target config: "+fn)
             self._my_targets[name] = TargetSpec(name, pool, self, {})
         return self._my_targets[name]
 
