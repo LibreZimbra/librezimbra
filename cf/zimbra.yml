@@ -53,13 +53,19 @@ packages:
       # no extra deps
 
     zm-admin-console:
+        depends:
+            - zm-admin-ajax
 
     zm-admin-help-common:
       # no extra deps
 
     zm-ajax:
+        depends:
+            - zm-mailbox
 
     zm-admin-ajax:
+        depends:
+            - zm-mailbox
 
     zm-amavis:
       # no extra deps
@@ -124,6 +130,7 @@ packages:
     zm-mailbox:
         depends:
             - zm-zcs-lib
+            - java-html-sanitizer-release-20190610.1
 
     zm-migration-tools:
 
@@ -163,6 +170,7 @@ packages:
     zm-web-client:
         depends:
             - zm-taglib
+            - zm-ajax
 
     zm-webclient-portal-example:
       # no extra deps
@@ -185,6 +193,9 @@ packages:
     zm-oauth-social:
 
     zm-gql:
+        depends:
+            - zm-taglib
+            - zm-ajax
 
     zm-build:
       # legacy build system, won't be built as package
@@ -198,20 +209,54 @@ packages:
 pools:
     default:
         packages:
-            - zm-jython
-            - zm-db-conf
             - zimbra-base
-            - zimbra-openldap
             - zm-core-utils
-            - zm-admin-help-common
             - zm-dnscache
             - zm-aspell
-            - zm-webclient-portal-example
-            - zm-help
-            - zm-jetty-conf
-            - zm-freshclam
             - zm-nginx-conf
-            - zm-mta
             - zm-postfix
             - zm-amavis
+
+            # pulled by zimbra-core
+            - zm-launcher
+            - zm-db-conf
+            - zm-freshclam
+            - zm-mta
             - zm-ldap-utilities
+            - zm-jython
+            - zm-ssdb-ephemeral-store
+            - zimbra-openldap
+            - junixsocket
+            - zm-licenses
+
+            # pulled by zimbra-store
+            - zm-admin-help-common
+            - zm-bulkprovision-admin-zimlet
+            - zm-bulkprovision-store
+            - zm-certificate-manager-admin-zimlet
+            - zm-certificate-manager-store
+            - zm-clam-scanner-store
+            - zm-clientuploader-admin-zimlet
+            - zm-clientuploader-store
+            - zm-gql
+            - zm-help
+            - zm-helptooltip-zimlet
+            - zm-jetty-conf
+            - zm-ldap-utils-store
+            - zm-migration-tools
+            - zm-nginx-lookup-store
+            - zm-oauth-social
+            - zm-openid-consumer-store
+            - zm-proxy-config-admin-zimlet
+            - zm-taglib
+            - zm-versioncheck-admin-zimlet
+            - zm-versioncheck-store
+            - zm-viewmail-admin-zimlet
+            - zm-webclient-portal-example
+            - zm-zimlets
+            - zm-downloads
+            - zm-timezones
+
+            # whoose deps ?
+            - zm-web-client
+            - zm-admin-console
