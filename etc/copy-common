@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TARGET_REPOS="
+    java-html-sanitizer-release-20190610.1
+    ical4j-0.9.16-patched
+    nekohtml-1.9.13
+    antisamy
+    zm-charset
+"
+
+for i in $TARGET_REPOS ; do
+    cp build.mk ../pkg/$i
+done
