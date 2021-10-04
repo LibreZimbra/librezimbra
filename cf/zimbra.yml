@@ -13,6 +13,12 @@ csdb:
 targets:
     - ${GLOBAL::ENV::BUILD_TARGET_DISTRO}
 
+warnings:
+    empty-package-spec:         false
+    missing-target-spec:        false
+    undef-target-packager:      false
+    undef-dck-buildpackage:     false
+
 defaults:
     packages:
         autobuild-ref:  librezimbra/develop
