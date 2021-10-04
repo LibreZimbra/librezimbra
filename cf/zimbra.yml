@@ -159,6 +159,8 @@ packages:
     zm-viewmail-admin-zimlet:
 
     zm-web-client:
+        depends:
+            - zm-taglib
 
     zm-webclient-portal-example:
       # no extra deps
