@@ -1,0 +1,60 @@
+#!/bin/bash
+
+## this script tries to detect your distro and install the essential
+## build tools:
+##
+## git, python, python-yaml, docker
+## note: on a 32bit userland we need to make sure we have 64bit docker
+
+DEBIAN_PACKAGES="git python python-yaml docker.io"
+
+set -e
+
+apt_install() {
+    echo "Installing: $*"
+    sudo apt-get update
+    sudo apt-get install --no-install-recommends $*
+}
+
+install_debian() {
+    if [ "$(dpkg --print-architecture)" == "i386" ] && [ "$(arch)" == "x86_64" ]; then
+        echo " ... special tweak for x86_64: forcing amd64 version of docker"
+        apt_install git python python-yaml docker.io:amd64
+    else
+        apt_install git python python-yaml docker.io
+    fi
+}
+
+echo "Detecting your distro and installing build dependencies"
+echo "You might be asked to enter your root pw for installation"
+echo
+
+if [ -f /etc/devuan_version ]; then
+    release=$(cat /etc/devuan_version)
+    echo "Detected: Devuan $release"
+    install_debian
+    exit 0
+fi
+
+if [ -f /etc/debian_version ]; then
+    release=$(cat /etc/debian_version)
+    echo "Detected: Debian $release"
+    install_debian
+    exit 0
+fi
+
+if [ -f /etc/lsb-release ]; then
+    . /etc/lsb-release
+    case "$DISTRIB_ID" in
+        Ubuntu)
+            echo "Detected: Ubuntu $DISTRIB_CODENAME"
+            install_debian
+            exit 0
+        ;;
+    esac
+    echo "Unknown distro $DISTRIB_ID"
+fi
+
+echo "Sorry, dont know your distro yet, cant help you."
+echo "Feel free to submit patches"
+exit 1
