@@ -49,6 +49,7 @@ class TargetSpec(SpecObject):
     def get_packager(self):
         p = self.get_cf('packager', None)
         if p is None:
-            warn("Target %s has no packager specified. Defaulting to apt" % self['target.name'])
+            if self.conf.get_cf_bool('warnings::undef-target-packager', True):
+                warn("Target %s has no packager specified. Defaulting to apt" % self['target.name'])
             return 'apt'
         return p
