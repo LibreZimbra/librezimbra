@@ -28,34 +28,44 @@ defaults:
 packages:
 
     ant-1.7.0-ziputil-patched:
+      # no extra deps
 
     ant-tar-patched:
+      # no extra deps
 
     ical4j-0.9.16-patched:
+      # no extra deps
 
     junixsocket:
         autobuild-ref: junixsocket-parent-2.0.4
 
+    # website, won't be built as package
     librezimbra.github.io:
         autobuild-ref: librezimbra/master
 
     nekohtml-1.9.13:
+      # no extra deps
 
     java-html-sanitizer-release-20190610.1:
+      # no extra deps
 
     antisamy:
+      # no extra deps
 
     zm-admin-console:
 
     zm-admin-help-common:
+      # no extra deps
 
     zm-ajax:
 
     zm-admin-ajax:
 
     zm-amavis:
+      # no extra deps
 
     zm-aspell:
+      # no extra deps
 
     zm-bulkprovision-admin-zimlet:
 
@@ -66,6 +76,7 @@ packages:
     zm-certificate-manager-store:
 
     zm-charset:
+      # no extra deps
 
     zm-clam-scanner-store:
 
@@ -74,22 +85,29 @@ packages:
     zm-clientuploader-store:
 
     zm-core-utils:
+      # no extra deps
 
     zm-db-conf:
+      # no extra deps
 
     zm-dnscache:
+      # no extra deps
 
     zm-downloads:
 
     zm-freshclam:
+      # no extra deps
 
     zm-help:
+      # no extra deps
 
     zm-helptooltip-zimlet:
 
     zm-jetty-conf:
+      # no extra deps
 
     zm-jython:
+      # no extra deps
 
     zm-launcher:
 
@@ -100,12 +118,16 @@ packages:
     zm-licenses:
 
     zm-mailbox:
+        depends:
+            - zm-zcs-lib
 
     zm-migration-tools:
 
     zm-mta:
+      # no extra deps
 
     zm-nginx-conf:
+      # no extra deps
 
     zm-nginx-lookup-store:
 
@@ -114,6 +136,7 @@ packages:
     zm-pkg-tool:
 
     zm-postfix:
+      # no extra deps
 
     zm-proxy-config-admin-zimlet:
 
@@ -134,10 +157,20 @@ packages:
     zm-web-client:
 
     zm-webclient-portal-example:
+      # no extra deps
 
     zm-zcs:
 
     zm-zcs-lib:
+        depends:
+            - zm-charset
+            # not needed for build, but at runtime
+            - ant-1.7.0-ziputil-patched
+            - ant-tar-patched
+            - nekohtml-1.9.13
+            - ical4j-0.9.16-patched
+            - java-html-sanitizer-release-20190610.1
+            - antisamy
 
     zm-zimlets:
 
@@ -146,10 +179,13 @@ packages:
     zm-gql:
 
     zm-build:
+      # legacy build system, won't be built as package
 
     zimbra-openldap:
+      # no extra deps
 
     zimbra-base:
+      # no extra deps
 
 pools:
     default:
@@ -170,4 +206,4 @@ pools:
             - zm-mta
             - zm-postfix
             - zm-amavis
-            - ical4j-0.9.16-patched
+            - zm-mailbox
