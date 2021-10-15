@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-# this file is meant to be shared/synced between many packages (v0.2)
+# this file is meant to be shared/synced between many packages (v0.3)
 
 ANT ?= ant
 ZIMBRA_PREFIX ?= /opt/zimbra
@@ -23,6 +23,11 @@ define mk_install_dir
 mkdir -p $(INSTALL_DIR)/$(strip $(1))
 endef
 
+define install_conf
+mkdir -p $(INSTALL_DIR)/conf
+cp $(1) $(INSTALL_DIR)/conf/$(notdir $(strip $(1)))
+endef
+
 define install_jetty_lib
 mkdir -p $(INSTALL_DIR)/jetty_base/common/lib
 cp $(1) $(INSTALL_DIR)/jetty_base/common/lib/$(notdir $(strip $(1)))
@@ -31,6 +36,11 @@ endef
 define install_jar_lib
 mkdir -p $(INSTALL_DIR)/lib/jars
 cp $(1) $(INSTALL_DIR)/lib/jars/$(notdir $(strip $(1)))
+endef
+
+define install_libexec
+mkdir -p $(INSTALL_DIR)/libexec
+cp $(1) $(INSTALL_DIR)/libexec/$(notdir $(strip $(1)))
 endef
 
 define install_wa_service_lib
