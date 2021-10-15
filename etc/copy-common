@@ -6,6 +6,7 @@ BUILD_MK_TARGET_REPOS="
     nekohtml-1.9.13
     antisamy
     zm-charset
+    zm-ldap-utilities
 "
 
 for i in $BUILD_MK_TARGET_REPOS ; do
