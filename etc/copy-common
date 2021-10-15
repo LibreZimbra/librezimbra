@@ -7,6 +7,7 @@ BUILD_MK_TARGET_REPOS="
     antisamy
     zm-charset
     zm-ldap-utilities
+    zm-launcher
 "
 
 for i in $BUILD_MK_TARGET_REPOS ; do
