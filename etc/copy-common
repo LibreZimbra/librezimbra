@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_REPOS="
+BUILD_MK_TARGET_REPOS="
     java-html-sanitizer-release-20190610.1
     ical4j-0.9.16-patched
     nekohtml-1.9.13
@@ -8,6 +8,15 @@ TARGET_REPOS="
     zm-charset
 "
 
-for i in $TARGET_REPOS ; do
+for i in $BUILD_MK_TARGET_REPOS ; do
     cp build.mk ../pkg/$i
+done
+
+ANT_IVY_TARGET_REPOS="
+    zm-zcs-lib
+    zm-ldap-utilities
+"
+
+for i in $ANT_IVY_TARGET_REPOS ; do
+    cp ant-global.xml ivysettings.xml ../pkg/$i
 done
