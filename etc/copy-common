@@ -10,7 +10,7 @@ BUILD_MK_TARGET_REPOS="
 "
 
 for i in $BUILD_MK_TARGET_REPOS ; do
-    cp build.mk ../pkg/$i
+    cp build.mk version.mk ../pkg/$i
 done
 
 ANT_IVY_TARGET_REPOS="

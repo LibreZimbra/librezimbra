@@ -1,15 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-# this file is meant to be shared/synced between many packages (v0.3)
+# this file is meant to be shared/synced between many packages (v0.4)
 
 ANT ?= ant
 ZIMBRA_PREFIX ?= /opt/zimbra
 INSTALL_DIR = $(DESTDIR)$(ZIMBRA_PREFIX)
 
-ZIMBRA_VERSION_MAJOR ?= 9
-ZIMBRA_VERSION_MINOR ?= 0
-ZIMBRA_VERSION_MICRO ?= 1
-ZIMBRA_VERSION_PATCH ?= 1984
+include version.mk
 
 ANT_ARG_BUILDINFO = -Dzimbra.buildinfo.versionmajor=$(ZIMBRA_VERSION_MAJOR) \
                     -Dzimbra.buildinfo.versionminor=$(ZIMBRA_VERSION_MINOR) \
