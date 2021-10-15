@@ -175,51 +175,7 @@
         <available file="${zimbra.root.dir}/zm-build/RE" type="dir"/>
     </condition>
 
-    <loadfile property="zimbra.buildinfo.majorversion" srcFile="${zimbra.version.dir}/MAJOR">
-      <filterchain>
-        <striplinebreaks/>
-      </filterchain>
-    </loadfile>
-
-    <loadfile property="zimbra.buildinfo.minorversion" srcFile="${zimbra.version.dir}/MINOR">
-      <filterchain>
-        <striplinebreaks/>
-      </filterchain>
-    </loadfile>
-
-    <loadfile property="zimbra.buildinfo.microtag" srcFile="${zimbra.version.dir}/MICRO">
-      <filterchain>
-        <striplinebreaks/>
-      </filterchain>
-    </loadfile>
-
-    <property name="zimbra.buildinfo.version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microtag}_${zimbra.buildinfo.buildnum}.${user.name}"/>
-
     <echo message="Using version from ${zimbra.version.dir}, ${zimbra.buildinfo.version}"/>
-
-    <propertyregex property="zimbra.buildinfo.majorversion"
-                   input="${zimbra.buildinfo.version}"
-                   regexp="([0-9]+)\.([0-9]+)\.([0-9]+)"
-                   select="\1"
-                   casesensitive="false" />
-
-    <propertyregex property="zimbra.buildinfo.minorversion"
-                   input="${zimbra.buildinfo.version}"
-                   regexp="([0-9]+)\.([0-9]+)\.([0-9]+)"
-                   select="\2"
-                   casesensitive="false" />
-
-    <propertyregex property="zimbra.buildinfo.microversion"
-                   input="${zimbra.buildinfo.version}"
-                   regexp="([0-9]+)\.([0-9]+)\.([0-9]+)"
-                   select="\3"
-                   casesensitive="false" />
-
-    <propertyregex property="zimbra.buildinfo.relclass"
-                   input="${zimbra.buildinfo.version}"
-                   regexp="([0-9]+)\.([0-9]+)\.([0-9]+)_([A-Z]+)"
-                   select="\4"
-                   casesensitive="false" />
 
     <condition property="zimbra.buildinfo.relnum" value="0">
         <not><isset property="${zimbra.buildinfo.relnum}"/></not>
