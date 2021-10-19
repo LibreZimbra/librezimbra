@@ -9,6 +9,7 @@ BUILD_MK_TARGET_REPOS="
     zm-ldap-utilities
     zm-launcher
     zm-ldap-utils-store
+    zm-taglib
 "
 
 for i in $BUILD_MK_TARGET_REPOS ; do
@@ -19,6 +20,7 @@ ANT_IVY_TARGET_REPOS="
     zm-zcs-lib
     zm-ldap-utilities
     zm-ldap-utils-store
+    zm-taglib
 "
 
 for i in $ANT_IVY_TARGET_REPOS ; do
