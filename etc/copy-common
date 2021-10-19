@@ -51,9 +51,27 @@ repo_debian_base \
     antisamy \
 
 repo_debian_autover \
+    junixsocket \
     nekohtml-1.9.13 \
+    zm-db-conf \
+    zm-dnscache \
+    zm-freshclam \
+    zm-help \
+    ical4j-0.9.16-patched \
+    zm-jetty-conf \
+    zm-jython \
     zm-launcher \
+    zm-mailbox \
+    zm-mta \
+    zm-nginx-conf \
+    zm-postfix \
     zm-core-utils \
+    zm-admin-help-common \
+    zm-amavis \
+    zm-aspell \
+    zm-webclient-portal-example \
+    zm-licenses \
+    zm-downloads
 
 repo_ivy_debian_autover \
     zm-charset \
