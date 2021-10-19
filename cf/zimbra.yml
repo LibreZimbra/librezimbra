@@ -116,6 +116,8 @@ packages:
             - zm-mailbox
 
     zm-ldap-utils-store:
+        depends:
+            - zm-mailbox
 
     zm-licenses:
 
