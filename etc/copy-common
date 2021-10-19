@@ -28,3 +28,32 @@ ANT_IVY_TARGET_REPOS="
 for i in $ANT_IVY_TARGET_REPOS ; do
     cp ant-global.xml ivysettings.xml ../pkg/$i
 done
+
+## copy over elementary debian files
+repo_debian_base() {
+    repo_build_mk "$@"
+    for i in $* ; do
+        mkdir -p ../pkg/$i/debian/source
+        cp debian/source/format ../pkg/$i/debian/source
+        cp debian/compat ../pkg/$i/debian
+    done
+}
+
+## copy over debian files for auto-versioned packages
+repo_debian_autover() {
+    repo_debian_base "$@"
+    for i in $* ; do
+        mkdir -p ../pkg/$i/debian
+        cp debian/changelog.in ../pkg/$i/debian
+        cp debian/rules ../pkg/$i/debian
+    done
+}
+
+## auto-versioned packages with ivy
+repo_ivy_debian_autover() {
+    repo_debian_autover "$@"
+    repo_ant_ivy "$@"
+}
+
+##
+

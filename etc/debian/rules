@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+include version.mk
+
+PACKAGE_NAME := $(shell cat debian/control | grep 'Source: ' | sed -e 's~^Source: ~~g;')
+
+# export DH_VERBOSE = 1
+
+debian/changelog:	debian/changelog.in
+	@cat $< | sed -e 's~@@VERSION_MAJOR@@~$(ZIMBRA_VERSION_MAJOR)~g;' \
+	        | sed -e 's~@@VERSION_MINOR@@~$(ZIMBRA_VERSION_MINOR)~g;' \
+	        | sed -e 's~@@VERSION_MICRO@@~$(ZIMBRA_VERSION_MICRO)~g;' \
+	        | sed -e 's~@@VERSION_PATCH@@~$(ZIMBRA_VERSION_PATCH)~g;' \
+	        | sed -e 's~@@PACKAGE_NAME@@~$(PACKAGE_NAME)~g;' \
+	        > $@
+
+%:
+	$(MAKE) debian/changelog
+	dh $@

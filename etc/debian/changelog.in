@@ -1,0 +1,5 @@
+@@PACKAGE_NAME@@ (@@VERSION_MAJOR@@.@@VERSION_MINOR@@.@@VERSION_MICRO@@-@@VERSION_PATCH@@) stable; urgency=medium
+
+  * Release - @@VERSION_MAJOR@@.@@VERSION_MINOR@@.@@VERSION_MICRO@@
+
+ -- Enrico Weigelt, metux IT consult <info@metux.net>  Wed, 01 Mar 2017 01:43:10 +0530
