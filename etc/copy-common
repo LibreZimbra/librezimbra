@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
 
 BUILD_MK_TARGET_REPOS="
     java-html-sanitizer-release-20190610.1
