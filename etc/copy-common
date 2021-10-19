@@ -10,6 +10,7 @@ BUILD_MK_TARGET_REPOS="
     zm-launcher
     zm-ldap-utils-store
     zm-taglib
+    zm-core-utils
 "
 
 for i in $BUILD_MK_TARGET_REPOS ; do
