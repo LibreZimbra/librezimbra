@@ -76,8 +76,32 @@ repo_debian_autover \
     zm-downloads
 
 repo_ivy_debian_autover \
+    zm-admin-ajax \
+    zm-admin-console \
+    zm-ajax \
+    zm-bulkprovision-admin-zimlet \
+    zm-bulkprovision-store \
+    zm-certificate-manager-admin-zimlet \
+    zm-certificate-manager-store \
     zm-charset \
+    zm-clam-scanner-store \
+    zm-clientuploader-admin-zimlet \
+    zm-clientuploader-store \
+    zm-gql \
+    zm-helptooltip-zimlet \
     zm-ldap-utilities \
     zm-ldap-utils-store \
+    zm-nginx-lookup-store \
+    zm-oauth-social \
+    zm-openid-consumer-store \
+    zm-proxy-config-admin-zimlet \
+    zm-ssdb-ephemeral-store \
     zm-taglib \
+    zm-versioncheck-admin-zimlet \
+    zm-versioncheck-store \
+    zm-viewmail-admin-zimlet \
+    zm-web-client \
     zm-zcs-lib \
+    zm-zimlets \
+    zm-migration-tools \
+    zm-timezones
