@@ -48,6 +48,8 @@ repo_ivy_debian_autover() {
 repo_debian_base \
     java-html-sanitizer-release-20190610.1 \
     ical4j-0.9.16-patched \
+    ant-1.7.0-ziputil-patched \
+    ant-tar-patched \
     antisamy \
 
 repo_debian_autover \
