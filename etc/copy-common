@@ -48,17 +48,16 @@ repo_ivy_debian_autover() {
 repo_debian_base \
     java-html-sanitizer-release-20190610.1 \
     ical4j-0.9.16-patched \
-    nekohtml-1.9.13 \
     antisamy \
-    zm-charset \
-    zm-ldap-utilities \
+
+repo_debian_autover \
+    nekohtml-1.9.13 \
     zm-launcher \
-    zm-ldap-utils-store \
-    zm-taglib \
     zm-core-utils \
 
-repo_ant_ivy \
-    zm-zcs-lib \
+repo_ivy_debian_autover \
+    zm-charset \
     zm-ldap-utilities \
     zm-ldap-utils-store \
     zm-taglib \
+    zm-zcs-lib \
