@@ -9,16 +9,13 @@ repo_build_mk() {
     done
 }
 
-ANT_IVY_TARGET_REPOS="
-    zm-zcs-lib
-    zm-ldap-utilities
-    zm-ldap-utils-store
-    zm-taglib
-"
-
-for i in $ANT_IVY_TARGET_REPOS ; do
-    cp ant-global.xml ivysettings.xml ../pkg/$i
-done
+## copy global ant/ivy build scripts
+repo_ant_ivy() {
+    for i in $* ; do
+        cp ant-global.xml ../pkg/$i
+        cp ivysettings.xml ../pkg/$i
+    done
+}
 
 ## copy over elementary debian files
 repo_debian_base() {
@@ -60,3 +57,8 @@ repo_build_mk \
     zm-taglib \
     zm-core-utils \
 
+repo_ant_ivy \
+    zm-zcs-lib \
+    zm-ldap-utilities \
+    zm-ldap-utils-store \
+    zm-taglib \
