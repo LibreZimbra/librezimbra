@@ -1,22 +1,13 @@
 #!/bin/bash
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-BUILD_MK_TARGET_REPOS="
-    java-html-sanitizer-release-20190610.1
-    ical4j-0.9.16-patched
-    nekohtml-1.9.13
-    antisamy
-    zm-charset
-    zm-ldap-utilities
-    zm-launcher
-    zm-ldap-utils-store
-    zm-taglib
-    zm-core-utils
-"
-
-for i in $BUILD_MK_TARGET_REPOS ; do
-    cp build.mk version.mk ../pkg/$i
-done
+## copy over generic makefile includes
+repo_build_mk() {
+    for i in $* ; do
+        cp build.mk ../pkg/$i
+        cp version.mk ../pkg/$i
+    done
+}
 
 ANT_IVY_TARGET_REPOS="
     zm-zcs-lib
@@ -56,4 +47,16 @@ repo_ivy_debian_autover() {
 }
 
 ##
+
+repo_build_mk \
+    java-html-sanitizer-release-20190610.1 \
+    ical4j-0.9.16-patched \
+    nekohtml-1.9.13 \
+    antisamy \
+    zm-charset \
+    zm-ldap-utilities \
+    zm-launcher \
+    zm-ldap-utils-store \
+    zm-taglib \
+    zm-core-utils \
 
