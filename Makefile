@@ -10,10 +10,18 @@ export BUILD_TARGET_DISTRO   = $(TARGET_DISTRO_NAME)-$(TARGET_DISTRO_RELEASE)-$(
 export BUILD_TARGET_APTREPO  = $(CURDIR)/.aptrepo/default
 export BUILD_DOCKER_IMAGE    := librezimbra-build
 
+export TEST_BASE_DOCKER_IMAGE := librezimbra-test-base
+
 export DOCKER     ?= docker
 export DOCKER_GID := $(shell getent group docker | awk -F: '{printf "%d\n", $$3}')
 export BUILD_UID  := $(shell id -u)
 export BUILD_GID  := $(shell id -g)
+export HOSTNAME   := `hostname`
+
+export REPO_PORT     ?= 8090
+export REPO_URL      = http://$(HOSTNAME):$(REPO_PORT)
+export REPO_DISTRO   = $(TARGET_DISTRO_RELEASE)
+export REPO_SECTIONS = contrib
 
 help:
 	@echo "LibreZimbra build sytem help"
@@ -82,9 +90,16 @@ image-$(BUILD_DOCKER_IMAGE):
             --build-arg DOCKER_GID=$(DOCKER_GID) \
             -t $(BUILD_DOCKER_IMAGE) .
 
+image-$(TEST_BASE_DOCKER_IMAGE):
+	cd etc/docker/test-base && $(DOCKER) build \
+            --build-arg REPO_URL=$(REPO_URL) \
+            --build-arg REPO_DISTRO=$(REPO_DISTRO) \
+            --build-arg REPO_SECTIONS=$(REPO_SECTIONS) \
+            -t $(TEST_BASE_DOCKER_IMAGE) .
+
 # clean up everything
 clean:
 	@rm -Rf .aptrepo .stat tmp build
-	@docker rmi -f $(BUILD_DOCKER_IMAGE)
+	@docker rmi -f $(BUILD_DOCKER_IMAGE) $(TEST_BASE_DOCKER_IMAGE)
 
 .PHONY: all build-deb build-legacy finish-repo clean
