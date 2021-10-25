@@ -7,24 +7,23 @@
 
 set -e
 
-CONTAINER_IMAGE=librezimbra-test
+CONTAINER_IMAGE=librezimbra-test-ldap
 CONTAINER_SHELL=/bin/bash
-CONTAINER_HOSTNAME=librezimbra-test
+CONTAINER_HOSTNAME=librezimbra-test-ldap
 
 MYSELF=$(readlink -f "$0")
 
 WORK_DIR=$(dirname "$MYSELF")
 SSH_DIR=$HOME/.ssh
 
-( cd docker && make )
+( cd docker && make librezimbra-test-ldap )
 
 if [ ! "$1" ]; then
     CMD="$CONTAINER_SHELL"
 fi
 
-docker run -it \
+docker run --privileged -it \
     --mount "src=$WORK_DIR,target=/home/build/src,type=bind" \
-    --mount "src=$WORK_DIR/.aptrepo/default/ubuntu-focal-amd64/,target=/aptrepo,type=bind" \
     --mount "src=$SSH_DIR,target=/home/build/.ssh,type=bind,ro" \
     --hostname "$CONTAINER_HOSTNAME" \
     -p 8000:8000 \

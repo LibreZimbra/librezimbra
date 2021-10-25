@@ -1,0 +1,8 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
+. /opt/zimbra/libexec/zm-ldap-util.sh
+
+zm_ldapmodify "$@"
+exit $?

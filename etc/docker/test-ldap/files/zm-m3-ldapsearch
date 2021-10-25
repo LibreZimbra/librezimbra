@@ -1,0 +1,13 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
+. /opt/zimbra/libexec/zm-ldap-util.sh
+
+$ZM_LDAP_BINDIR/ldapsearch \
+    -h librezimbra-test-ldap-m3 \
+    -D "$ZM_LDAP_REPLICATION_DN" \
+    -w knollo123 \
+    "$@"
+
+exit $?

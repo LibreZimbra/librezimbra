@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
+TEMPDIR=../tmp/ca
+
+OPENSSL=openssl
+
+KEY_SIZE=2048
+CA_KEY=$(TEMPDIR)/ca.key
+CA_PEM=$(TEMPDIR)/ca.pem
+
+HOSTS?=librezimbra-test-ldap-m1 \
+      librezimbra-test-ldap-m2 \
+      librezimbra-test-ldap-s1 \
+      librezimbra-test-ldap-s2
+
+HOST_KEY_FILES=$(addsuffix .key, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
+HOST_PEM_FILES=$(addsuffix .pem, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
+HOST_CSR_FILES=$(addsuffix .csr, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
+HOST_CRT_FILES=$(addsuffix .crt, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
+HOST_EXT_FILES=$(addsuffix .ext, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
+
+all: ca hostkey
+
+$(CA_KEY):
+	@echo "Creating CA KEY"
+	@mkdir -p $(TEMPDIR)
+	@$(OPENSSL) genrsa -out $(CA_KEY) $(KEY_SIZE) 2>/dev/null
+
+$(CA_PEM): $(CA_KEY)
+	@echo "Creating CA PEM"
+	@$(OPENSSL) req -x509 -new -nodes -key $(CA_KEY) -sha256 -days 1825 -out $(CA_PEM) \
+            -subj "/C=US/ST=New Sweden/L=Stockholm /O=.../OU=.../CN=.../emailAddress=..." >/dev/null
+
+ca: $(CA_PEM)
+
+host-%.key: $(CA_PEM)
+	@$(OPENSSL) genrsa -out $@ $(KEY_SIZE) 2>/dev/null
+
+host-%.ext:
+	@( \
+		echo "authorityKeyIdentifier=keyid,issuer" ; \
+		echo "basicConstraints=CA:FALSE" ; \
+		echo "keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment" ; \
+		echo "subjectAltName = @alt_names" ; \
+		echo "" ; \
+		echo "[alt_names]" ; \
+		echo "DNS.1 = $(patsubst host-%,%,$(patsubst %.ext,%,$(notdir $@)))" ; \
+	) > $@
+
+host-%.csr: host-%.key $(CA_PEM) host-%.ext
+	@$(OPENSSL) req -new -key $< -out $@ -subj "/C=US/ST=New Sweden/L=Stockholm /O=.../OU=.../CN=.../emailAddress=..." 2>/dev/null
+
+host-%.crt: host-%.csr $(CA_PEM)
+	$(OPENSSL) x509 -req -in $< -CA $(CA_PEM) -CAkey $(CA_KEY) \
+            -CAcreateserial -out $@ -days 825 -sha256 -extfile $(patsubst %.crt,%.ext,$@)
+
+hostkey: $(HOST_KEY_FILES) $(HOST_EXT_FILES) $(HOST_CSR_FILES) $(HOST_CRT_FILES)
+
+clean:
+	rm -Rf $(TEMPDIR)

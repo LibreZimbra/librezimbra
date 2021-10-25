@@ -11,6 +11,7 @@ export BUILD_TARGET_APTREPO  = $(CURDIR)/.aptrepo/default
 export BUILD_DOCKER_IMAGE    := librezimbra-build
 
 export TEST_BASE_DOCKER_IMAGE := librezimbra-test-base
+export TEST_LDAP_DOCKER_IMAGE := librezimbra-test-ldap
 
 export DOCKER     ?= docker
 export DOCKER_GID := $(shell getent group docker | awk -F: '{printf "%d\n", $$3}')
@@ -97,9 +98,17 @@ image-$(TEST_BASE_DOCKER_IMAGE):
             --build-arg REPO_SECTIONS=$(REPO_SECTIONS) \
             -t $(TEST_BASE_DOCKER_IMAGE) .
 
+image-$(TEST_LDAP_DOCKER_IMAGE): image-$(TEST_BASE_DOCKER_IMAGE)
+	mkdir -p etc/docker/test-ldap/files
+	cp $(BUILD_TARGET_APTREPO)/$(BUILD_TARGET_DISTRO)/dists/$(TARGET_DISTRO_RELEASE)/Release \
+            etc/docker/test-ldap/files
+	cd etc/docker/test-ldap && $(DOCKER) build \
+            -t $(TEST_LDAP_DOCKER_IMAGE) .
+
 # clean up everything
 clean:
 	@rm -Rf .aptrepo .stat tmp build
-	@docker rmi -f $(BUILD_DOCKER_IMAGE) $(TEST_BASE_DOCKER_IMAGE)
+	@docker rmi -f $(BUILD_DOCKER_IMAGE) $(TEST_BASE_DOCKER_IMAGE) \
+                       $(TEST_LDAP_DOCKER_IMAGE)
 
 .PHONY: all build-deb build-legacy finish-repo clean
