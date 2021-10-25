@@ -13,4 +13,4 @@ RUN curl ${REPO_URL}/apt-repo.pub | apt-key add - && \
     echo "deb ${REPO_URL} ${REPO_DISTRO} ${REPO_SECTIONS}" >> /etc/apt/sources.list && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y mc
+    apt-get install -y mc iputils-ping net-tools

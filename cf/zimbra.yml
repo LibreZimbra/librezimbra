@@ -25,8 +25,8 @@ warnings:
 defaults:
     packages:
         autobuild-ref:  librezimbra/develop
-    git:
-        remote-update: true
+#    git:
+#        remote-update: true
 
 packages:
 
@@ -208,6 +208,9 @@ packages:
 
     zimbra-base:
       # no extra deps
+
+# not packaged yet:
+# - junixsocket
 
 pools:
     default:

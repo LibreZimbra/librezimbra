@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<localconfig>
+  <key name="ssl_default_digest">
+    <value>sha256</value>
+  </key>
+  <key name="mailboxd_java_heap_size">
+    <value>1945</value>
+  </key>
+  <key name="ldap_nginx_password">
+    <value>tqjloewpn</value>
+  </key>
+  <key name="ldap_master_url">
+    <value>ldap://hz1-rz-mail-ldap-01.hs-harz.de:389</value>
+  </key>
+  <key name="ssl_allow_mismatched_certs">
+    <value>true</value>
+  </key>
+  <key name="snmp_notify">
+    <value>yes</value>
+  </key>
+  <key name="zimbra_java_home">
+    <value>/opt/zimbra/common/lib/jvm/java</value>
+  </key>
+  <key name="ldap_port">
+    <value>389</value>
+  </key>
+  <key name="zimbra_ldap_password">
+    <value>tqjloewpn</value>
+  </key>
+  <key name="mailboxd_keystore">
+    <value>/opt/zimbra/conf/keystore</value>
+  </key>
+  <key name="mailboxd_keystore_password">
+    <value>inGcWpL28</value>
+  </key>
+  <key name="snmp_trap_host">
+    <value>hz1-rz-mail-ldap-01.hs-harz.de</value>
+  </key>
+  <key name="mailboxd_truststore">
+    <value>/opt/zimbra/common/lib/jvm/java/lib/security/cacerts</value>
+  </key>
+  <key name="av_notify_user">
+    <value>admin@hz1-rz-mail-ldap-01.hs-harz.de</value>
+  </key>
+  <key name="mailboxd_directory">
+    <value>/opt/zimbra/mailboxd</value>
+  </key>
+  <key name="av_notify_domain">
+    <value>hz1-rz-mail-ldap-01.hs-harz.de</value>
+  </key>
+  <key name="zimbra_zmjava_options">
+    <value>-Xmx256m -Dhttps.protocols=TLSv1.2 -Djdk.tls.client.protocols=TLSv1.2 -Djava.net.preferIPv4Stack=true</value>
+  </key>
+  <key name="zimbra_require_interprocess_security">
+    <value>1</value>
+  </key>
+  <key name="smtp_destination">
+    <value>admin@hs-harz.de</value>
+  </key>
+  <key name="zimbra_gid">
+    <value>987</value>
+  </key>
+  <key name="ldap_amavis_password">
+    <value>tqjloewpn</value>
+  </key>
+  <key name="mailboxd_truststore_password">
+    <value>changeit</value>
+  </key>
+  <key name="ldap_host">
+    <value>hz1-rz-mail-ldap-01.hs-harz.de</value>
+  </key>
+  <key name="ldap_url">
+    <value>ldap://hz1-rz-mail-ldap-01.hs-harz.de:389 ldap://hz1-rz-mailbox-03:389 ldap://hz1-rz-mailbox-04:389</value>
+  </key>
+  <key name="ldap_starttls_supported">
+    <value>1</value>
+  </key>
+  <key name="zimbra_zmprov_default_to_ldap">
+    <value>true</value>
+  </key>
+  <key name="smtp_source">
+    <value>admin@hs-harz.de</value>
+  </key>
+  <key name="ssl_allow_untrusted_certs">
+    <value>false</value>
+  </key>
+  <key name="zimbra_uid">
+    <value>992</value>
+  </key>
+  <key name="zimbra_user">
+    <value>zimbra</value>
+  </key>
+  <key name="ldap_replication_password">
+    <value>tqjloewpn</value>
+  </key>
+  <key name="ldap_is_master">
+    <value>true</value>
+  </key>
+  <key name="smtp_notify">
+    <value>yes</value>
+  </key>
+  <key name="ldap_postfix_password">
+    <value>tqjloewpn</value>
+  </key>
+  <key name="zimbra_server_hostname">
+    <value>hz1-rz-mail-ldap-01.hs-harz.de</value>
+  </key>
+  <key name="ldap_root_password">
+    <value>tqjloewpn</value>
+  </key>
+  <key name="mailboxd_server">
+    <value></value>
+  </key>
+  <key name="zimbra_ldap_userdn">
+    <value>uid=zimbra,cn=admins,cn=zimbra</value>
+  </key>
+  <key name="ldap_bes_searcher_password">
+    <value>tqjloewpn</value>
+  </key>
+</localconfig>
