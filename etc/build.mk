@@ -4,7 +4,13 @@
 
 ANT ?= ant
 ZIMBRA_PREFIX ?= /opt/zimbra
-INSTALL_DIR = $(DESTDIR)$(ZIMBRA_PREFIX)
+
+INSTALL_DIR                   = $(DESTDIR)$(ZIMBRA_PREFIX)
+INSTALL_DIR_JETTY_ETC         = $(INSTALL_DIR)/jetty_base/etc
+INSTALL_DIR_ZIMLETS           = $(INSTALL_DIR)/zimlets
+INSTALL_DIR_WA_SERVICE        = $(INSTALL_DIR)/jetty_base/webapps/service
+INSTALL_DIR_WA_SERVICE_WEBINF = $(INSTALL_DIR_WA_SERVICE)/WEB-INF
+INSTALL_DIR_LIB_JARS          = $(INSTALL_DIR)/lib/jars
 
 include version.mk
 
@@ -30,9 +36,14 @@ mkdir -p $(INSTALL_DIR)/jetty_base/common/lib
 cp $(1) $(INSTALL_DIR)/jetty_base/common/lib/$(notdir $(strip $(1)))
 endef
 
+define install_jetty_etc
+mkdir -p $(INSTALL_DIR_JETTY_ETC)
+cp $(1) $(INSTALL_DIR_JETTY_ETC)/$(notdir $(strip $(1)))
+endef
+
 define install_jar_lib
-mkdir -p $(INSTALL_DIR)/lib/jars
-cp $(1) $(INSTALL_DIR)/lib/jars/$(notdir $(strip $(1)))
+mkdir -p $(INSTALL_DIR_LIB_JARS)
+cp $(1) $(INSTALL_DIR_LIB_JARS)/$(notdir $(strip $(1)))
 endef
 
 define install_libexec
@@ -49,7 +60,26 @@ build-ant:
 	rm -Rf build
 	$(ANT) $(ANT_TARGET)
 
+build-ant-autover:
+	rm -Rf build
+	$(ANT) $(ANT_ARG_BUILDINFO) $(ANT_TARGET)
+
 clean-ant:
 	rm -Rf build
+
+install-common:
+	for i in $(INSTALL_CREATE_DIRS) ; do mkdir -p $(INSTALL_DIR)/$$i ; done
+	if [ "$(INSTALL_FILES_JETTY_ETC)" ]; then \
+            mkdir -p $(INSTALL_DIR_JETTY_ETC) ; \
+            cp $(INSTALL_FILES_JETTY_ETC) $(INSTALL_DIR_JETTY_ETC) ; \
+        fi
+	if [ "$(INSTALL_FILES_ZIMLETS)" ]; then \
+            mkdir -p $(INSTALL_DIR_ZIMLETS) ; \
+            cp $(INSTALL_FILES_ZIMLETS) $(INSTALL_DIR_ZIMLETS) ; \
+        fi
+	if [ "$(INSTALL_FILES_WA_SERVICE_WEBINF)" ]; then \
+            mkdir -p $(INSTALL_DIR_WA_SERVICE_WEBINF) ; \
+            cp $(INSTALL_FILES_WA_SERVICE_WEBINF) $(INSTALL_DIR_WA_SERVICE_WEBINF) ; \
+	fi
 
 .PHONY: build-ant clean-ant
