@@ -12,6 +12,7 @@ export BUILD_DOCKER_IMAGE    := librezimbra-build
 
 export TEST_BASE_DOCKER_IMAGE := librezimbra-test-base
 export TEST_LDAP_DOCKER_IMAGE := librezimbra-test-ldap
+export TEST_MBOX_DOCKER_IMAGE := librezimbra-test-mbox
 
 export DOCKER     ?= docker
 export DOCKER_GID := $(shell getent group docker | awk -F: '{printf "%d\n", $$3}')
@@ -104,6 +105,13 @@ image-$(TEST_LDAP_DOCKER_IMAGE): image-$(TEST_BASE_DOCKER_IMAGE)
             etc/docker/test-ldap/files
 	cd etc/docker/test-ldap && $(DOCKER) build \
             -t $(TEST_LDAP_DOCKER_IMAGE) .
+
+image-$(TEST_MBOX_DOCKER_IMAGE): image-$(TEST_BASE_DOCKER_IMAGE)
+	mkdir -p etc/docker/test-mbox/files
+	cp $(BUILD_TARGET_APTREPO)/$(BUILD_TARGET_DISTRO)/dists/$(TARGET_DISTRO_RELEASE)/Release \
+            etc/docker/test-mbox/files
+	cd etc/docker/test-mbox && $(DOCKER) build \
+            -t $(TEST_MBOX_DOCKER_IMAGE) .
 
 # clean up everything
 clean:

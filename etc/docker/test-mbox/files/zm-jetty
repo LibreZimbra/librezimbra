@@ -1,0 +1,25 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
+export ZIMBRA_ROOT=/opt/zimbra
+export JETTY_BASE=$ZIMBRA_ROOT/jetty_base
+export JETTY_HOME=$ZIMBRA_ROOT/common/jetty_home
+export HOSTNAME=librezimbra-test-mbox-1
+export HOME=$ZIMBRA_ROOT
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export JAVA=/usr/bin/java
+
+exec $JAVA \
+    -Djava.io.tmpdir=$JETTY_BASE/work \
+    -Djava.library.path=$ZIMBRA_ROOT/lib \
+    -Dzimbra.config=$ZIMBRA_ROOT/conf/localconfig.xml \
+    --module-path $JETTY_BASE/common/endorsed \
+    -Djetty.base=$JETTY_BASE \
+    -Djetty.home=$JETTY_HOME \
+    -DSTART=$JETTY_BASE/etc/start.config \
+    -jar $JETTY_HOME/start.jar \
+    --module=zimbra,server,mail,servlet,servlets,jsp,jstl,jmx,resources,websocket,ext,plus,rewrite,continuation,webapp,setuid \
+    jetty.home=$JETTY_HOME \
+    jetty.base=$JETTY_BASE \
+    $ZIMBRA_ROOT/mailboxd/etc/jetty.xml

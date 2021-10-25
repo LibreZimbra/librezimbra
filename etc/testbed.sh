@@ -58,3 +58,29 @@ testbed_start_ldap() {
         $TESTBED_NODE_DOCKER_OPT \
         librezimbra-test-ldap $CMD "$@"
 }
+
+testbed_cf_mbox() {
+    testbed_genkeys
+    testbed_cf_ca
+    testbed_write_tag "node-name"               "$TESTBED_NODE_NAME"
+    testbed_write_tag "node-type"               "$TESTBED_NODE_TYPE"
+    testbed_write_tag "ldap-masters"            "$TESTBED_LDAP_MASTERS"
+    testbed_write_tag "ldap-readonly"           "$TESTBED_LDAP_READONLY"
+    testbed_write_tag "ldap-zimbra-password"    "$TESTBED_LDAP_ZIMBRA_PASSWORD"
+}
+
+testbed_start_mbox() {
+    make image-librezimbra-test-mbox || exit 1
+
+    testbed_cf_mbox
+    testbed_createnet || true
+    mkdir -p $TESTBED_NODE_DATADIR
+    docker run --rm --privileged -it \
+        --hostname "$TESTBED_NODE_NAME" \
+        --network "$TESTBED_NETWORK" \
+        --name "$TESTBED_NODE_NAME" \
+        --mount "src=$TESTBED_NODE_CONFDIR,target=/conf,type=bind,ro" \
+        --mount "src=$TESTBED_NODE_DATADIR,target=/opt/zimbra/data,type=bind" \
+        $TESTBED_NODE_DOCKER_OPT \
+        librezimbra-test-mbox $CMD "$@"
+}

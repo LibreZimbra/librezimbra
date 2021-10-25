@@ -1,0 +1,15 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
+set -e
+
+TESTBED_NODE_NAME=librezimbra-test-mbox-1
+TESTBED_NODE_DOCKER_OPT="-p 80:1080"
+TESTBED_NODE_TYPE="mbox"
+TESTBED_LDAP_MASTERS="librezimbra-test-ldap-m1 librezimbra-test-ldap-m2 librezimbra-test-ldap-m3"
+TESTBED_LDAP_ZIMBRA_PASSWORD="knollo123"
+
+. etc/testbed.sh
+
+testbed_start_mbox
