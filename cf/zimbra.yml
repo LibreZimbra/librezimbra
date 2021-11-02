@@ -37,7 +37,7 @@ packages:
       # no extra deps
 
     junixsocket:
-        autobuild-ref: junixsocket-parent-2.0.4
+      # no extra deps
 
     # website, won't be built as package
     librezimbra.github.io:
