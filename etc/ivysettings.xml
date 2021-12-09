@@ -46,6 +46,9 @@
       </filesystem>
     </chain>
     <!-- 'build-tmp' resolver is not part of the chain and is used only for packaging war files -->
+    <filesystem name="build">
+      <artifact pattern="${build.dir}/[module]-[revision].[ext]" />
+    </filesystem>
     <filesystem name="build-tmp">
       <artifact pattern="${build.tmp.dir}/[module]-[revision].[ext]" />
     </filesystem>
