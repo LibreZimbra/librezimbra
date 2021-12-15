@@ -15,15 +15,15 @@ RUN usermod -u ${BUILD_UID} -g ${BUILD_GID} build
 RUN chown -R build:build /home/build
 RUN usermod -a -G docker build
 
-#RUN ls /
-#RUN apt-key add /aptrepo/apt-repo.pub
-
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
         mc rsync aptitude
 
 RUN echo "deb file:/aptrepo/ focal contrib" >> /etc/apt/sources.list
+COPY files/apt-repo.pub /
+
+RUN apt-key add /apt-repo.pub
 
 #RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 9BE6ED79
 
