@@ -1,0 +1,7 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3+
+
+WEBROOT=.aptrepo/default/ubuntu-focal-amd64
+PORT="8090"
+
+nohup python3 -m http.server $PORT --directory $WEBROOT >/dev/null &>/dev/null &
