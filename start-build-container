@@ -21,13 +21,14 @@ SSH_DIR=$HOME/.ssh
 # create temp dirs
 mkdir -p $ANT_DIR $IVY2_DIR
 
-( cd docker && make )
+( make image-$CONTAINER_IMAGE )
 
 if [ ! "$1" ]; then
     CMD="$CONTAINER_SHELL"
 fi
 
-docker run -it \
+docker run --rm -it \
+    --name librezimbra-build \
     --mount "src=$WORK_DIR,target=/home/build/src,type=bind" \
     --mount "src=$SSH_DIR,target=/home/build/.ssh,type=bind,ro" \
     --mount "src=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" \

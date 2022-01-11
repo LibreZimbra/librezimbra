@@ -3,6 +3,12 @@
 
 export BUILD_TARGET_DISTRO=ubuntu-focal-amd64
 export BUILD_TARGET_APTREPO=$(CURDIR)/.aptrepo/default
+export BUILD_DOCKER_IMAGE := librezimbra-build
+
+export DOCKER     ?= docker
+export DOCKER_GID := $(shell getent group docker | awk -F: '{printf "%d\n", $$3}')
+export BUILD_UID  := $(shell id -u)
+export BUILD_GID  := $(shell id -g)
 
 help:
 	@echo "LibreZimbra build sytem help"
@@ -35,7 +41,7 @@ build-deb:
 	@env python do-build-deb.py
 
 # build legacy packages (not debian native yet)
-build-legacy:
+build-legacy: image-$(BUILD_DOCKER_IMAGE)
 	@echo "building legacy packages"
 	@./start-build-container /bin/bash /home/build/src/do-build-legacy.sh
 
@@ -63,8 +69,16 @@ check-update-librezimbra:
             fi ; \
         ) ; done
 
+image-$(BUILD_DOCKER_IMAGE):
+	cd etc/docker/build && $(DOCKER) build \
+            --build-arg BUILD_UID=$(BUILD_UID) \
+            --build-arg BUILD_GID=$(BUILD_GID) \
+            --build-arg DOCKER_GID=$(DOCKER_GID) \
+            -t $(BUILD_DOCKER_IMAGE) .
+
 # clean up everything
 clean:
 	@rm -Rf .aptrepo .stat tmp build
+	@docker rmi -f $(BUILD_DOCKER_IMAGE)
 
 .PHONY: all build-deb build-legacy finish-repo clean
