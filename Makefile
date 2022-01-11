@@ -1,9 +1,13 @@
 #!/usr/bin/make -f
 # SPDX-License-Identifier: AGPL-3+
 
-export BUILD_TARGET_DISTRO=ubuntu-focal-amd64
-export BUILD_TARGET_APTREPO=$(CURDIR)/.aptrepo/default
-export BUILD_DOCKER_IMAGE := librezimbra-build
+export TARGET_DISTRO_NAME    ?= ubuntu
+export TARGET_DISTRO_RELEASE ?= focal
+export TARGET_DISTRO_ARCH    ?= amd64
+
+export BUILD_TARGET_DISTRO   = $(TARGET_DISTRO_NAME)-$(TARGET_DISTRO_RELEASE)-$(TARGET_DISTRO_ARCH)
+export BUILD_TARGET_APTREPO  = $(CURDIR)/.aptrepo/default
+export BUILD_DOCKER_IMAGE    := librezimbra-build
 
 export DOCKER     ?= docker
 export DOCKER_GID := $(shell getent group docker | awk -F: '{printf "%d\n", $$3}')
