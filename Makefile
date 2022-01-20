@@ -1,5 +1,6 @@
 #!/usr/bin/make -f
-# SPDX-License-Identifier: AGPL-3+
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 export TARGET_DISTRO_NAME    ?= ubuntu
 export TARGET_DISTRO_RELEASE ?= focal

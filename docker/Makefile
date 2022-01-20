@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 DOCKER_GID := $(shell getent group docker | awk -F: '{printf "%d\n", $$3}')
 BUILD_UID  := $(shell id -u)

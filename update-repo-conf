@@ -1,5 +1,6 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3+
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
 ## this script updates the repo links for zimbra upstream
 mkdir -p cf/csdb/synacor cf/csdb/librezimbra
