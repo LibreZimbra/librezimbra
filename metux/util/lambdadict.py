@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
 from inspect import isfunction
 from collections import Mapping, MutableSequence
 from metux.util.log import info
