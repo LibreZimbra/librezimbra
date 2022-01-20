@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
 from .util.task import TaskRunner
 from .tasks import pkg_build, pkg_clone, all_clone, pool_build, pool_upload, pool_deploy
 from .conf.err import ConfigFail

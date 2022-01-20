@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
 from ..util.task import Task
 
 from .pkg_build_target import alloc as pkg_build_target_alloc

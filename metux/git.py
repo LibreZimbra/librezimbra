@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
+
 from subprocess import call, Popen, PIPE
 from os import devnull, environ
 from os.path import abspath, isfile, dirname
