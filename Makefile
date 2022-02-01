@@ -49,6 +49,7 @@ build-deb:
 build-legacy: image-$(BUILD_DOCKER_IMAGE)
 	@echo "building legacy packages"
 	@./start-build-container /bin/bash /home/build/src/do-build-legacy.sh
+	@$(MAKE) finish-repo
 
 # update the apt repo index
 finish-repo:
