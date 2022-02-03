@@ -45,6 +45,28 @@ zm_ldapmodify() {
 #    chown -R "$ZM_LDAP_USER:$ZM_LDAP_GROUP" "$ZM_CA_DIR"
 #}
 
+zm_ldap_set_globalconf() {
+    local attr="$1"
+    local val="$2"
+
+    if [ ! "$val" ]; then
+        zm_log_info "removing global config: $attr"
+        (
+            echo "dn: cn=config,cn=zimbra"
+            echo "changetype: modify"
+            echo "delete: $attr"
+        ) | zm_ldapmodify
+    else
+        zm_log_info "setting global config: $attr = $val"
+        (
+            echo "dn: cn=config,cn=zimbra"
+            echo "changetype: modify"
+            echo "replace: $attr"
+            echo "$attr: $val"
+        ) | zm_ldapmodify
+    fi
+}
+
 zm_mbox_createserver() {
     local nodename="$1"
     zm_server_create "$nodename"
