@@ -60,7 +60,7 @@ zm_mbox_createserver "$node_name"
 /etc/init.d/rsyslog start
 
 zm_log_info "running zmconfigd"
-su - $ZIMBRA_USER -c "$ZIMBRA_ROOT/libexec/zmconfigd -f"
+su - $ZIMBRA_USER -c $ZIMBRA_ROOT/libexec/zmconfigd-oneshot
 
 echo "falling back to interactive shell"
 bash

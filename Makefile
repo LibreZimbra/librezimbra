@@ -54,14 +54,14 @@ clone:
 build-deb:
 	@echo "building deb packages"
 	@env python do-build-deb.py
-	@notify-send -a "librezimbra-build" -c "build" "LibreZimbra build-deb finished" || true
+	@notify-send -i face-wink -a "librezimbra-build" -c "build" "LibreZimbra build-deb finished" || true
 
 # build legacy packages (not debian native yet)
 build-legacy: image-$(BUILD_DOCKER_IMAGE)
 	@echo "building legacy packages"
 	@./start-build-container /bin/bash /home/build/src/do-build-legacy.sh
 	@$(MAKE) finish-repo
-	@notify-send -a "librezimbra-build" -c "build" "LibreZimbra build-legacy finished" || true
+	@notify-send -i face-wink -a "librezimbra-build" -c "build" "LibreZimbra build-legacy finished" || true
 
 # update the apt repo index
 finish-repo:
