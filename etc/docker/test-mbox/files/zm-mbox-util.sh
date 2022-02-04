@@ -54,6 +54,13 @@ zm_mbox_createserver() {
 zm_convert_p12_jks() {
     local p12="$1"
     local jks="$2"
+    echo "installing p12 $p12 into jks $jks"
+    echo keytool -importkeystore \
+            -srckeystore "$p12" \
+            -srcstoretype PKCS12 \
+            -destkeystore "$jks" \
+            -storepass ""
+
     keytool -importkeystore \
             -srckeystore "$p12" \
             -srcstoretype PKCS12 \
