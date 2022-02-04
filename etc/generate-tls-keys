@@ -21,6 +21,7 @@ HOST_PEM_FILES=$(addsuffix .pem, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
 HOST_CSR_FILES=$(addsuffix .csr, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
 HOST_CRT_FILES=$(addsuffix .crt, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
 HOST_EXT_FILES=$(addsuffix .ext, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
+HOST_P12_FILES=$(addsuffix .p12, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
 
 all: ca hostkey
 
@@ -57,7 +58,13 @@ host-%.crt: host-%.csr $(CA_PEM)
 	$(OPENSSL) x509 -req -in $< -CA $(CA_PEM) -CAkey $(CA_KEY) \
             -CAcreateserial -out $@ -days 825 -sha256 -extfile $(patsubst %.crt,%.ext,$@)
 
-hostkey: $(HOST_KEY_FILES) $(HOST_EXT_FILES) $(HOST_CSR_FILES) $(HOST_CRT_FILES)
+host-%.p12: host-%.crt host-%.key $(CA_CRT)
+	$(OPENSSL) pkcs12 -export -passout pass: \
+            -in $(patsubst %.p12,%.crt,$@) \
+            -inkey $(patsubst %.p12,%.key,$@) \
+            -CAfile $(CA_PEM) -out $@
+
+hostkey: $(HOST_KEY_FILES) $(HOST_EXT_FILES) $(HOST_CSR_FILES) $(HOST_CRT_FILES) $(HOST_P12_FILES)
 
 clean:
 	rm -Rf $(TEMPDIR)
