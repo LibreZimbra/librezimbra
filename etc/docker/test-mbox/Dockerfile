@@ -11,6 +11,6 @@ EXPOSE 8080/tcp
 ENTRYPOINT "/entrypoint.sh"
 
 COPY files/zm-jetty /
-COPY files/entrypoint.sh /
-COPY files/zm-mbox-util.sh /opt/zimbra/libexec
 COPY files/rsyslog.conf /etc
+COPY files/zm-mbox-util.sh /opt/zimbra/libexec
+COPY files/entrypoint.sh /

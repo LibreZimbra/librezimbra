@@ -30,11 +30,19 @@ testbed_write_tag() {
     echo "$*" > "$TESTBED_NODE_CONFDIR/$tag"
 }
 
+testbed_conffile() {
+    local target="$1"
+    local src="$1"
+
+    cp "$src" "$TESTBED_NODE_CONFDIR/$target"
+    return $?
+}
+
 testbed_cf_ldap() {
     testbed_genkeys
     testbed_cf_ca
-    cp tmp/ca/host-$TESTBED_NODE_NAME.crt $TESTBED_NODE_CONFDIR/slapd.crt
-    cp tmp/ca/host-$TESTBED_NODE_NAME.key $TESTBED_NODE_CONFDIR/slapd.key
+    testbed_conffile slapd.crt tmp/ca/host-$TESTBED_NODE_NAME.crt
+    testbed_conffile slapd.key tmp/ca/host-$TESTBED_NODE_NAME.key
     testbed_write_tag "node-type"    "$TESTBED_NODE_TYPE"
     testbed_write_tag "ldap-masters" "$TESTBED_LDAP_MASTERS"
     testbed_write_tag "node-name"    "$TESTBED_NODE_NAME"
@@ -43,11 +51,13 @@ testbed_cf_ldap() {
     [ "$TESTBED_NODE_ID" ] && testbed_write_tag "server-id" "$TESTBED_NODE_ID"
 }
 
+
 testbed_start_ldap() {
     make image-librezimbra-test-ldap || exit 1
 
     testbed_cf_ldap
     testbed_createnet || true
+    cp tmp/ca/host-$TESTBED_NODE_NAME.crt $TESTBED
     mkdir -p $TESTBED_NODE_DATADIR
     docker run --rm --privileged -it \
         --hostname "$TESTBED_NODE_NAME" \
@@ -62,6 +72,8 @@ testbed_start_ldap() {
 testbed_cf_mbox() {
     testbed_genkeys
     testbed_cf_ca
+    testbed_conffile mailboxd.crt tmp/ca/host-$TESTBED_NODE_NAME.crt
+    testbed_conffile mailboxd.key tmp/ca/host-$TESTBED_NODE_NAME.key
     testbed_write_tag "node-name"               "$TESTBED_NODE_NAME"
     testbed_write_tag "node-type"               "$TESTBED_NODE_TYPE"
     testbed_write_tag "ldap-masters"            "$TESTBED_LDAP_MASTERS"

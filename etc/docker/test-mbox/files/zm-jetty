@@ -9,8 +9,10 @@ export HOSTNAME=librezimbra-test-mbox-1
 export HOME=$ZIMBRA_ROOT
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export JAVA=/usr/bin/java
+export CLASSPATH=/opt/zimbra/lib/jars
 
 exec $JAVA \
+    -cp "$CLASSPATH" \
     -Djava.io.tmpdir=$JETTY_BASE/work \
     -Djava.library.path=$ZIMBRA_ROOT/lib \
     -Dzimbra.config=$ZIMBRA_ROOT/conf/localconfig.xml \

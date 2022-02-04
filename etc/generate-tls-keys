@@ -11,9 +11,10 @@ CA_KEY=$(TEMPDIR)/ca.key
 CA_PEM=$(TEMPDIR)/ca.pem
 
 HOSTS?=librezimbra-test-ldap-m1 \
-      librezimbra-test-ldap-m2 \
-      librezimbra-test-ldap-s1 \
-      librezimbra-test-ldap-s2
+       librezimbra-test-ldap-m2 \
+       librezimbra-test-ldap-s1 \
+       librezimbra-test-ldap-s2 \
+       librezimbra-test-mbox-1
 
 HOST_KEY_FILES=$(addsuffix .key, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
 HOST_PEM_FILES=$(addsuffix .pem, $(addprefix $(TEMPDIR)/host-, $(HOSTS)))
