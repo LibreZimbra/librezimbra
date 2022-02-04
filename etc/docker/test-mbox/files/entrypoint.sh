@@ -16,8 +16,8 @@ read_tag() {
 }
 
 copy_certs() {
-    zm_ldap_install_ca /conf/ca/*.pem
-    zm_convert_p12_jks /conf/mailboxd.p12 $ZIMBRA_ROOT/
+#    zm_ldap_install_ca /conf/ca/*.pem
+    zm_convert_p12_jks /conf/mailboxd.p12 $ZIMBRA_ROOT/jetty_base/etc/keystore
 }
 
 mk_ldap_url() {
