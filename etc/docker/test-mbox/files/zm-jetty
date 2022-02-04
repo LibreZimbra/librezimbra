@@ -9,7 +9,7 @@ export HOSTNAME=librezimbra-test-mbox-1
 export HOME=$ZIMBRA_ROOT
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export JAVA=/usr/bin/java
-export CLASSPATH=/opt/zimbra/lib/jars
+export CLASSPATH=$ZIMBRA_ROOT/lib/jars
 
 exec $JAVA \
     -cp "$CLASSPATH" \

@@ -93,6 +93,7 @@ image-$(BUILD_DOCKER_IMAGE):
             --build-arg BUILD_GID=$(BUILD_GID) \
             --build-arg DOCKER_GID=$(DOCKER_GID) \
             -t $(BUILD_DOCKER_IMAGE) .
+	@notify-send -i face-wink -a "librezimbra-build" -c "build" "LibreZimbra $@ finished" || true
 
 image-$(TEST_BASE_DOCKER_IMAGE):
 	cd etc/docker/test-base && $(DOCKER) build \
@@ -100,6 +101,7 @@ image-$(TEST_BASE_DOCKER_IMAGE):
             --build-arg REPO_DISTRO=$(REPO_DISTRO) \
             --build-arg REPO_SECTIONS=$(REPO_SECTIONS) \
             -t $(TEST_BASE_DOCKER_IMAGE) .
+	@notify-send -i face-wink -a "librezimbra-build" -c "build" "LibreZimbra $@ finished" || true
 
 image-$(TEST_LDAP_DOCKER_IMAGE): image-$(TEST_BASE_DOCKER_IMAGE)
 	mkdir -p etc/docker/test-ldap/files
@@ -107,6 +109,7 @@ image-$(TEST_LDAP_DOCKER_IMAGE): image-$(TEST_BASE_DOCKER_IMAGE)
             etc/docker/test-ldap/files
 	cd etc/docker/test-ldap && $(DOCKER) build \
             -t $(TEST_LDAP_DOCKER_IMAGE) .
+	@notify-send -i face-wink -a "librezimbra-build" -c "build" "LibreZimbra $@ finished" || true
 
 image-$(TEST_MBOX_DOCKER_IMAGE): image-$(TEST_BASE_DOCKER_IMAGE)
 	mkdir -p etc/docker/test-mbox/files
@@ -114,6 +117,7 @@ image-$(TEST_MBOX_DOCKER_IMAGE): image-$(TEST_BASE_DOCKER_IMAGE)
             etc/docker/test-mbox/files
 	cd etc/docker/test-mbox && $(DOCKER) build \
             -t $(TEST_MBOX_DOCKER_IMAGE) .
+	@notify-send -i face-wink -a "librezimbra-build" -c "build" "LibreZimbra $@ finished" || true
 
 # clean up everything
 clean:

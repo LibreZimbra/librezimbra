@@ -26,7 +26,7 @@ testbed_cf_ca() {
 testbed_write_tag() {
     local tag="$1"
     shift
-    mkdir -p $TESTBED_NODE_CONFDIR
+    mkdir -p "$TESTBED_NODE_CONFDIR"
     echo "$*" > "$TESTBED_NODE_CONFDIR/$tag"
 }
 
@@ -34,6 +34,7 @@ testbed_conffile() {
     local target="$1"
     local src="$1"
 
+    mkdir -p "$TESTBED_NODE_CONFDIR"
     cp "$src" "$TESTBED_NODE_CONFDIR/$target"
     return $?
 }
@@ -74,6 +75,7 @@ testbed_cf_mbox() {
     testbed_cf_ca
     testbed_conffile mailboxd.crt tmp/ca/host-$TESTBED_NODE_NAME.crt
     testbed_conffile mailboxd.key tmp/ca/host-$TESTBED_NODE_NAME.key
+    testbed_conffile mailboxd.p12 tmp/ca/host-$TESTBED_NODE_NAME.p12
     testbed_write_tag "node-name"               "$TESTBED_NODE_NAME"
     testbed_write_tag "node-type"               "$TESTBED_NODE_TYPE"
     testbed_write_tag "ldap-masters"            "$TESTBED_LDAP_MASTERS"
