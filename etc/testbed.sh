@@ -32,8 +32,7 @@ testbed_write_tag() {
 
 testbed_conffile() {
     local target="$1"
-    local src="$1"
-
+    local src="$2"
     mkdir -p "$TESTBED_NODE_CONFDIR"
     cp "$src" "$TESTBED_NODE_CONFDIR/$target"
     return $?
@@ -51,7 +50,6 @@ testbed_cf_ldap() {
     testbed_write_tag "ldap-zimbra-password"      "$TESTBED_LDAP_ZIMBRA_PASSWORD"
     [ "$TESTBED_NODE_ID" ] && testbed_write_tag "server-id" "$TESTBED_NODE_ID"
 }
-
 
 testbed_start_ldap() {
     make image-librezimbra-test-ldap || exit 1
