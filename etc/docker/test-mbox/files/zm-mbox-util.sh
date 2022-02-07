@@ -51,22 +51,16 @@ zm_mbox_createserver() {
     zm_server_enable_service "$nodename" "mailbox"
 }
 
-zm_convert_p12_jks() {
-    local p12="$1"
-    local jks="$2"
-    echo "installing p12 $p12 into jks $jks"
-    echo keytool -importkeystore \
-            -srckeystore "$p12" \
-            -srcstoretype PKCS12 \
-            -srcstorepass "" \
-            -destkeystore "$jks" \
-            -deststorepass "$ZM_JKS_PASSWORD"
-
-    keytool -importkeystore \
-            -srckeystore "$p12" \
-            -srcstoretype PKCS12 \
-            -srcstorepass "" \
-            -destkeystore "$jks" \
-            -deststorepass "$ZM_JKS_PASSWORD"
-    return $?
-}
+#zm_convert_p12_jks() {
+#    local p12="$1"
+#    local jks="$2"
+#    zm_log_info "installing p12 $p12 into jks $jks"
+#
+#    keytool -importkeystore \
+#            -srckeystore "$p12" \
+#            -srcstoretype PKCS12 \
+#            -srcstorepass "" \
+#            -destkeystore "$jks" \
+#            -deststorepass "$ZM_JKS_PASSWORD"
+#    return $?
+#}

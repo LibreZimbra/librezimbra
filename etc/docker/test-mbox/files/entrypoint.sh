@@ -99,6 +99,8 @@ zm_globalconf_set zimbraDocumentEditingCallbackPort        7074
 #zimbraMailBindAddress
 #zimbraMailSSLBindAddress
 
+zm_localconfig_set mailboxd_keystore_password "$ZM_JKS_PASSWORD"
+
 zm_log_info "running zmconfigd"
 su - $ZIMBRA_USER -c $ZIMBRA_ROOT/libexec/zmconfigd-oneshot
 
