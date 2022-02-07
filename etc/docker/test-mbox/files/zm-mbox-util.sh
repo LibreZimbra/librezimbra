@@ -59,12 +59,14 @@ zm_convert_p12_jks() {
             -srckeystore "$p12" \
             -srcstoretype PKCS12 \
             -destkeystore "$jks" \
-            -storepass ""
+            -importpass "" \
+            -storepass "$ZM_JKS_PASSWORD"
 
     keytool -importkeystore \
             -srckeystore "$p12" \
             -srcstoretype PKCS12 \
             -destkeystore "$jks" \
-            -storepass ""
+            -importpass "" \
+            -storepass "$ZM_JKS_PASSWORD"
     return $?
 }
