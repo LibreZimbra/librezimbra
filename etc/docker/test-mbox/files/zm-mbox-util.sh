@@ -30,15 +30,6 @@ zm_ldapmodify() {
     done
 }
 
-#zm_ldap_check_obj_oc() {
-#    local basedn="$1"
-#    local oc="$2"
-#
-#    zm_ldapsearch -b "$basedn" "(objectclass=$oc)" dn 2>/dev/null | \
-#        grep "dn: $basedn" >/dev/null
-#    return $?
-#}
-
 #zm_ldap_install_ca() {
 #    mkdir -p "$ZM_CA_DIR"
 #    cp "$@" "$ZM_CA_DIR"
@@ -49,18 +40,6 @@ zm_mbox_createserver() {
     local nodename="$1"
     zm_server_create "$nodename"
     zm_server_enable_service "$nodename" "mailbox"
+    zm_server_enable_service "$nodename" "zimbra"
+    zm_server_enable_service "$nodename" "service"
 }
-
-#zm_convert_p12_jks() {
-#    local p12="$1"
-#    local jks="$2"
-#    zm_log_info "installing p12 $p12 into jks $jks"
-#
-#    keytool -importkeystore \
-#            -srckeystore "$p12" \
-#            -srcstoretype PKCS12 \
-#            -srcstorepass "" \
-#            -destkeystore "$jks" \
-#            -deststorepass "$ZM_JKS_PASSWORD"
-#    return $?
-#}
