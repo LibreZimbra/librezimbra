@@ -5,7 +5,7 @@ FROM librezimbra-test-base
 
 COPY files/Release /tmp
 RUN apt-get update && \
-    apt-get install -y zimbra-store uuid zimbra-openldap-client rsyslog
+    apt-get install -y zimbra-store uuid zimbra-openldap-client zimbra-mbox-webclient-war rsyslog
 
 EXPOSE 8080/tcp
 ENTRYPOINT "/entrypoint.sh"
