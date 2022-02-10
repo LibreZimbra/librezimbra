@@ -5,6 +5,7 @@
 set -m
 
 . /opt/zimbra/libexec/zm-mbox-util.sh
+. /opt/zimbra/libexec/zm-mbox-mysql.sh
 
 ## fixme:
 
