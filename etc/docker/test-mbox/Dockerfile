@@ -14,3 +14,4 @@ COPY files/zm-jetty /
 COPY files/rsyslog.conf /etc
 COPY files/zm-mbox-util.sh /opt/zimbra/libexec
 COPY files/entrypoint.sh /
+COPY files/my.cnf /opt/zimbra/conf
