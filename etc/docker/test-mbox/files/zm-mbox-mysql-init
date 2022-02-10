@@ -1,15 +1,15 @@
 #!/bin/bash
 
-export ZIMBRA_ROOT=/opt/zimbra
+. /opt/zimbra/libexec/zm-util-base.sh
 
 [ "$ZM_MYSQL_DATADIR" ] || ZM_MYSQL_DATADIR="$ZIMBRA_ROOT/db/data"
 
 if [ ! -d $ZM_MYSQL_DATADIR/mysql ]; then
-    echo "$0: need to initialize mysql database" >&2
+    zm_log_info "need to initialize mysql database"
     /usr/bin/mysql_install_db \
         --defaults-file=$ZIMBRA_ROOT/conf/my.cnf \
         --datadir=$ZM_MYSQL_DATADIR \
         --user=zimbra
 else
-    echo "$0: mysql already initialized" >&2
+    zm_log_info "mysql already initialized"
 fi

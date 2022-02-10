@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) Enrico Weigelt, metux IT consult <info@metux.net>
 
-export ZIMBRA_ROOT=/opt/zimbra
+. /opt/zimbra/libexec/zm-util-base.sh
+
 export JETTY_BASE=$ZIMBRA_ROOT/jetty_base
 export JETTY_HOME=$ZIMBRA_ROOT/common/jetty_home
 export HOSTNAME=librezimbra-test-mbox-1
