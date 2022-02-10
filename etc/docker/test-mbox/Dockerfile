@@ -15,4 +15,4 @@ COPY files/rsyslog.conf /etc
 COPY files/zm-mbox-util.sh /opt/zimbra/libexec
 COPY files/entrypoint.sh /
 COPY files/my.cnf /opt/zimbra/conf
-COPY files/zm-mbox-mysql.sh /opt/zimbra/libexec
+COPY files/zm-mbox-mysql-init /opt/zimbra/libexec
