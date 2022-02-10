@@ -6,18 +6,13 @@
 
 [ "$ZM_MYSQL_DATADIR" ] || ZM_MYSQL_DATADIR="$ZIMBRA_ROOT/db/data"
 
-zm_service_dir $ZM_MYSQL_DATADIR
+zm_mbox_mysql_init() {
+    zm_service_dir $ZM_MYSQL_DATADIR
 
-if [ ! -d $ZM_MYSQL_DATADIR/mysql ]; then
-    zm_log_info "need to initialize mysql database"
-    zm_runas mysql_install_db --defaults-file=/opt/zimbra/conf/my.cnf --datadir=$ZM_MYSQL_DATADIR
-else
-    zm_log_info "mysql already initialized"
-fi
-
-# su - $ZIMBRA_USER -c /zm-jetty
-
-echo "falling back to interactive shell"
-cd /opt/zimbra
-
-bash
+    if [ ! -d $ZM_MYSQL_DATADIR/mysql ]; then
+        zm_log_info "need to initialize mysql database"
+        zm_runas mysql_install_db --defaults-file=/opt/zimbra/conf/my.cnf --datadir=$ZM_MYSQL_DATADIR
+    else
+        zm_log_info "mysql already initialized"
+    fi
+}
