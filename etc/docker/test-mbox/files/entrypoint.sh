@@ -64,6 +64,7 @@ zm_mbox_mailboxd_init
 
 ## initialize mysql database
 
+echo "calling: zm_mbox_mysql_init"
 zm_mbox_mysql_init
 
 # su - $ZIMBRA_USER -c /zm-jetty
