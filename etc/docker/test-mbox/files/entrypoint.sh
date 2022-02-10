@@ -61,6 +61,18 @@ zm_mbox_globalconf
 zm_zmconfigd_oneshot
 zm_mbox_mailboxd_init
 
+## initialize mysql database
+
+ZM_MYSQL_DATADIR="/opt/zimbra/db/data"
+
+mkdir -p $ZM_MYSQL_DATADIR
+chown -R zimbra:zimbra $ZM_MYSQL_DATADIR
+
+if [ ! -d $ZM_MYSQL_DATADIR/mysql ]; then
+    zm_log_info "need to initialize mysql database"
+    su - $ZIMBRA_USER -c "
+fi
+
 # su - $ZIMBRA_USER -c /zm-jetty
 
 echo "falling back to interactive shell"
