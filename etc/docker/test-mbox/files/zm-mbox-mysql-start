@@ -1,0 +1,27 @@
+#!/bin/bash
+
+. /opt/zimbra/libexec/zm-util-base.sh
+
+[ "$ZM_MYSQL_DATADIR" ] || ZM_MYSQL_DATADIR="$ZIMBRA_ROOT/db/data"
+[ "$ZM_MYSQL_SOCKET"  ] || ZM_MYSQL_SOCKET="$ZIMBRA_ROOT/data/tmp/mysql/mysql.sock"
+
+if [ ! -d $ZM_MYSQL_DATADIR/mysql ]; then
+    zm_log_info "need to initialize mysql database"
+    /usr/bin/mysql_install_db \
+        --defaults-file=$ZIMBRA_ROOT/conf/my.cnf \
+        --datadir=$ZM_MYSQL_DATADIR \
+        --user=zimbra
+else
+    zm_log_info "mysql already initialized"
+fi
+
+mysqld_safe --defaults-file=/opt/zimbra/conf/my.cnf &
+
+if mysqladmin -c 10 --socket=$ZM_MYSQL_SOCKET ping ; then
+    zm_log_info "mysql server started"
+else
+    zm_log_err "failed starting mysql
+fi
+
+zm_log_info "trying some ops"
+echo "SELECT 1; " | mysql --socket=$ZM_MYSQL_SOCKET
