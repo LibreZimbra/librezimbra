@@ -50,6 +50,7 @@ zm_localconfig_set ldap_master_url `mk_ldap_url $ldap_masters`
 zm_localconfig_set ldap_url `mk_ldap_url $ldap_readonly`
 zm_localconfig_set zimbra_server_hostname "$node_name"
 zm_localconfig_set zimbra_ldap_password `read_tag ldap-zimbra-password`
+zm_localconfig_set mailboxd_truststore /etc/ssl/certs/java/cacerts
 
 # need to reload localconfig
 . $ZIMBRA_ROOT/libexec/zm-load-localconfig.sh
