@@ -20,7 +20,7 @@ mysqld_safe --defaults-file=/opt/zimbra/conf/my.cnf &
 if mysqladmin -c 10 --socket=$ZM_MYSQL_SOCKET ping ; then
     zm_log_info "mysql server started"
 else
-    zm_log_err "failed starting mysql
+    zm_log_err "failed starting mysql"
 fi
 
 zm_log_info "trying some ops"
