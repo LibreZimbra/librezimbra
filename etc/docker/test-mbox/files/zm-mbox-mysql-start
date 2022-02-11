@@ -18,15 +18,14 @@ fi
 zm_mbox_mysql_start() {
     /usr/bin/mysqld_safe --defaults-file=/opt/zimbra/conf/my.cnf &
 
-    for i in 0 0 0 0 0 0 0 0 0 0 ; do
-        date
-        ps aux | grep mysqld
+    count=0
+    while [ $count -lt 100 ] ; do
         if /usr/bin/mysqladmin -c 10 --socket=$ZM_MYSQL_SOCKET ping ; then
             zm_log_info "mysql server started"
             return 0
         else
             zm_log_info "mysql not up yet"
-            sleep 1
+            sleep 0.1
         fi
     done
     zm_log_err "time out. failed starting mysql"
