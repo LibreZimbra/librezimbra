@@ -64,7 +64,7 @@ zm_mbox_mailboxd_init
 
 ## initialize mysql database
 
-zm_runas /opt/zimbra/libexec/zm-mbox-mysql-init
+zm_runas /opt/zimbra/libexec/zm-mbox-mysql-start
 
 # su - $ZIMBRA_USER -c /zm-jetty
 
