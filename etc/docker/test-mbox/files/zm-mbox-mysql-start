@@ -38,4 +38,4 @@ if ! zm_mbox_mysql_start ; then
 fi
 
 zm_log_info "trying some ops"
-echo "SELECT 1; " | mysql --socket=$ZM_MYSQL_SOCKET
+echo "SELECT 1; " | /usr/bin/mysql --socket=$ZM_MYSQL_SOCKET
