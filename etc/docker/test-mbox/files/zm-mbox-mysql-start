@@ -15,12 +15,24 @@ else
     zm_log_info "mysql already initialized"
 fi
 
-mysqld_safe --defaults-file=/opt/zimbra/conf/my.cnf &
+zm_mbox_mysql_start() {
+    mysqld_safe --defaults-file=/opt/zimbra/conf/my.cnf &
 
-if mysqladmin -c 10 --socket=$ZM_MYSQL_SOCKET ping ; then
-    zm_log_info "mysql server started"
-else
-    zm_log_err "failed starting mysql"
+    for i in 0 0 0 0 0 0 0 0 0 0 ; do
+        if mysqladmin -c 10 --socket=$ZM_MYSQL_SOCKET ping ; then
+            zm_log_info "mysql server started"
+            return 0
+        else
+            zm_log_info "mysql not up yet"
+        fi
+    done
+    zm_log_err "time out. failed starting mysql
+    return 1
+}
+
+if ! zm_mbox_mysql_start ; then
+    zm_log_err "terminating"
+    exit 1
 fi
 
 zm_log_info "trying some ops"
