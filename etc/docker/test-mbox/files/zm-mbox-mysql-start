@@ -26,7 +26,7 @@ zm_mbox_mysql_start() {
             zm_log_info "mysql not up yet"
         fi
     done
-    zm_log_err "time out. failed starting mysql
+    zm_log_err "time out. failed starting mysql"
     return 1
 }
 
