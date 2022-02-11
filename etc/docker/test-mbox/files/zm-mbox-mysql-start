@@ -16,10 +16,10 @@ else
 fi
 
 zm_mbox_mysql_start() {
-    mysqld_safe --defaults-file=/opt/zimbra/conf/my.cnf &
+    /usr/bin/mysqld_safe --defaults-file=/opt/zimbra/conf/my.cnf &
 
     for i in 0 0 0 0 0 0 0 0 0 0 ; do
-        if mysqladmin -c 10 --socket=$ZM_MYSQL_SOCKET ping ; then
+        if /usr/bin/mysqladmin -c 10 --socket=$ZM_MYSQL_SOCKET ping ; then
             zm_log_info "mysql server started"
             return 0
         else
